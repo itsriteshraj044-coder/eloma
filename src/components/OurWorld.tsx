@@ -58,8 +58,8 @@ function FloatingShape({ shape, progress, reduce }: {
   const y       = useTransform(progress, [0, 1], [0, reduce ? 0 : shape.drift])
   const rot     = useTransform(progress, [0, 1], [shape.rotate, reduce ? shape.rotate : shape.rotate + 10])
   const scale   = useTransform(progress, [0.12, 0.6, 1], [0.7, reduce ? 1 : shape.grow, shape.grow])
-  // subtle behind the manifesto → bold once it clears → stay full to the end
-  const opacity = useTransform(progress, [0, 0.12, 0.55, 1], [0.32, 0.62, 1, 1])
+  // subtle behind the manifesto → bold mid-scroll → fade out as the hero exits
+  const opacity = useTransform(progress, [0, 0.12, 0.55, 0.85, 1], [0.32, 0.62, 1, 1, 0])
 
   if (shape.kind === 'triangle') {
     return (
@@ -129,16 +129,10 @@ export function OurWorld() {
     offset: ['start start', 'end end'],
   })
 
-  // Opening manifesto — holds, then drifts up & fades to make room for the folder
-  const introOpacity = useTransform(scrollYProgress, [0, 0.32, 0.46], [1, 1, 0])
-  const introY       = useTransform(scrollYProgress, [0, 0.46], [0, reduce ? 0 : -130])
-  const introScale   = useTransform(scrollYProgress, [0, 0.46], [1, reduce ? 1 : 0.92])
-
-  // Folder — rises & fades in as the manifesto clears, then holds on display
-  const folderOpacity = useTransform(scrollYProgress, [0.42, 0.62], [0, 1])
-  const folderY       = useTransform(scrollYProgress, [0.42, 0.76], [reduce ? 0 : 70, 0])
-  const folderScale   = useTransform(scrollYProgress, [0.42, 0.76], [reduce ? 1 : 0.86, 1])
-  const folderPointer = useTransform(folderOpacity, (o) => (o > 0.5 ? 'auto' : 'none'))
+  // Opening manifesto — holds through the pin, then drifts up & fades as the hero exits
+  const introOpacity = useTransform(scrollYProgress, [0, 0.72, 1], [1, 1, 0])
+  const introY       = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -110])
+  const introScale   = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.95])
 
   // Scroll cue
   const cueOpacity   = useTransform(scrollYProgress, [0, 0.07], [1, 0])
@@ -172,35 +166,6 @@ export function OurWorld() {
             <p className="ow-subline">Independent businesses, growing from one shared root.</p>
           </motion.div>
 
-          {/* 3D folder → Our Businesses */}
-          <motion.div className="ow-folder-stage" style={{ opacity: folderOpacity, pointerEvents: folderPointer }}>
-            <motion.a
-              href="#our-businesses"
-              onClick={goToBusinesses}
-              className="ow-folder-wrap"
-              style={{ y: folderY, scale: folderScale }}
-              aria-label="Open our businesses"
-            >
-              <span className="ow-folder-eyebrow">Curious? Take a look inside</span>
-
-              <div className="ow-folder">
-                <div className="ow-folder-back" />
-                <div className="ow-folder-papers">
-                  <span className="ow-paper ow-paper-1" />
-                  <span className="ow-paper ow-paper-2" />
-                  <span className="ow-paper ow-paper-3" />
-                </div>
-                <div className="ow-folder-front">
-                  <span className="ow-folder-pill">5 Companies</span>
-                  <span className="ow-folder-mark">eloma</span>
-                  <span className="ow-folder-arrow"><ArrowRight size={24} color={NAVY} strokeWidth={2.4} /></span>
-                </div>
-              </div>
-
-              <span className="ow-folder-hint">Click to explore our businesses</span>
-            </motion.a>
-          </motion.div>
-
           {/* Scroll cue */}
           <motion.div className="ow-cue" style={{ opacity: cueOpacity }} aria-hidden>
             <span>Scroll</span>
@@ -208,6 +173,34 @@ export function OurWorld() {
           </motion.div>
 
         </div>
+      </div>
+
+      {/* Static folder — always visible below the hero, animates on hover only */}
+      <div className="ow-folder-section">
+        <a
+          href="#our-businesses"
+          onClick={goToBusinesses}
+          className="ow-folder-wrap"
+          aria-label="Open our businesses"
+        >
+          <span className="ow-folder-eyebrow">Curious? Take a look inside</span>
+
+          <div className="ow-folder">
+            <div className="ow-folder-back" />
+            <div className="ow-folder-papers">
+              <span className="ow-paper ow-paper-1" />
+              <span className="ow-paper ow-paper-2" />
+              <span className="ow-paper ow-paper-3" />
+            </div>
+            <div className="ow-folder-front">
+              <span className="ow-folder-pill">5 Companies</span>
+              <span className="ow-folder-mark">eloma</span>
+              <span className="ow-folder-arrow"><ArrowRight size={24} color={NAVY} strokeWidth={2.4} /></span>
+            </div>
+          </div>
+
+          <span className="ow-folder-hint">Click to explore our businesses</span>
+        </a>
       </div>
 
       <style>{`
@@ -219,9 +212,9 @@ export function OurWorld() {
           overflow-x: clip;
         }
 
-        /* Stage gives the manifesto + folder reveal room to breathe.
+        /* Stage drives only the manifesto + floating-shape choreography.
            The sticky inner pins for (stage − 100vh) of scroll. */
-        .ow-stage  { height: 200vh; position: relative; }
+        .ow-stage  { height: 150vh; position: relative; }
         .ow-sticky {
           position: sticky; top: 0;
           height: 100vh;
@@ -283,11 +276,12 @@ export function OurWorld() {
           box-shadow: 0 0 0 4px ${GREEN}22;
         }
 
-        /* ── 3D folder ───────────────────────────────────────── */
-        .ow-folder-stage {
-          position: absolute; inset: 0;
+        /* ── 3D folder — static section below the hero ───────── */
+        .ow-folder-section {
+          position: relative; z-index: 1;
+          min-height: 92vh;
           display: flex; align-items: center; justify-content: center;
-          z-index: 2;
+          padding: clamp(56px, 9vw, 120px) clamp(24px, 4vw, 64px) clamp(80px, 11vw, 150px);
         }
         .ow-folder-wrap {
           display: flex; flex-direction: column; align-items: center;
@@ -423,7 +417,7 @@ export function OurWorld() {
         }
 
         @media (max-width: 680px) {
-          .ow-stage { height: 190vh; }
+          .ow-stage { height: 140vh; }
           .ow-cue   { display: none; }
           .ow-folder { width: clamp(240px, 76vw, 380px); height: clamp(200px, 60vw, 300px); }
           .ow-folder-eyebrow { font-size: 15px; }
