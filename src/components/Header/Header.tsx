@@ -15,24 +15,43 @@ export function Header() {
 
   const anyOpen = openDropdown !== null || loginOpen
 
-  // Transparent while the hero section (100vh) is still in view
+  // Transparent while the first hero section (100vh) is still in view
   const overHero = scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
 
   // Transparent when #services section occupies the header zone
   const [overServices, setOverServices] = useState(false)
+
+  // Transparent when any of the other hero sections covers the header area
+  const [overHeroSection, setOverHeroSection] = useState(false)
+
   useEffect(() => {
+    const HERO_IDS = ['hero2-section', 'hero3-section', 'hero4-section']
+    const HEADER_H = 64
+
     const check = () => {
-      const el = document.getElementById('services')
-      if (!el) return
-      const r = el.getBoundingClientRect()
-      setOverServices(r.top < 80 && r.bottom > 0)
+      // services check
+      const svc = document.getElementById('services')
+      if (svc) {
+        const r = svc.getBoundingClientRect()
+        setOverServices(r.top < 80 && r.bottom > 0)
+      }
+
+      // other hero sections check — any section whose rect straddles the header
+      const over = HERO_IDS.some(id => {
+        const el = document.getElementById(id)
+        if (!el) return false
+        const r = el.getBoundingClientRect()
+        return r.top <= HEADER_H && r.bottom > HEADER_H
+      })
+      setOverHeroSection(over)
     }
+
     window.addEventListener('scroll', check, { passive: true })
     check()
     return () => window.removeEventListener('scroll', check)
   }, [])
 
-  const transparent = (overHero || overServices) && !anyOpen && !mobileOpen
+  const transparent = (overHero || overServices || overHeroSection) && !anyOpen && !mobileOpen
   const textColor = transparent ? '#ffffff' : '#08213C'
 
   const cancelClose = () => {
@@ -95,29 +114,21 @@ export function Header() {
             justifyContent: 'space-between',
           }}
         >
-          {/* Logo */}
-          <a href="/" style={{ flexShrink: 0, lineHeight: 0, position: 'relative', display: 'inline-block', height: '36px' }}>
-            {/* White version — visible over dark/transparent header */}
+          {/* Logo — icon + wordmark, both with transparent backgrounds */}
+          <a href="/" style={{ flexShrink: 0, lineHeight: 0, display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
             <img
-              src="/images/BIVRY Logo-white.png"
+              src="/images/Final Eloma Group icon white.png"
               alt=""
               aria-hidden
-              style={{
-                height: '36px', width: 'auto',
-                position: 'absolute', left: 0, top: 0,
-                opacity: transparent ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-                pointerEvents: 'none',
-              }}
+              style={{ height: '44px', width: 'auto' }}
             />
-            {/* Blue version — visible over solid white header */}
             <img
-              src="/images/BIVRY Logo-Blue.png"
-              alt="BIVRY"
+              src="/images/eloma-wordmark-t.png"
+              alt="Eloma Group"
               style={{
-                height: '36px', width: 'auto',
-                opacity: transparent ? 0 : 1,
-                transition: 'opacity 0.3s ease',
+                height: '30px', width: 'auto',
+                filter: transparent ? 'brightness(0) invert(1)' : 'none',
+                transition: 'filter 0.3s ease',
               }}
             />
           </a>
