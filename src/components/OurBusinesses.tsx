@@ -45,6 +45,50 @@ const BUSINESSES = [
   },
 ]
 
+const COMPANIES = [
+  { name: 'EG Digital AU',  tag: 'Technology',          Icon: Server,  href: '/companies/eg-digital-au'  },
+  { name: 'EG Foundations', tag: 'Infrastructure',      Icon: Headset, href: '/companies/eg-foundations' },
+  { name: 'EG Imports',     tag: 'Global Sourcing',     Icon: Ship,    href: '/companies/eg-imports'     },
+  { name: 'EG Transport',   tag: 'Logistics',           Icon: Truck,   href: '/companies/eg-transport'   },
+  { name: 'EG Travels',     tag: 'Journeys',            Icon: Plane,   href: '/companies/eg-travels'     },
+]
+
+function CompanyCard({ c, i }: { c: typeof COMPANIES[number]; i: number }) {
+  const { Icon } = c
+  return (
+    <motion.a
+      href={c.href}
+      className="ob-card"
+      initial={{ x: -90, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.75, ease: EASE, delay: i * 0.13 }}
+    >
+      {/* Logo fills the card like a video */}
+      <img
+        className="ob-card-img"
+        src="/images/BIVRY%20Icon%20Logo-Blue.jpg"
+        alt=""
+        aria-hidden
+        draggable={false}
+      />
+
+      <span className="ob-card-icon">
+        <Icon size={22} color="#fff" strokeWidth={1.8} />
+      </span>
+      <span className="ob-card-foot">
+        <span>
+          <span className="ob-card-tag">{c.tag}</span>
+          <span className="ob-card-name">{c.name}</span>
+        </span>
+        <span className="ob-card-arrow">
+          <ArrowUpRight size={18} color="#fff" strokeWidth={2.2} />
+        </span>
+      </span>
+    </motion.a>
+  )
+}
+
 function BusinessCard({ b, i }: { b: typeof BUSINESSES[number]; i: number }) {
   const { Icon } = b
   return (
@@ -106,6 +150,11 @@ export function OurBusinesses() {
 
         <div className="ob-cards">
           {BUSINESSES.map((b, i) => <BusinessCard key={b.name} b={b} i={i} />)}
+        </div>
+
+        {/* ── Company logo row ── */}
+        <div className="ob-companies">
+          {COMPANIES.map((c, i) => <CompanyCard key={c.name} c={c} i={i} />)}
         </div>
       </div>
 
@@ -202,18 +251,31 @@ export function OurBusinesses() {
           transform: rotate(45deg);
         }
 
+        /* ── Company logo row ── */
+        .ob-companies {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: clamp(12px, 1.3vw, 20px);
+          margin-top: clamp(14px, 1.6vw, 24px);
+        }
+
         @media (min-width: 1920px) { .ob-inner { max-width: 1900px; } }
         @media (min-width: 2560px) { .ob-inner { max-width: 2400px; } }
-        @media (max-width: 1024px) { .ob-cards { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 680px)  {
-          .ob-cards { grid-template-columns: repeat(2, 1fr); }
-          .ob-card  { aspect-ratio: 4 / 5; }
+        @media (max-width: 1024px) {
+          .ob-cards     { grid-template-columns: repeat(3, 1fr); }
+          .ob-companies { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (max-width: 400px)  {
-          .ob-cards { grid-template-columns: 1fr; }
-          .ob-card  { aspect-ratio: 16 / 10; }
+        @media (max-width: 680px) {
+          .ob-cards     { grid-template-columns: repeat(2, 1fr); }
+          .ob-card      { aspect-ratio: 4 / 5; }
+          .ob-companies { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 540px)  { .ob-muted { display: none; } }
+        @media (max-width: 400px) {
+          .ob-cards     { grid-template-columns: 1fr; }
+          .ob-card      { aspect-ratio: 16 / 10; }
+          .ob-companies { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 540px) { .ob-muted { display: none; } }
       `}</style>
     </section>
   )
