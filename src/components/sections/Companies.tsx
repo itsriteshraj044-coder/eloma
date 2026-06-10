@@ -31,7 +31,7 @@ function CompanyRow({ company }: { company: Company }) {
         <h3 className="text-base font-bold text-navy-900 sm:text-lg xl:text-xl 3xl:text-xl 4xl:text-2xl">
           {company.name}
         </h3>
-        <p className="mt-0.5 text-sm leading-relaxed text-navy-500 sm:text-base 3xl:text-base 4xl:text-lg">
+        <p className="mt-0.5 text-body-fluid text-navy-500">
           {company.description}
         </p>
       </div>
@@ -42,7 +42,7 @@ function CompanyRow({ company }: { company: Company }) {
           className="h-4 w-4 text-emerald-400 transition-transform duration-300 group-hover:scale-110 3xl:h-5 3xl:w-5"
           aria-hidden="true"
         />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-300 3xl:text-xs">
+        <span className="text-eyebrow-fluid uppercase text-navy-300">
           Verified
         </span>
       </div>

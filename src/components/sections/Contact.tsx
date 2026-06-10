@@ -122,7 +122,7 @@ export function Contact() {
           >
             <div className="rounded-[2rem] border border-navy-100 bg-white p-5 shadow-glass-lg sm:p-9 3xl:rounded-[3rem] 3xl:p-12 4xl:p-14">
               {submitted ? (
-                <div className="flex min-h-[260px] flex-col items-center justify-center text-center sm:min-h-[420px]">
+                <div className="flex min-h-[clamp(220px,30vw,420px)] flex-col items-center justify-center text-center">
                   <span className="grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-600">
                     <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
                   </span>
@@ -227,7 +227,7 @@ export function Contact() {
                     />
                   </div>
 
-                  <p className="text-xs leading-relaxed text-navy-400 sm:col-span-2">
+                  <p className="text-body-fluid text-navy-400 sm:col-span-2">
                     {CONTACT.consent}
                   </p>
 

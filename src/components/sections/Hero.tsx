@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 /** Draws a centered, gold-gradient-filled, animated text mask onto a full-bleed canvas. */
-function useGradientTextCanvas(text: string) {
+function useGradientTextCanvas(text: string, widthRatio: number) {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const fontSizeRef = useRef(0);
   const prevWRef    = useRef(0);
@@ -31,11 +31,8 @@ function useGradientTextCanvas(text: string) {
       if (w === prevWRef.current && h === prevHRef.current) return;
       prevWRef.current = w;
       prevHRef.current = h;
-      const testPx = 400;
-      ctx.font = `900 ${testPx}px Inter, system-ui, sans-serif`;
-      const byWidth  = (testPx * w * 0.90) / ctx.measureText(text).width;
-      const byHeight = h * 0.85;
-      fontSizeRef.current = Math.min(byWidth, byHeight);
+      // Scale the wordmark with the canvas width so it fills the hero container.
+      fontSizeRef.current = w * widthRatio;
     };
 
     const draw = (now: number) => {
@@ -51,10 +48,10 @@ function useGradientTextCanvas(text: string) {
       const b = (Math.cos(t * 0.33 + 1.1) + 1) / 2;
 
       const g = ctx.createLinearGradient(a * w, b * h * 0.3, w * (1 - b * 0.28), h);
-      g.addColorStop(0,    '#FFF6CC');
-      g.addColorStop(0.30, '#FFD700');
-      g.addColorStop(0.62, '#B8860B');
-      g.addColorStop(1,    '#FFE680');
+      g.addColorStop(0,    '#6FD5B0');
+      g.addColorStop(0.30, '#3CB98C');
+      g.addColorStop(0.62, '#08213C');
+      g.addColorStop(1,    '#1F4267');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, w, h);
 
@@ -88,83 +85,97 @@ function useGradientTextCanvas(text: string) {
       observer.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [text]);
+  }, [text, widthRatio]);
 
   return canvasRef;
 }
 
-/** Open/close zoom: scales an element up as it passes through the viewport, both ways. */
-function useScrollZoom() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'center center', 'end start'],
-  });
-  const sp      = useSpring(scrollYProgress, { stiffness: 70, damping: 22, restDelta: 0.0005 });
-  const scale   = useTransform(sp, [0, 0.5, 1], [0.55, 1.25, 0.55]);
-  const opacity = useTransform(sp, [0, 0.5, 1], [0.15, 1, 0.15]);
-  return { ref, scale, opacity };
-}
-
 export function Hero() {
-  const elomaCanvasRef = useGradientTextCanvas('ELOMA');
-  const groupCanvasRef = useGradientTextCanvas('GROUP');
+  const sectionRef = useRef<HTMLElement>(null);
+  const elomaCanvasRef = useGradientTextCanvas('ELOMA', 0.18);
+  const groupCanvasRef = useGradientTextCanvas('GROUP', 0.14);
 
-  const eloma = useScrollZoom();
-  const group = useScrollZoom();
+  // Open/close scroll animation: scrolling down zooms both wordmark canvases
+  // in (toward the viewer, fading into the next section); scrolling back up
+  // zooms them back out to rest — driven by Lenis-synced native scroll, never
+  // a manual scroll listener.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, 0]);
+  const canvasScale = useTransform(scrollYProgress, [0, 1], [1, 1.7]);
+  const canvasOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 1, 0]);
 
   return (
-    <section id="top" aria-label="Hero" className="relative bg-white">
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 pt-20 pb-16 sm:gap-6 lg:pt-24">
-
-        {/* 1. Experience label */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="select-none text-xl font-extrabold tracking-wide text-navy-900 sm:text-2xl lg:text-3xl xl:text-4xl uppercase"
-        >
-          Experience
-        </motion.p>
-
-        {/* 2. ELOMA canvas — opens/zooms in & out with scroll */}
+    <section ref={sectionRef} id="top" aria-label="Hero" className="relative overflow-hidden bg-white">
+      {/* Abstract animated blob shapes */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <motion.div
-          ref={eloma.ref}
-          style={{ scale: eloma.scale, opacity: eloma.opacity }}
-          className="h-28 w-full max-w-4xl sm:h-36 lg:h-48 3xl:h-56"
-        >
-          <canvas ref={elomaCanvasRef} aria-hidden="true" className="h-full w-full" />
-        </motion.div>
-
-        {/* 3. GROUP canvas — opens/zooms in & out with scroll */}
+          className="bg-blob will-transform absolute -right-[15%] -top-[20%] aspect-square w-[clamp(420px,55vw,900px)] bg-gradient-to-br from-navy-100/70 via-navy-50/60 to-transparent"
+          animate={{ x: [0, -40, 0], y: [0, 30, 0], rotate: [0, 8, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <motion.div
-          ref={group.ref}
-          style={{ scale: group.scale, opacity: group.opacity }}
-          className="h-20 w-full max-w-3xl sm:h-28 lg:h-36 3xl:h-44"
-        >
-          <canvas ref={groupCanvasRef} aria-hidden="true" className="h-full w-full" />
-        </motion.div>
-
-        {/* ── Scroll indicator ──────────────────────────────────────── */}
-        <motion.a
-          href="#businesses"
-          aria-label="Scroll to explore"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-10 flex flex-col items-center gap-2 text-navy-400 sm:mt-14"
-        >
-          <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Scroll</span>
-          <span className="flex h-8 w-5 items-start justify-center rounded-full border border-navy-200 p-1.5">
-            <motion.span
-              animate={{ y: [0, 7, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-1.5 w-1.5 rounded-full bg-emerald-500"
-            />
-          </span>
-        </motion.a>
-
+          className="bg-blob will-transform absolute -bottom-[25%] -left-[10%] aspect-square w-[clamp(380px,48vw,780px)] bg-gradient-to-tr from-navy-50/80 via-navy-100/40 to-transparent"
+          animate={{ x: [0, 30, 0], y: [0, -40, 0], rotate: [0, -10, 0] }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="bg-blob will-transform absolute right-[15%] top-[35%] aspect-square w-[clamp(220px,26vw,420px)] bg-gradient-to-bl from-emerald-50/60 via-navy-50/30 to-transparent"
+          animate={{ x: [0, -25, 0], y: [0, 25, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
+
+      <motion.div
+        style={{ opacity: heroOpacity }}
+        className="will-transform flex min-h-screen flex-col items-center justify-center gap-[clamp(0.75rem,2vw,1.5rem)] px-4 pb-[clamp(1.5rem,4vw,3rem)] pt-[clamp(3.5rem,8vw,6rem)]">
+
+          {/* 1. Experience label */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="select-none text-sub-heading uppercase text-navy-900"
+          >
+            Experience
+          </motion.p>
+
+          {/* 2. ELOMA canvas */}
+          <motion.div
+            style={{ scale: canvasScale, opacity: canvasOpacity }}
+            className="will-transform container-px aspect-[5/1] w-full"
+          >
+            <canvas ref={elomaCanvasRef} aria-hidden="true" className="h-full w-full" />
+          </motion.div>
+
+          {/* 3. GROUP canvas */}
+          <motion.div
+            style={{ scale: canvasScale, opacity: canvasOpacity }}
+            className="will-transform container-px aspect-[6/1] w-full"
+          >
+            <canvas ref={groupCanvasRef} aria-hidden="true" className="h-full w-full" />
+          </motion.div>
+
+      </motion.div>
+
+      {/* ── Scroll indicator — bottom-right corner ──────────────────── */}
+      <motion.a
+        href="#businesses"
+        aria-label="Scroll to explore"
+        style={{ opacity: heroOpacity }}
+        className="will-transform absolute bottom-[clamp(1.5rem,4vw,3rem)] right-[clamp(1.5rem,4vw,4rem)] z-10 flex flex-col items-center gap-2 text-navy-400"
+      >
+        <span className="text-eyebrow-fluid uppercase [writing-mode:vertical-rl]">Scroll</span>
+        <span className="flex h-8 w-5 items-start justify-center rounded-full border border-navy-200 p-1.5">
+          <motion.span
+            animate={{ y: [0, 7, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+          />
+        </span>
+      </motion.a>
     </section>
   );
 }

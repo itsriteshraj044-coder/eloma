@@ -23,19 +23,19 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         <span className="grid h-14 w-14 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white 3xl:h-16 3xl:w-16 3xl:rounded-3xl 4xl:h-20 4xl:w-20">
           <Icon className="h-7 w-7 3xl:h-8 3xl:w-8 4xl:h-10 4xl:w-10" aria-hidden="true" />
         </span>
-        <span className="text-base font-bold tracking-widest text-navy-200 3xl:text-lg 4xl:text-xl">
+        <span className="text-meta-value font-bold tracking-widest text-navy-200">
           {pillar.index}
         </span>
       </div>
 
       {/* Text */}
-      <h3 className="mt-6 text-xl font-bold text-navy-900 sm:text-2xl 3xl:text-2xl 4xl:text-3xl">
+      <h3 className="mt-6 text-[clamp(1.75rem,2vw,2.1875rem)] font-bold capitalize text-navy-900">
         {pillar.title}
       </h3>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 sm:text-sm 3xl:text-sm 4xl:text-base">
+      <p className="mt-1 text-eyebrow-fluid uppercase text-emerald-600">
         {pillar.subtitle}
       </p>
-      <p className="mt-3 text-sm leading-relaxed text-navy-500 sm:text-base 3xl:text-base 4xl:text-lg">
+      <p className="mt-3 text-body-fluid text-navy-500">
         {pillar.description}
       </p>
     </motion.div>
@@ -64,7 +64,7 @@ export function Sustainability() {
             <>
               Committed to Sustainable Growth
               <br />
-              <span style={{ color: '#08213c38' }}>and Responsible Business</span>
+              <span className="text-emerald-500">and Responsible Business</span>
             </>
           }
         />
@@ -83,10 +83,10 @@ export function Sustainability() {
               <Leaf className="h-8 w-8 3xl:h-10 3xl:w-10" aria-hidden="true" />
             </span>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700 3xl:text-base">
+              <p className="text-eyebrow-fluid uppercase text-emerald-700">
                 Our Commitment
               </p>
-              <p className="mt-2 max-w-3xl text-base leading-relaxed text-navy-700 text-pretty sm:text-lg xl:text-xl 3xl:text-xl 4xl:text-xl">
+              <p className="mt-2 max-w-3xl text-body-fluid text-navy-700 text-pretty">
                 {SUSTAINABILITY.body}
               </p>
             </div>

@@ -136,8 +136,8 @@ export function LoginDropdown({ theme = 'dark' }: LoginDropdownProps) {
                     <Icon className="h-5 w-5 3xl:h-6 3xl:w-6 4xl:h-7 4xl:w-7" aria-hidden="true" />
                   </span>
                   <span className="flex flex-col">
-                    <span className="text-sm font-semibold text-navy-900 3xl:text-base 4xl:text-base">{opt.label}</span>
-                    <span className="text-xs text-navy-500 3xl:text-sm 4xl:text-sm">{opt.description}</span>
+                    <span className="text-body-fluid font-semibold text-navy-900">{opt.label}</span>
+                    <span className="text-body-fluid text-navy-500">{opt.description}</span>
                   </span>
                 </a>
               );

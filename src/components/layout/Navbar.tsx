@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
 import { LoginDropdown } from '@/components/layout/LoginDropdown';
@@ -48,22 +48,22 @@ function MegaMenuPanel({
           >
             <div className="mb-3 flex items-center gap-2">
               <span className="h-0.5 w-5 shrink-0 rounded-full bg-emerald-500" aria-hidden="true" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-navy-400">
+              <span className="text-eyebrow-fluid uppercase text-navy-400">
                 {menu.eyebrow}
               </span>
             </div>
 
-            <h2 className="text-xl font-bold leading-snug text-navy-900 text-balance xl:text-2xl">
+            <h2 className="text-card-heading uppercase leading-snug text-navy-900 text-balance">
               {menu.heading}
             </h2>
 
-            <p className="mt-2.5 text-sm leading-relaxed text-navy-500">
+            <p className="mt-2.5 text-body-fluid text-navy-500">
               {menu.description}
             </p>
 
             <a
               href={menu.cta.href}
-              className="mt-5 inline-flex w-fit items-center rounded-full bg-navy-900 px-4 py-2 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-navy-700"
+              className="mt-5 inline-flex w-fit items-center rounded-full bg-navy-900 px-4 py-2 text-body-fluid font-semibold text-white transition-colors duration-200 hover:bg-navy-700"
             >
               {menu.cta.label}
             </a>
@@ -74,7 +74,7 @@ function MegaMenuPanel({
             {menu.linkGroups.map((group, gi) => (
               <div key={gi} className="min-w-[160px] flex-1">
                 {group.heading && (
-                  <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-navy-300">
+                  <p className="mb-2.5 text-eyebrow-fluid uppercase text-navy-300">
                     {group.heading}
                   </p>
                 )}
@@ -83,7 +83,7 @@ function MegaMenuPanel({
                     <li key={link.label} className="border-b border-navy-100 last:border-0">
                       <a
                         href={link.href}
-                        className="block py-2.5 text-[14px] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
+                        className="block py-2.5 text-body-fluid font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
                       >
                         {link.label}
                       </a>
@@ -109,12 +109,8 @@ export function Navbar() {
   const [activeId, setActiveId]             = useState<string>('');
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, 'change', (latest) => setScrolled(latest > 24));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -158,10 +154,8 @@ export function Navbar() {
         transition={{ duration: 0.55, ease: EASE_PREMIUM }}
         aria-label="Primary"
         className={cn(
-          'transition-[border-color,background-color,box-shadow] duration-500 ease-premium',
-          solid
-            ? 'border-b border-navy-100/60 bg-white/92 shadow-glass backdrop-blur-xl'
-            : 'border-b border-transparent bg-transparent',
+          'border-b border-navy-100/60 bg-white shadow-glass transition-shadow duration-500 ease-premium',
+          !solid && 'shadow-none',
         )}
       >
         {/* ── Nav bar row ────────────────────────────────────────────── */}
@@ -194,7 +188,7 @@ export function Navbar() {
                     aria-expanded={hasMenu ? menuOpen : undefined}
                     aria-haspopup={hasMenu ? 'true' : undefined}
                     className={cn(
-                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[14px] xl:text-[15px] 2xl:text-base font-medium text-navy-500 transition-colors duration-200 hover:text-navy-900',
+                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-body-fluid font-medium text-navy-500 transition-colors duration-200 hover:text-navy-900',
                       (isActive || menuOpen) && 'text-navy-900',
                     )}
                   >
@@ -289,7 +283,7 @@ export function Navbar() {
                         <button
                           type="button"
                           onClick={() => setExpandedMobile(expanded ? null : item.label)}
-                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[15px] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-body-fluid font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                           <ChevronDown
@@ -301,7 +295,7 @@ export function Navbar() {
                         <a
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
-                          className="block rounded-xl px-4 py-3 text-[15px] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="block rounded-xl px-4 py-3 text-body-fluid font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                         </a>
@@ -317,13 +311,13 @@ export function Navbar() {
                             className="overflow-hidden"
                           >
                             <div className="px-4 pb-3 pt-0.5">
-                              <p className="mb-2.5 text-[13px] font-semibold text-navy-800">
+                              <p className="mb-2.5 text-body-fluid font-semibold text-navy-800">
                                 {item.megaMenu.heading}
                               </p>
                               {item.megaMenu.linkGroups.map((group, gi) => (
                                 <div key={gi} className="mb-2.5">
                                   {group.heading && (
-                                    <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-navy-400">
+                                    <p className="mb-1.5 text-eyebrow-fluid uppercase text-navy-400">
                                       {group.heading}
                                     </p>
                                   )}
@@ -333,7 +327,7 @@ export function Navbar() {
                                         <a
                                           href={link.href}
                                           onClick={() => setMobileOpen(false)}
-                                          className="block rounded-lg px-3 py-2 text-[14px] text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                                          className="block rounded-lg px-3 py-2 text-body-fluid text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                                         >
                                           {link.label}
                                         </a>
@@ -345,7 +339,7 @@ export function Navbar() {
                               <a
                                 href={item.megaMenu.cta.href}
                                 onClick={() => setMobileOpen(false)}
-                                className="mt-1.5 inline-flex items-center rounded-full bg-navy-900 px-4 py-1.5 text-[13px] font-semibold text-white"
+                                className="mt-1.5 inline-flex items-center rounded-full bg-navy-900 px-4 py-1.5 text-body-fluid font-semibold text-white"
                               >
                                 {item.megaMenu.cta.label}
                               </a>
@@ -362,7 +356,7 @@ export function Navbar() {
 
               {/* Login options */}
               <div className="p-2">
-                <p className="px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-400">
+                <p className="px-3 pb-1 pt-2 text-eyebrow-fluid uppercase text-navy-400">
                   Login
                 </p>
                 <ul className="flex flex-col">
@@ -379,8 +373,8 @@ export function Navbar() {
                             <Icon className="h-4 w-4" aria-hidden="true" />
                           </span>
                           <div>
-                            <p className="text-[14px] font-medium text-navy-800">{opt.label}</p>
-                            <p className="text-[11px] text-navy-400">{opt.description}</p>
+                            <p className="text-body-fluid font-medium text-navy-800">{opt.label}</p>
+                            <p className="text-eyebrow-fluid normal-case text-navy-400">{opt.description}</p>
                           </div>
                         </a>
                       </li>
@@ -393,7 +387,7 @@ export function Navbar() {
                 <a
                   href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-[14px] font-semibold text-navy-900 shadow-glow-emerald"
+                  className="flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-body-fluid font-semibold text-navy-900 shadow-glow-emerald"
                 >
                   <Phone className="h-4 w-4" aria-hidden="true" />
                   {BRAND.phonePrimary}

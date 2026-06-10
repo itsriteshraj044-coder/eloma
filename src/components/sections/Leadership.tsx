@@ -31,14 +31,14 @@ export function Leadership() {
 
           <motion.h2
             variants={fadeUp}
-            className="mt-6 text-display-lg text-navy-900 text-balance"
+            className="mt-6 text-section-h2 uppercase text-navy-900 text-balance"
           >
             {LEADERSHIP.heading}
           </motion.h2>
 
           <motion.p
             variants={fadeUp}
-            className="mt-3 text-lg font-semibold text-emerald-600 3xl:text-xl 4xl:text-2xl 5xl:text-3xl"
+            className="mt-3 text-body-fluid font-semibold text-emerald-600"
           >
             {LEADERSHIP.subheading}
           </motion.p>
@@ -48,7 +48,7 @@ export function Leadership() {
               <motion.p
                 key={paragraph.slice(0, 24)}
                 variants={fadeUp}
-                className="max-w-2xl leading-relaxed text-navy-500 text-lg 3xl:text-xl 4xl:text-2xl 5xl:text-3xl"
+                className="max-w-2xl text-body-fluid text-navy-500"
               >
                 {paragraph}
               </motion.p>
@@ -70,12 +70,12 @@ export function Leadership() {
               aria-hidden="true"
             />
 
-            <blockquote className="relative mt-6 text-base font-medium leading-relaxed text-navy-800 text-pretty sm:text-xl 3xl:text-2xl 4xl:text-3xl 5xl:text-4xl">
+            <blockquote className="relative mt-6 text-card-heading font-medium normal-case leading-snug text-navy-800 text-pretty">
               "{testimonial.quote}"
             </blockquote>
 
             <figcaption className="mt-6 flex items-center gap-4 border-t border-navy-100 pt-5 sm:mt-8 sm:pt-6">
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-lg font-bold text-white 3xl:h-16 3xl:w-16 3xl:text-xl 4xl:h-20 4xl:w-20 4xl:text-2xl 5xl:h-24 5xl:w-24 5xl:text-3xl">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-meta-value font-bold text-white 3xl:h-16 3xl:w-16 4xl:h-20 4xl:w-20 5xl:h-24 5xl:w-24">
                 {testimonial.name
                   .split(' ')
                   .map((word) => word[0])
@@ -83,10 +83,10 @@ export function Leadership() {
               </span>
 
               <div>
-                <p className="font-semibold text-navy-900 3xl:text-lg 4xl:text-xl 5xl:text-2xl">
+                <p className="text-meta-value font-semibold text-navy-900">
                   {testimonial.name}
                 </p>
-                <p className="text-sm text-navy-500 3xl:text-base 4xl:text-lg 5xl:text-xl">
+                <p className="text-body-fluid text-navy-500">
                   {testimonial.role}
                 </p>
               </div>

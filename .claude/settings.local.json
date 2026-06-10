@@ -28,7 +28,32 @@
       "Bash(python -c \"import websockets\")",
       "Bash(python -c \"import websocket\")",
       "Bash(netstat -ano)",
-      "Bash(powershell -Command \"Stop-Process -Id 11448 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 11448 -Force\")",
+      "Bash(where ffmpeg *)",
+      "Bash(where ffprobe *)",
+      "Bash(where python *)",
+      "Bash(python -c \"import cv2\")",
+      "Bash(pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(powershell -Command \"Get-Item public/hero.mp4 | Select-Object Name,Length\")",
+      "Bash(powershell -Command \"Get-Content src/pages/Home.tsx\")",
+      "Bash(powershell -Command \"Get-Content src/lib/motion.ts\")",
+      "Read(//tmp/**)",
+      "Bash(curl *)",
+      "Bash(pkill -f vite)",
+      "Bash(rm -rf node_modules/.vite)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "Bash(grep -oE \"\\\\.text-\\(xs|sm|base|lg|xl|2xl|3xl|4xl\\)\\\\\\\\\\\\\\\\n\\\\?\\\\{[^}]*font-size: clamp\\\\\\([^\\)]*\\\\\\)\")",
+      "Bash(grep -oE \"\\\\.text-\\(xs|sm|base|lg|xl|2xl|3xl|4xl\\)\\\\\\\\\\\\\\\\n[^\\\\\"]{0,80}\")",
+      "Bash(grep -oE \"text-xs[^;]{0,100}|text-base[^;]{0,100}\")",
+      "Read(//c/Users/rites/Downloads/**)",
+      "Bash(npm install *)",
+      "Bash(ffprobe flip.mp4)",
+      "Bash(ls public/**/*.mp4)",
+      "Bash(find public *)",
+      "Bash(grep -n \"animate={{ y: \\\\[0, -5, 0\\\\], rotate\" src/components/sections/BusinessUniverse.tsx)",
+      "Bash(cat src/lib/cn.ts)",
+      "Bash(grep -n \"interface Capability\\\\|type Capability\" -A6 src/types/index.ts)"
     ]
   }
 }

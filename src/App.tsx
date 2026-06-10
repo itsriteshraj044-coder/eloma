@@ -11,7 +11,7 @@ export default function App() {
   return (
     <>
       <SplashScreen />
-      <div className="relative flex min-h-screen flex-col">
+      <div className="relative flex min-h-screen flex-col overflow-x-hidden">
         <Navbar />
         <AppRoutes />
         <Footer />

@@ -48,10 +48,31 @@ export default {
         display: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
-        // Fluid type scale — capped to stay readable at 2K/4K/32-inch screens
-        'display-xl': ['clamp(2.4rem, 4vw, 4.5rem)',   { lineHeight: '1.04', letterSpacing: '-0.03em', fontWeight: '700' }],
-        'display-lg': ['clamp(1.8rem, 3vw, 3.5rem)',   { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '700' }],
-        'display-md': ['clamp(1.4rem, 2.2vw, 2.75rem)', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '600' }],
+        // Fluid overrides for Tailwind's default scale — every text-* size now
+        // scales continuously with viewport width (clamp), so no manual
+        // breakpoint variants are needed for font size.
+        xs:   ['clamp(0.75rem, 0.7vw, 0.8125rem)',  { lineHeight: '1.4' }],
+        sm:   ['clamp(0.875rem, 0.9vw, 1rem)',      { lineHeight: '1.45' }],
+        base: ['clamp(1rem, 1vw, 1.125rem)',        { lineHeight: '1.5' }],
+        lg:   ['clamp(1.125rem, 1.1vw, 1.3125rem)', { lineHeight: '1.5' }],
+        xl:   ['clamp(1.25rem, 1.3vw, 1.5rem)',     { lineHeight: '1.4' }],
+        '2xl': ['clamp(1.5rem, 1.6vw, 1.875rem)',   { lineHeight: '1.3' }],
+        '3xl': ['clamp(1.875rem, 2vw, 2.375rem)',   { lineHeight: '1.2' }],
+        '4xl': ['clamp(2.25rem, 2.4vw, 2.875rem)',  { lineHeight: '1.15' }],
+        // Heading scale per CLAUDE.md — responsive around 20px across all heading roles
+        'display-wordmark': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'hero-h1': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'section-h2': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'sub-heading': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'card-heading': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        // Non-heading fluid scale (unchanged)
+        'body-fluid': ['clamp(0.875rem, 1.25vw, 1.125rem)', { lineHeight: '1.8' }],
+        'meta-value': ['clamp(0.9375rem, 1.2vw, 1.25rem)', { lineHeight: '1.3' }],
+        'eyebrow-fluid': ['clamp(0.625rem, 0.8vw, 0.8125rem)', { lineHeight: '1.3', letterSpacing: '0.22em', fontWeight: '800' }],
+        // Legacy aliases kept for compatibility — now mapped onto the heading scale
+        'display-xl': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'display-lg': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
+        'display-md': ['clamp(1.875rem, 2.4vw, 2.375rem)', { lineHeight: '1.2', letterSpacing: '-0.04em', fontWeight: '900' }],
       },
       borderRadius: {
         '4xl': '2rem',

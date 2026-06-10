@@ -49,7 +49,7 @@ export function SectionHeading({
         <motion.h2
           variants={fadeUp}
           className={cn(
-            'text-display-lg text-balance',
+            'text-section-h2 uppercase text-balance',
             isDark ? 'text-white' : 'text-navy-900',
           )}
         >
@@ -60,7 +60,7 @@ export function SectionHeading({
         <motion.p
           variants={fadeUp}
           className={cn(
-            'text-base sm:text-lg xl:text-xl leading-relaxed text-pretty 3xl:text-xl 4xl:text-2xl',
+            'text-body-fluid text-pretty',
             align === 'center' ? 'max-w-3xl' : 'w-full',
             isDark ? 'text-navy-100/80' : 'text-navy-500',
             descriptionClassName,

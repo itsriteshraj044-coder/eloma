@@ -20,7 +20,7 @@ function StatCard({ stat }: { stat: Stat }) {
         <span ref={ref}>{display}</span>
         {stat.suffix}
       </p>
-      <p className="mt-2 text-sm text-navy-500 sm:text-base 3xl:mt-3 3xl:text-base 4xl:mt-4 4xl:text-lg">{stat.label}</p>
+      <p className="mt-2 text-body-fluid text-navy-500 3xl:mt-3 4xl:mt-4">{stat.label}</p>
     </motion.div>
   );
 }
@@ -55,7 +55,7 @@ export function ConnectedGlobally() {
                 {CONNECTED.descriptor}
               </motion.span>
 
-              <motion.h2 variants={fadeUp} className="text-display-lg text-navy-900 text-balance">
+              <motion.h2 variants={fadeUp} className="text-section-h2 uppercase text-navy-900 text-balance">
                 {CONNECTED.heading}
               </motion.h2>
 
@@ -89,7 +89,7 @@ export function ConnectedGlobally() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             className="relative xl:col-span-7"
           >
-            <div className="relative mx-auto max-w-[300px] sm:max-w-[440px] lg:max-w-[540px] xl:max-w-[580px] 2xl:max-w-[640px] 3xl:max-w-[720px] 4xl:max-w-[860px]">
+            <div className="relative mx-auto w-full max-w-[clamp(280px,40vw,860px)]">
               <Globe />
 
               {/* "Operating across 8 markets" badge anchored below globe */}

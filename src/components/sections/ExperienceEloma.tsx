@@ -39,6 +39,8 @@ export function ExperienceEloma() {
               muted
               loop
               playsInline
+              width={1920}
+              height={1080}
               aria-hidden="true"
             >
               <source src={EXPERIENCE.videoSrc} type="video/mp4" />
