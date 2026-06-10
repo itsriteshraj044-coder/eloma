@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm run *)",
+      "PowerShell(Stop-Job *)",
+      "Bash(ffmpeg -version)",
+      "PowerShell(ffmpeg *)",
+      "PowerShell(python --version 2>&1; python3 --version 2>&1)",
+      "PowerShell(Add-Type -AssemblyName 'PresentationCore'; $uri = [Uri]::new\\('C:\\\\Users\\\\rites\\\\Downloads\\\\Recording 2026-06-04 145109.mp4'\\); $player = New-Object System.Windows.Media.MediaPlayer; $player.Open\\($uri\\); Start-Sleep -Seconds 2; Write-Output \"NaturalDuration: $\\($player.NaturalDuration\\)\" ; Write-Output \"HasVideo: $\\($player.HasVideo\\)\"; $player.Close\\(\\))",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(dir \"C:\\\\Users\\\\rites\\\\OneDrive\\\\Pictures\\\\Screenshots\")",
+      "Bash(curl -s http://localhost:5174)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(where chrome.exe msedge.exe)",
+      "Bash(powershell -Command \"Get-Command msedge -ErrorAction SilentlyContinue; Get-Command chrome -ErrorAction SilentlyContinue\")",
+      "Read(//c/Program Files \\(x86\\)/Microsoft/Edge/Application//**)",
+      "Read(//c/Program Files/Google/Chrome/Application//**)",
+      "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --no-sandbox --dump-dom --virtual-time-budget=4000 http://localhost:5174/)",
+      "Bash(grep -o '<canvas[^>]*>' /tmp/chrome.log)",
+      "Bash(cygpath -w /tmp/screenshot2.png)",
+      "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1400,7000 --screenshot=/tmp/screenshot3.png --virtual-time-budget=10000 http://localhost:5174/)",
+      "Bash(cygpath -w /tmp/screenshot3.png)",
+      "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1400,1000 --screenshot=/tmp/s1.png http://localhost:5174/)",
+      "Bash(\"/c/Program Files/Google/Chrome/Application/chrome.exe\" --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=1400,1000 --screenshot=/tmp/s2.png \"http://localhost:5174/#connected\")",
+      "Bash(wait)",
+      "Bash(cygpath -w /tmp/s2.png)",
+      "Bash(python -c \"import websockets\")",
+      "Bash(python -c \"import websocket\")",
+      "Bash(netstat -ano)",
+      "Bash(powershell -Command \"Stop-Process -Id 11448 -Force\")"
+    ]
+  }
+}

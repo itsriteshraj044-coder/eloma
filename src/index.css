@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --navy: #08213c;
+    --emerald: #3cb98c;
+  }
+
+  * {
+    @apply border-navy-100/60;
+  }
+
+  html {
+    /* scroll-behavior handled entirely by Lenis — native smooth conflicts with it */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+    /* Fluid base font: 16px (mobile) → 18px (1440p) → 20px (1920p+) */
+    font-size: clamp(16px, 0.5vw + 10.4px, 20px);
+  }
+
+  /* Lenis smooth-scroll integration */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-white font-sans text-navy-900 antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Premium focus ring — visible & accessible */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    @apply outline-none ring-2 ring-emerald-400 ring-offset-2 ring-offset-white;
+    border-radius: 0.5rem;
+  }
+
+  ::selection {
+    background-color: rgba(60, 185, 140, 0.25);
+    color: var(--navy);
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #eef3f8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #9fb6cf;
+    border-radius: 9999px;
+    border: 2px solid #eef3f8;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b8db3;
+  }
+}
+
+@layer components {
+  /* Full-width container — smooth padding, max-width caps content at all sizes */
+  .container-px {
+    @apply mx-auto w-full
+           px-4
+           sm:px-6
+           md:px-8
+           lg:px-10
+           xl:px-12
+           2xl:max-w-[1480px] 2xl:px-14
+           3xl:max-w-[1800px] 3xl:px-16
+           4xl:max-w-[2300px] 4xl:px-20
+           5xl:max-w-[3200px] 5xl:px-24;
+  }
+
+  /* Glassmorphism surfaces */
+  .glass {
+    @apply border border-white/60 bg-white/70 backdrop-blur-xl;
+  }
+  .glass-dark {
+    @apply border border-white/10 bg-navy-900/40 backdrop-blur-xl;
+  }
+
+  /* Eyebrow / kicker label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700 3xl:px-5 3xl:py-2 3xl:text-sm 4xl:px-6 4xl:py-2.5 4xl:text-base;
+  }
+  .eyebrow-dark {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300 backdrop-blur-md 3xl:px-5 3xl:py-2 3xl:text-sm 4xl:px-6 4xl:py-2.5 4xl:text-base;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-br from-navy-800 via-navy-700 to-emerald-500 bg-clip-text text-transparent;
+  }
+  .text-gradient-emerald {
+    @apply bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent;
+  }
+
+  /* Section vertical rhythm */
+  .section-py {
+    @apply py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 3xl:py-20 4xl:py-24 5xl:py-28;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* GPU compositing hints */
+  .will-transform {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  /* Promote sticky layers to their own compositor layer */
+  .sticky {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+}

@@ -1,0 +1,126 @@
+import type { LucideIcon } from 'lucide-react';
+
+/** A single top-level navigation link. */
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+/** A group of links inside a mega-menu (with optional column heading). */
+export interface MegaMenuLinkGroup {
+  heading?: string;
+  links: NavLink[];
+}
+
+/** Full mega-menu descriptor for a nav item. */
+export interface MegaMenu {
+  eyebrow: string;
+  heading: string;
+  description: string;
+  cta: NavLink;
+  linkGroups: MegaMenuLinkGroup[];
+}
+
+/** A top-level nav item — plain link or with mega-menu. */
+export interface NavItem {
+  label: string;
+  href: string;
+  megaMenu?: MegaMenu;
+}
+
+/** An item inside the Login dropdown menu. */
+export interface LoginOption {
+  label: string;
+  href: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+/** A headline statistic (Connected Globally band). */
+export interface Stat {
+  value: number;
+  suffix?: string;
+  prefix?: string;
+  label: string;
+  decimals?: number;
+}
+
+/** A business vertical card (The Business Universe). */
+export interface Business {
+  id: string;
+  index: string;
+  title: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  icon: LucideIcon;
+}
+
+/** A group company (Our Companies). */
+export interface Company {
+  index: string;
+  name: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+/** A sustainability pillar (Why We Exist). */
+export interface Pillar {
+  index: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+/** A global capability (Global Presence). */
+export interface Capability {
+  index: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+/** An office location (Contact). */
+export interface Office {
+  city: string;
+  primary?: boolean;
+  address?: string;
+  phone?: string;
+  email?: string;
+}
+
+/** A footer link column. */
+export interface FooterColumn {
+  heading: string;
+  links: NavLink[];
+}
+
+/** A social media link. */
+export interface SocialLink {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  /** Official brand colour for hover/active state. */
+  color: string;
+}
+
+/** Inquiry-type option for the contact form. */
+export type InquiryType =
+  | 'Partnership opportunity'
+  | 'Logistics services'
+  | 'Digital solutions'
+  | 'Investor relations'
+  | 'Media inquiry'
+  | 'Careers'
+  | 'Other';
+
+/** Shape of the contact form state. */
+export interface ContactFormState {
+  fullName: string;
+  workEmail: string;
+  company: string;
+  phone: string;
+  inquiryType: InquiryType | '';
+  message: string;
+}
