@@ -6,6 +6,7 @@
   :root {
     --navy: #08213c;
     --emerald: #3cb98c;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   * {

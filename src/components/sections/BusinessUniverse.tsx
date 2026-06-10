@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { motion, type TargetAndTransition, type Transition } from 'framer-motion';
-import { ArrowUpRight, RotateCw } from 'lucide-react';
-import { Container } from '@/components/ui/Container';
+﻿import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  type TargetAndTransition,
+  type Transition,
+} from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Container } from '@/components/ui/Container';
 import { BUSINESS_UNIVERSE, BUSINESSES } from '@/data/content';
-import { scaleIn, staggerParent, VIEWPORT_ONCE } from '@/lib/motion';
+import { cn } from '@/lib/cn';
+import { EASE_PREMIUM, VIEWPORT_ONCE } from '@/lib/motion';
 import type { Business } from '@/types';
 
 /** Per-business icon motion — each themed to suit the icon (boat bobbing on waves, plane banking, etc). */
@@ -36,130 +42,194 @@ const DEFAULT_ICON_ANIMATION: { animate: TargetAndTransition; transition: Transi
   transition: { duration: 4.5, repeat: Infinity, ease: 'easeInOut' },
 };
 
-function BusinessCard({ business }: { business: Business }) {
-  const Icon = business.icon;
-  const iconAnimation = ICON_ANIMATIONS[business.id] ?? DEFAULT_ICON_ANIMATION;
-  const [flipped, setFlipped] = useState(false);
-  return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="group h-full min-h-[clamp(22rem,40vw,28rem)] cursor-pointer select-none [perspective:1600px]"
-      role="button"
-      tabIndex={0}
-      aria-pressed={flipped}
-      aria-label={`${business.title} — tap to flip card`}
-      onClick={() => setFlipped((f) => !f)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          setFlipped((f) => !f);
-        }
-      }}
-    >
-      <div
-        className="will-transform relative h-full w-full transition-transform duration-700 ease-premium [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
-        style={flipped ? { transform: 'rotateY(180deg)' } : undefined}
-      >
-        {/* ── Front face ─────────────────────────────────────────── */}
-        <div className="absolute inset-0 flex h-full flex-col overflow-hidden rounded-3xl border border-navy-100 bg-white shadow-glass transition-colors duration-300 group-hover:border-emerald-200 [backface-visibility:hidden] 3xl:rounded-[2rem]">
-          {/* Top accent bar */}
-          <div className="absolute inset-x-0 top-0 h-[2px] rounded-t-3xl bg-gradient-to-r from-emerald-400/0 via-emerald-400 to-emerald-400/0" />
+/** Soft color world per business — light gradients only, no dark surfaces. */
+interface CardTheme {
+  card: string;        // resting gradient + border
+  hoverBorder: string; // border accent on hover
+  orb: string;         // icon orb gradient
+  accent: string;      // tagline / index color
+  pill: string;        // feature pill border + text
+  dot: string;         // feature pill dot
+  glowRgb: string;     // cursor glow color (r, g, b)
+}
 
-          {/* Ghost index */}
+const THEMES: Record<string, CardTheme> = {
+  'call-centre': {
+    card: 'border-emerald-100 bg-gradient-to-br from-emerald-50/80 via-white to-white',
+    hoverBorder: 'hover:border-emerald-300',
+    orb: 'from-emerald-400 to-emerald-600',
+    accent: 'text-emerald-600',
+    pill: 'border-emerald-200 bg-emerald-50/70 text-emerald-800',
+    dot: 'bg-emerald-400',
+    glowRgb: '60, 185, 140',
+  },
+  imports: {
+    card: 'border-sky-100 bg-gradient-to-br from-sky-50/80 via-white to-white',
+    hoverBorder: 'hover:border-sky-300',
+    orb: 'from-sky-400 to-sky-600',
+    accent: 'text-sky-600',
+    pill: 'border-sky-200 bg-sky-50/70 text-sky-800',
+    dot: 'bg-sky-400',
+    glowRgb: '56, 152, 224',
+  },
+  'it-infrastructure': {
+    card: 'border-violet-100 bg-gradient-to-br from-violet-50/80 via-white to-white',
+    hoverBorder: 'hover:border-violet-300',
+    orb: 'from-violet-400 to-violet-600',
+    accent: 'text-violet-600',
+    pill: 'border-violet-200 bg-violet-50/70 text-violet-800',
+    dot: 'bg-violet-400',
+    glowRgb: '139, 92, 246',
+  },
+  'supply-chain': {
+    card: 'border-amber-100 bg-gradient-to-br from-amber-50/80 via-white to-white',
+    hoverBorder: 'hover:border-amber-300',
+    orb: 'from-amber-400 to-orange-500',
+    accent: 'text-amber-600',
+    pill: 'border-amber-200 bg-amber-50/70 text-amber-800',
+    dot: 'bg-amber-400',
+    glowRgb: '245, 158, 11',
+  },
+  travel: {
+    card: 'border-rose-100 bg-gradient-to-br from-rose-50/80 via-white to-white',
+    hoverBorder: 'hover:border-rose-300',
+    orb: 'from-rose-400 to-rose-600',
+    accent: 'text-rose-600',
+    pill: 'border-rose-200 bg-rose-50/70 text-rose-800',
+    dot: 'bg-rose-400',
+    glowRgb: '244, 63, 94',
+  },
+};
+
+const FALLBACK_THEME = THEMES['call-centre'];
+
+/** Bento spans — 2 wide cards on top, 3 below (lg); 2-col with full-width last card (sm). */
+const BENTO_SPANS = [
+  'sm:col-span-2 lg:col-span-3',
+  'sm:col-span-2 lg:col-span-3',
+  'lg:col-span-2',
+  'lg:col-span-2',
+  'sm:col-span-2 lg:col-span-2',
+];
+
+function BentoCard({
+  business,
+  index,
+}: {
+  business: Business;
+  index: number;
+}) {
+  const Icon = business.icon;
+  const theme = THEMES[business.id] ?? FALLBACK_THEME;
+  const iconAnimation = ICON_ANIMATIONS[business.id] ?? DEFAULT_ICON_ANIMATION;
+
+  // Cursor-following glow.
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const glow = useMotionTemplate`radial-gradient(380px circle at ${mx}px ${my}px, rgba(${theme.glowRgb}, 0.14), transparent 70%)`;
+
+  return (
+    <div className={BENTO_SPANS[index] ?? ''}>
+      <motion.article
+        variants={{
+          hidden: { opacity: 0, y: 56, scale: 0.96 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { duration: 0.7, ease: EASE_PREMIUM },
+          },
+        }}
+        whileHover={{ y: -10 }}
+        transition={{ duration: 0.35, ease: EASE_PREMIUM }}
+        onMouseMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          mx.set(e.clientX - r.left);
+          my.set(e.clientY - r.top);
+        }}
+        className={cn(
+          'group will-transform relative flex h-full flex-col overflow-hidden rounded-3xl border p-6 shadow-glass transition-[border-color,box-shadow] duration-300 hover:shadow-glass-lg sm:p-7 3xl:rounded-[2rem] 3xl:p-9',
+          theme.card,
+          theme.hoverBorder,
+        )}
+      >
+        {/* Cursor glow — fades in under the pointer */}
+        <motion.div
+          style={{ background: glow }}
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          aria-hidden="true"
+        />
+
+        {/* Shine sweep — diagonal light strip crosses the card on hover */}
+        <div
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl 3xl:rounded-[2rem]"
+          aria-hidden="true"
+        >
+          <div className="will-transform absolute inset-y-0 left-0 w-1/3 -translate-x-[150%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/60 to-transparent transition-transform duration-700 ease-premium group-hover:translate-x-[350%]" />
+        </div>
+
+        {/* Icon row */}
+        <div className="relative flex items-start justify-between">
           <span
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-2 -top-4 select-none text-[clamp(3rem,8vw,7.5rem)] font-black leading-none text-navy-900/[0.04]"
+            className={cn(
+              'will-transform grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br text-white shadow-glass transition-transform duration-400 ease-premium group-hover:scale-110 group-hover:-rotate-3 3xl:h-20 3xl:w-20',
+              theme.orb,
+            )}
           >
+            <motion.span
+              className="will-transform grid place-items-center"
+              animate={iconAnimation.animate}
+              transition={iconAnimation.transition}
+            >
+              <Icon className="h-8 w-8 3xl:h-10 3xl:w-10" aria-hidden="true" />
+            </motion.span>
+          </span>
+          <span className={cn('text-eyebrow-fluid uppercase', theme.accent)}>
             {business.index}
           </span>
-
-          <div className="relative flex h-full flex-col p-6 sm:p-7 3xl:p-9 4xl:p-12">
-            {/* Icon row */}
-            <div className="flex items-start justify-between">
-              <div className="relative">
-                <div className="absolute -inset-1.5 rounded-2xl bg-emerald-400/20 blur-md opacity-60" />
-                <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-navy-800 to-navy-600 text-white shadow-glow-emerald 3xl:h-20 3xl:w-20 3xl:rounded-3xl 4xl:h-24 4xl:w-24">
-                  <motion.span
-                    className="will-transform grid place-items-center"
-                    animate={iconAnimation.animate}
-                    transition={iconAnimation.transition}
-                  >
-                    <Icon className="h-8 w-8 3xl:h-10 3xl:w-10 4xl:h-12 4xl:w-12" aria-hidden="true" />
-                  </motion.span>
-                </span>
-              </div>
-              <span className="text-eyebrow-fluid text-navy-200">
-                {business.index}
-              </span>
-            </div>
-
-            {/* Text */}
-            <h3 className="mt-5 text-[clamp(1.75rem,2vw,2.1875rem)] font-bold capitalize text-navy-900">
-              {business.title}
-            </h3>
-            <p className="mt-1 text-body-fluid font-semibold text-emerald-600">
-              {business.tagline}
-            </p>
-            <p className="mt-3 text-body-fluid text-navy-500">
-              {business.description}
-            </p>
-
-            {/* Flip hint */}
-            <div className="mt-auto flex items-center gap-1.5 pt-5 text-base font-semibold text-navy-400 3xl:text-lg">
-              <motion.span
-                className="will-transform grid place-items-center"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              >
-                <RotateCw className="h-5 w-5 3xl:h-6 3xl:w-6" aria-hidden="true" />
-              </motion.span>
-              Hover to explore
-            </div>
-          </div>
         </div>
 
-        {/* ── Back face ──────────────────────────────────────────── */}
-        <div className="absolute inset-0 flex h-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-navy-900 to-navy-700 text-white [backface-visibility:hidden] [transform:rotateY(180deg)] 3xl:rounded-[2rem]">
-          {/* Ambient glow */}
-          <div className="will-transform pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-400/20 blur-3xl" aria-hidden="true" />
+        {/* Text */}
+        <h3 className="relative mt-5 text-[clamp(1.5rem,1.8vw,1.875rem)] font-normal capitalize leading-tight text-navy-900">
+          {business.title}
+        </h3>
+        <p className={cn('relative mt-1.5 text-sm font-semibold 3xl:text-base', theme.accent)}>
+          {business.tagline}
+        </p>
+        <p className="relative mt-3 text-body-fluid text-navy-500">
+          {business.description}
+        </p>
 
-          <div className="relative flex h-full flex-col p-6 sm:p-7 3xl:p-9 4xl:p-12">
-            <span className="text-eyebrow-fluid text-emerald-300">
-              {business.index}
+        {/* Feature pills */}
+        <div className="relative mt-5 flex flex-wrap gap-2">
+          {business.features.map((feature) => (
+            <span
+              key={feature}
+              className={cn(
+                'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-transform duration-300 ease-premium hover:scale-105 3xl:px-4 3xl:py-2 3xl:text-sm',
+                theme.pill,
+              )}
+            >
+              <span className={cn('h-1.5 w-1.5 shrink-0 rounded-full', theme.dot)} aria-hidden="true" />
+              {feature}
             </span>
-            <h3 className="mt-3 text-[clamp(1.75rem,2vw,2.1875rem)] font-bold capitalize">
-              {business.title}
-            </h3>
-            <p className="mt-3 text-body-fluid text-navy-100">
-              {business.description}
-            </p>
-
-            <div className="my-5 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-
-            {/* Feature pills */}
-            <div className="flex flex-wrap gap-2">
-              {business.features.map((f) => (
-                <span
-                  key={f}
-                  className="flex items-center gap-1.5 rounded-full border border-emerald-300/30 bg-white/5 px-3 py-1.5 text-xs font-semibold text-emerald-200 3xl:px-4 3xl:py-2 3xl:text-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
-                  {f}
-                </span>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="mt-auto flex items-center gap-1.5 pt-5 text-base font-semibold text-emerald-300 3xl:text-lg">
-              Discover more
-              <ArrowUpRight className="h-5 w-5 3xl:h-6 3xl:w-6" aria-hidden="true" />
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
-    </motion.div>
+
+        {/* CTA — slides up into view on hover */}
+        <div className="relative mt-auto pt-6">
+          <span
+            className={cn(
+              'will-transform inline-flex translate-y-2 items-center gap-1.5 text-sm font-semibold opacity-0 transition-[transform,opacity] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 3xl:text-base',
+              theme.accent,
+            )}
+          >
+            Discover more
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </div>
+      </motion.article>
+    </div>
   );
 }
 
@@ -168,30 +238,8 @@ export function BusinessUniverse() {
     <section
       id="businesses"
       aria-label="Our businesses"
-      className="section-py relative overflow-hidden"
+      className="section-py relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/40 to-white"
     >
-      {/* Section background */}
-      <div className="absolute inset-0 bg-white" aria-hidden="true" />
-
-      {/* Abstract animated blob shapes */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <motion.div
-          className="bg-blob will-transform absolute -right-[15%] -top-[20%] aspect-square w-[clamp(420px,55vw,900px)] bg-gradient-to-br from-navy-100/70 via-navy-50/60 to-transparent"
-          animate={{ x: [0, -40, 0], y: [0, 30, 0], rotate: [0, 8, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="bg-blob will-transform absolute -bottom-[25%] -left-[10%] aspect-square w-[clamp(380px,48vw,780px)] bg-gradient-to-tr from-navy-50/80 via-navy-100/40 to-transparent"
-          animate={{ x: [0, 30, 0], y: [0, -40, 0], rotate: [0, -10, 0] }}
-          transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="bg-blob will-transform absolute right-[15%] top-[35%] aspect-square w-[clamp(220px,26vw,420px)] bg-gradient-to-bl from-emerald-50/60 via-navy-50/30 to-transparent"
-          animate={{ x: [0, -25, 0], y: [0, 25, 0], scale: [1, 1.08, 1] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-
       <div className="pointer-events-none absolute inset-0 bg-grid-faint bg-grid-32 opacity-20" aria-hidden="true" />
 
       <Container className="relative">
@@ -215,32 +263,25 @@ export function BusinessUniverse() {
           eyebrow="The Business Universe"
           title={
             <>
-              <span className="text-emerald-500">Four Worlds.</span>{' '}
-              <span className="text-navy-900">One Universe.</span>
+              <span className="text-emerald-500">Four worlds.</span>{' '}
+              <span className="text-navy-900">One universe.</span>
             </>
           }
+          titleClassName="font-normal normal-case"
           description={BUSINESS_UNIVERSE.description}
         />
 
+        {/* ── Bento grid — staggered reveal on scroll ── */}
         <motion.div
-          variants={staggerParent(0.1, 0.05)}
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-3 3xl:gap-8 4xl:gap-10"
+          className="mt-14 grid gap-6 sm:auto-rows-fr sm:grid-cols-2 lg:grid-cols-6 3xl:gap-8"
         >
-          {BUSINESSES.map((business, i) => {
-            const isLastOdd = i === BUSINESSES.length - 1 && BUSINESSES.length % 2 === 1;
-            return (
-              <motion.div
-                key={business.id}
-                variants={scaleIn}
-                className={isLastOdd ? 'sm:col-span-2 xl:col-span-1' : ''}
-              >
-                <BusinessCard business={business} />
-              </motion.div>
-            );
-          })}
+          {BUSINESSES.map((business, i) => (
+            <BentoCard key={business.id} business={business} index={i} />
+          ))}
         </motion.div>
       </Container>
     </section>

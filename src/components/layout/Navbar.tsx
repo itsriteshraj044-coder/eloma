@@ -53,7 +53,7 @@ function MegaMenuPanel({
               </span>
             </div>
 
-            <h2 className="text-card-heading uppercase leading-snug text-navy-900 text-balance">
+            <h2 className="text-card-heading font-normal normal-case leading-snug text-navy-900 text-balance">
               {menu.heading}
             </h2>
 
@@ -74,7 +74,7 @@ function MegaMenuPanel({
             {menu.linkGroups.map((group, gi) => (
               <div key={gi} className="min-w-[160px] flex-1">
                 {group.heading && (
-                  <p className="mb-2.5 text-eyebrow-fluid uppercase text-navy-300">
+                  <p className="mb-2.5 text-eyebrow-fluid font-normal capitalize text-emerald-600">
                     {group.heading}
                   </p>
                 )}
@@ -83,7 +83,7 @@ function MegaMenuPanel({
                     <li key={link.label} className="border-b border-navy-100 last:border-0">
                       <a
                         href={link.href}
-                        className="block py-2.5 text-body-fluid font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
+                        className="block py-2.5 text-[15px] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
                       >
                         {link.label}
                       </a>
@@ -188,7 +188,7 @@ export function Navbar() {
                     aria-expanded={hasMenu ? menuOpen : undefined}
                     aria-haspopup={hasMenu ? 'true' : undefined}
                     className={cn(
-                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-body-fluid font-medium text-navy-500 transition-colors duration-200 hover:text-navy-900',
+                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[1rem] leading-[1.5rem] font-medium text-navy-500 transition-colors duration-200 hover:text-navy-900',
                       (isActive || menuOpen) && 'text-navy-900',
                     )}
                   >
@@ -283,7 +283,7 @@ export function Navbar() {
                         <button
                           type="button"
                           onClick={() => setExpandedMobile(expanded ? null : item.label)}
-                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-body-fluid font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[1rem] leading-[1.5rem] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                           <ChevronDown
@@ -295,7 +295,7 @@ export function Navbar() {
                         <a
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
-                          className="block rounded-xl px-4 py-3 text-body-fluid font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="block rounded-xl px-4 py-3 text-[1rem] leading-[1.5rem] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                         </a>
@@ -317,7 +317,7 @@ export function Navbar() {
                               {item.megaMenu.linkGroups.map((group, gi) => (
                                 <div key={gi} className="mb-2.5">
                                   {group.heading && (
-                                    <p className="mb-1.5 text-eyebrow-fluid uppercase text-navy-400">
+                                    <p className="mb-1.5 text-eyebrow-fluid font-normal capitalize text-emerald-600">
                                       {group.heading}
                                     </p>
                                   )}
@@ -327,7 +327,7 @@ export function Navbar() {
                                         <a
                                           href={link.href}
                                           onClick={() => setMobileOpen(false)}
-                                          className="block rounded-lg px-3 py-2 text-body-fluid text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                                          className="block rounded-lg px-3 py-2 text-[15px] leading-[1.5rem] text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                                         >
                                           {link.label}
                                         </a>

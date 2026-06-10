@@ -55,13 +55,14 @@ export function ConnectedGlobally() {
                 {CONNECTED.descriptor}
               </motion.span>
 
-              <motion.h2 variants={fadeUp} className="text-section-h2 uppercase text-navy-900 text-balance">
-                {CONNECTED.heading}
+              <motion.h2 variants={fadeUp} className="text-[2.5rem] leading-[1.5rem] font-normal capitalize text-navy-900 text-balance">
+                <span className="text-emerald-500">Connected</span>{' '}
+                <span className="text-navy-900">Globally</span>
               </motion.h2>
 
               <motion.p
                 variants={fadeUp}
-                className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 3xl:text-base 4xl:text-lg"
+                className="text-sm font-semibold capitalize tracking-[0.2em] text-emerald-600 3xl:text-base 4xl:text-lg"
               >
                 {CONNECTED.caption}
               </motion.p>

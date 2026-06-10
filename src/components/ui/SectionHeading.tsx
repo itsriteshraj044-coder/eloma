@@ -10,6 +10,7 @@ interface SectionHeadingProps {
   align?: 'left' | 'center';
   theme?: 'light' | 'dark';
   className?: string;
+  titleClassName?: string;
   descriptionClassName?: string;
 }
 
@@ -24,6 +25,7 @@ export function SectionHeading({
   align = 'center',
   theme = 'light',
   className,
+  titleClassName,
   descriptionClassName,
 }: SectionHeadingProps) {
   const isDark = theme === 'dark';
@@ -51,6 +53,7 @@ export function SectionHeading({
           className={cn(
             'text-section-h2 uppercase text-balance',
             isDark ? 'text-white' : 'text-navy-900',
+            titleClassName,
           )}
         >
           {title}

@@ -1,13 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-/** Draws a centered, gold-gradient-filled, animated text mask onto a full-bleed canvas. */
-function useGradientTextCanvas(text: string, widthRatio: number) {
+/** Draws a centered, video-filled, animated text mask onto a full-bleed canvas. */
+function useVideoTextCanvas(text: string, widthRatio: number, videoSrc: string) {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const fontSizeRef = useRef(0);
   const prevWRef    = useRef(0);
   const prevHRef    = useRef(0);
-  const t0Ref       = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -15,9 +14,15 @@ function useGradientTextCanvas(text: string, widthRatio: number) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const video = document.createElement('video');
+    video.src         = videoSrc;
+    video.muted       = true;
+    video.loop        = true;
+    video.playsInline = true;
+    video.play().catch(() => {});
+
     let raf = 0;
     let fontReady = false;
-    t0Ref.current = performance.now();
 
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
@@ -35,25 +40,21 @@ function useGradientTextCanvas(text: string, widthRatio: number) {
       fontSizeRef.current = w * widthRatio;
     };
 
-    const draw = (now: number) => {
-      if (!fontReady) { raf = requestAnimationFrame(draw); return; }
+    const draw = () => {
+      if (!fontReady || video.readyState < 2) { raf = requestAnimationFrame(draw); return; }
 
       const w = canvas.width;
       const h = canvas.height;
-      const t = (now - t0Ref.current) / 1000;
 
       ctx.clearRect(0, 0, w, h);
 
-      const a = (Math.sin(t * 0.40) + 1) / 2;
-      const b = (Math.cos(t * 0.33 + 1.1) + 1) / 2;
-
-      const g = ctx.createLinearGradient(a * w, b * h * 0.3, w * (1 - b * 0.28), h);
-      g.addColorStop(0,    '#6FD5B0');
-      g.addColorStop(0.30, '#3CB98C');
-      g.addColorStop(0.62, '#08213C');
-      g.addColorStop(1,    '#1F4267');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, w, h);
+      // Cover-fit the video frame into the canvas.
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      const scale = Math.max(w / vw, h / vh);
+      const dw = vw * scale;
+      const dh = vh * scale;
+      ctx.drawImage(video, (w - dw) / 2, (h - dh) / 2, dw, dh);
 
       syncFont(w, h);
       ctx.globalCompositeOperation = 'destination-in';
@@ -70,8 +71,8 @@ function useGradientTextCanvas(text: string, widthRatio: number) {
     document.fonts.load('900 400px Inter').then(() => { fontReady = true; });
 
     const onVisibility = () => {
-      if (document.hidden) cancelAnimationFrame(raf);
-      else raf = requestAnimationFrame(draw);
+      if (document.hidden) { cancelAnimationFrame(raf); video.pause(); }
+      else { video.play().catch(() => {}); raf = requestAnimationFrame(draw); }
     };
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -84,16 +85,17 @@ function useGradientTextCanvas(text: string, widthRatio: number) {
       cancelAnimationFrame(raf);
       observer.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
+      video.pause();
+      video.src = '';
     };
-  }, [text, widthRatio]);
+  }, [text, widthRatio, videoSrc]);
 
   return canvasRef;
 }
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const elomaCanvasRef = useGradientTextCanvas('ELOMA', 0.18);
-  const groupCanvasRef = useGradientTextCanvas('GROUP', 0.14);
+  const elomaCanvasRef = useVideoTextCanvas('Eloma', 0.18, '/golden.mp4');
 
   // Open/close scroll animation: scrolling down zooms both wordmark canvases
   // in (toward the viewer, fading into the next section); scrolling back up
@@ -108,26 +110,7 @@ export function Hero() {
   const canvasOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 1, 0]);
 
   return (
-    <section ref={sectionRef} id="top" aria-label="Hero" className="relative overflow-hidden bg-white">
-      {/* Abstract animated blob shapes */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <motion.div
-          className="bg-blob will-transform absolute -right-[15%] -top-[20%] aspect-square w-[clamp(420px,55vw,900px)] bg-gradient-to-br from-navy-100/70 via-navy-50/60 to-transparent"
-          animate={{ x: [0, -40, 0], y: [0, 30, 0], rotate: [0, 8, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="bg-blob will-transform absolute -bottom-[25%] -left-[10%] aspect-square w-[clamp(380px,48vw,780px)] bg-gradient-to-tr from-navy-50/80 via-navy-100/40 to-transparent"
-          animate={{ x: [0, 30, 0], y: [0, -40, 0], rotate: [0, -10, 0] }}
-          transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="bg-blob will-transform absolute right-[15%] top-[35%] aspect-square w-[clamp(220px,26vw,420px)] bg-gradient-to-bl from-emerald-50/60 via-navy-50/30 to-transparent"
-          animate={{ x: [0, -25, 0], y: [0, 25, 0], scale: [1, 1.08, 1] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-
+    <section ref={sectionRef} id="top" aria-label="Hero" className="relative overflow-hidden">
       <motion.div
         style={{ opacity: heroOpacity }}
         className="will-transform flex min-h-screen flex-col items-center justify-center gap-[clamp(0.75rem,2vw,1.5rem)] px-4 pb-[clamp(1.5rem,4vw,3rem)] pt-[clamp(3.5rem,8vw,6rem)]">
@@ -137,7 +120,8 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="select-none text-sub-heading uppercase text-navy-900"
+            className="select-none text-[2.25rem] leading-[2.5rem] font-normal normal-case text-navy-900"
+            style={{ fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif' }}
           >
             Experience
           </motion.p>
@@ -150,32 +134,31 @@ export function Hero() {
             <canvas ref={elomaCanvasRef} aria-hidden="true" className="h-full w-full" />
           </motion.div>
 
-          {/* 3. GROUP canvas */}
-          <motion.div
+          {/* 3. Group label */}
+          <motion.p
             style={{ scale: canvasScale, opacity: canvasOpacity }}
-            className="will-transform container-px aspect-[6/1] w-full"
+            className="will-transform select-none text-[2.5rem] leading-[1.5rem] font-normal normal-case text-navy-900"
           >
-            <canvas ref={groupCanvasRef} aria-hidden="true" className="h-full w-full" />
-          </motion.div>
+            Group
+          </motion.p>
+
+          {/* 4. Scroll indicator */}
+          <motion.a
+            href="#businesses"
+            aria-label="Scroll to explore"
+            className="will-transform mt-2 flex flex-col items-center gap-2 text-navy-400"
+          >
+            <span className="text-eyebrow-fluid uppercase">Scroll</span>
+            <span className="flex h-8 w-5 items-start justify-center overflow-hidden rounded-full border border-navy-200 p-1.5">
+              <motion.span
+                animate={{ y: [0, 14, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
+              />
+            </span>
+          </motion.a>
 
       </motion.div>
-
-      {/* ── Scroll indicator — bottom-right corner ──────────────────── */}
-      <motion.a
-        href="#businesses"
-        aria-label="Scroll to explore"
-        style={{ opacity: heroOpacity }}
-        className="will-transform absolute bottom-[clamp(1.5rem,4vw,3rem)] right-[clamp(1.5rem,4vw,4rem)] z-10 flex flex-col items-center gap-2 text-navy-400"
-      >
-        <span className="text-eyebrow-fluid uppercase [writing-mode:vertical-rl]">Scroll</span>
-        <span className="flex h-8 w-5 items-start justify-center rounded-full border border-navy-200 p-1.5">
-          <motion.span
-            animate={{ y: [0, 7, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
-          />
-        </span>
-      </motion.a>
     </section>
   );
 }
