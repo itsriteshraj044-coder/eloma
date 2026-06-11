@@ -2,6 +2,7 @@ import {
   Headset,
   Ship,
   ServerCog,
+  ShieldCheck,
   Truck,
   Plane,
   Code2,
@@ -262,6 +263,16 @@ export const BUSINESSES: Business[] = [
       'A global travel division crafting seamless journeys — from corporate mobility to bespoke leisure — connecting people to places and unforgettable moments.',
     features: ['Corporate Mobility', 'Leisure & Luxury', 'Worldwide Network', 'Concierge Support'],
     icon: Plane,
+  },
+  {
+    id: 'virtual-security',
+    index: '06',
+    title: 'Virtual Security',
+    tagline: "Because peace of mind shouldn't end when you leave the office.",
+    description:
+      'From protecting sensitive information to keeping your systems safe from online threats, Virtual Security helps your business stay secure every day. With round-the-clock monitoring and smart protection measures, you can focus on growing your business while we take care of your digital safety.',
+    features: ['24/7 Monitoring', 'Threat Protection', 'Data Privacy', 'Smart Safeguards'],
+    icon: ShieldCheck,
   },
 ];
 

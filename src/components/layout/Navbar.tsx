@@ -48,22 +48,22 @@ function MegaMenuPanel({
           >
             <div className="mb-3 flex items-center gap-2">
               <span className="h-0.5 w-5 shrink-0 rounded-full bg-emerald-500" aria-hidden="true" />
-              <span className="text-eyebrow-fluid uppercase text-navy-400">
+              <span className="text-[10px] font-extrabold uppercase tracking-[2px] text-navy-400">
                 {menu.eyebrow}
               </span>
             </div>
 
-            <h2 className="text-card-heading font-normal normal-case leading-snug text-navy-900 text-balance">
+            <h2 className="text-[clamp(18px,1.6vw,24px)] font-extrabold normal-case leading-snug text-navy-900 text-balance">
               {menu.heading}
             </h2>
 
-            <p className="mt-2.5 text-body-fluid text-navy-500">
+            <p className="mt-2.5 text-[13.5px] font-normal leading-[1.75] text-navy-500">
               {menu.description}
             </p>
 
             <a
               href={menu.cta.href}
-              className="mt-5 inline-flex w-fit items-center rounded-full bg-navy-900 px-4 py-2 text-body-fluid font-semibold text-white transition-colors duration-200 hover:bg-navy-700"
+              className="mt-5 inline-flex w-fit items-center rounded-full bg-navy-900 px-4 py-2 text-[13px] font-bold text-white transition-colors duration-200 hover:bg-navy-700"
             >
               {menu.cta.label}
             </a>
@@ -74,7 +74,7 @@ function MegaMenuPanel({
             {menu.linkGroups.map((group, gi) => (
               <div key={gi} className="min-w-[160px] flex-1">
                 {group.heading && (
-                  <p className="mb-2.5 text-eyebrow-fluid font-normal capitalize text-emerald-600">
+                  <p className="mb-2.5 text-[10px] font-extrabold uppercase tracking-[1.5px] text-emerald-600">
                     {group.heading}
                   </p>
                 )}
@@ -83,7 +83,7 @@ function MegaMenuPanel({
                     <li key={link.label} className="border-b border-navy-100 last:border-0">
                       <a
                         href={link.href}
-                        className="block py-2.5 text-[0.9375rem] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
+                        className="block py-2.5 text-[14.5px] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
                       >
                         {link.label}
                       </a>
@@ -147,7 +147,7 @@ export function Navbar() {
   const activeItem = NAV_ITEMS.find((i) => i.label === activeMenu && i.megaMenu);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 font-jakarta">
       <motion.nav
         initial={{ y: -72, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -188,7 +188,7 @@ export function Navbar() {
                     aria-expanded={hasMenu ? menuOpen : undefined}
                     aria-haspopup={hasMenu ? 'true' : undefined}
                     className={cn(
-                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[1rem] leading-[1.5rem] font-medium text-navy-500 transition-colors duration-200 hover:text-navy-900',
+                      'relative inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[clamp(12.5px,0.85vw,14px)] leading-[1.5rem] font-semibold text-navy-500 transition-colors duration-200 hover:text-navy-900',
                       (isActive || menuOpen) && 'text-navy-900',
                     )}
                   >
@@ -220,7 +220,7 @@ export function Navbar() {
             <LoginDropdown theme="light" />
             <a
               href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-navy-900 shadow-glow-emerald transition-all duration-300 ease-premium hover:bg-emerald-300 active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400 px-4 py-2 text-[13px] font-bold text-navy-900 shadow-glow-emerald transition-all duration-300 ease-premium hover:bg-emerald-300 active:scale-[0.98]"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" />
               {BRAND.phonePrimary}
@@ -283,7 +283,7 @@ export function Navbar() {
                         <button
                           type="button"
                           onClick={() => setExpandedMobile(expanded ? null : item.label)}
-                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[1rem] leading-[1.5rem] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-[16px] leading-[1.5rem] font-bold text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                           <ChevronDown
@@ -295,7 +295,7 @@ export function Navbar() {
                         <a
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
-                          className="block rounded-xl px-4 py-3 text-[1rem] leading-[1.5rem] font-medium text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
+                          className="block rounded-xl px-4 py-3 text-[16px] leading-[1.5rem] font-bold text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
                         </a>
@@ -311,13 +311,13 @@ export function Navbar() {
                             className="overflow-hidden"
                           >
                             <div className="px-4 pb-3 pt-0.5">
-                              <p className="mb-2.5 text-body-fluid font-semibold text-navy-800">
+                              <p className="mb-2.5 text-[16px] font-bold text-navy-800">
                                 {item.megaMenu.heading}
                               </p>
                               {item.megaMenu.linkGroups.map((group, gi) => (
                                 <div key={gi} className="mb-2.5">
                                   {group.heading && (
-                                    <p className="mb-1.5 text-eyebrow-fluid font-normal capitalize text-emerald-600">
+                                    <p className="mb-1.5 text-[10.5px] font-extrabold uppercase tracking-[1.5px] text-emerald-600">
                                       {group.heading}
                                     </p>
                                   )}
@@ -327,7 +327,7 @@ export function Navbar() {
                                         <a
                                           href={link.href}
                                           onClick={() => setMobileOpen(false)}
-                                          className="block rounded-lg px-3 py-2 text-[0.9375rem] leading-[1.5rem] text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                                          className="block rounded-lg px-3 py-2 text-[14px] leading-[1.5rem] font-medium text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                                         >
                                           {link.label}
                                         </a>
@@ -339,7 +339,7 @@ export function Navbar() {
                               <a
                                 href={item.megaMenu.cta.href}
                                 onClick={() => setMobileOpen(false)}
-                                className="mt-1.5 inline-flex items-center rounded-full bg-navy-900 px-4 py-1.5 text-body-fluid font-semibold text-white"
+                                className="mt-1.5 inline-flex items-center rounded-full bg-navy-900 px-4 py-1.5 text-[13px] font-bold text-white"
                               >
                                 {item.megaMenu.cta.label}
                               </a>
@@ -356,7 +356,7 @@ export function Navbar() {
 
               {/* Login options */}
               <div className="p-2">
-                <p className="px-3 pb-1 pt-2 text-eyebrow-fluid uppercase text-navy-400">
+                <p className="px-3 pb-1 pt-2 text-[10.5px] font-extrabold uppercase tracking-[1.5px] text-navy-400">
                   Login
                 </p>
                 <ul className="flex flex-col">
@@ -373,8 +373,8 @@ export function Navbar() {
                             <Icon className="h-4 w-4" aria-hidden="true" />
                           </span>
                           <div>
-                            <p className="text-body-fluid font-medium text-navy-800">{opt.label}</p>
-                            <p className="text-eyebrow-fluid normal-case text-navy-400">{opt.description}</p>
+                            <p className="text-[14px] font-semibold text-navy-800">{opt.label}</p>
+                            <p className="text-[12px] font-normal normal-case tracking-normal text-navy-400">{opt.description}</p>
                           </div>
                         </a>
                       </li>
@@ -387,7 +387,7 @@ export function Navbar() {
                 <a
                   href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-body-fluid font-semibold text-navy-900 shadow-glow-emerald"
+                  className="flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-[15px] font-bold text-navy-900 shadow-glow-emerald"
                 >
                   <Phone className="h-4 w-4" aria-hidden="true" />
                   {BRAND.phonePrimary}

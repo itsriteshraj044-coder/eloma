@@ -59,7 +59,7 @@ function useVideoTextCanvas(text: string, widthRatio: number, videoSrc: string) 
       syncFont(w, h);
       ctx.globalCompositeOperation = 'destination-in';
       ctx.fillStyle    = '#000';
-      ctx.font         = `900 ${fontSizeRef.current}px Inter, system-ui, sans-serif`;
+      ctx.font         = `600 ${fontSizeRef.current}px Inter, system-ui, sans-serif`;
       ctx.textBaseline = 'middle';
       ctx.textAlign    = 'center';
       ctx.fillText(text, w / 2, h * 0.50);
@@ -68,7 +68,7 @@ function useVideoTextCanvas(text: string, widthRatio: number, videoSrc: string) 
       raf = requestAnimationFrame(draw);
     };
 
-    document.fonts.load('900 400px Inter').then(() => { fontReady = true; });
+    document.fonts.load('600 400px Inter').then(() => { fontReady = true; });
 
     const onVisibility = () => {
       if (document.hidden) { cancelAnimationFrame(raf); video.pause(); }
@@ -120,7 +120,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="select-none text-[clamp(1.5rem,4.5vw,2.25rem)] leading-[1.15] font-normal normal-case text-navy-900"
+            className="select-none text-[clamp(1.25rem,3.5vw,1.75rem)] leading-[1.15] font-extralight normal-case text-navy-900"
             style={{ fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif' }}
           >
             Experience
@@ -137,26 +137,10 @@ export function Hero() {
           {/* 3. Group label */}
           <motion.p
             style={{ scale: canvasScale, opacity: canvasOpacity }}
-            className="will-transform select-none text-[clamp(1.625rem,5vw,2.5rem)] leading-[1.1] font-normal normal-case text-navy-900"
+            className="will-transform select-none text-[clamp(1.375rem,3.9vw,2rem)] leading-[1.1] font-extralight normal-case text-navy-900"
           >
             Group
           </motion.p>
-
-          {/* 4. Scroll indicator */}
-          <motion.a
-            href="#businesses"
-            aria-label="Scroll to explore"
-            className="will-transform mt-2 flex flex-col items-center gap-2 text-navy-400"
-          >
-            <span className="text-eyebrow-fluid uppercase">Scroll</span>
-            <span className="flex h-8 w-5 items-start justify-center overflow-hidden rounded-full border border-navy-200 p-1.5">
-              <motion.span
-                animate={{ y: [0, 14, 0] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500"
-              />
-            </span>
-          </motion.a>
 
       </motion.div>
     </section>

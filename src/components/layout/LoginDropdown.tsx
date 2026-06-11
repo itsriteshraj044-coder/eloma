@@ -91,7 +91,7 @@ export function LoginDropdown({ theme = 'dark' }: LoginDropdownProps) {
         onClick={() => setOpen((v) => !v)}
         onKeyDown={onTriggerKeyDown}
         className={cn(
-          'inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-300 3xl:px-5 3xl:py-2.5 3xl:text-base 4xl:px-6 4xl:py-3 4xl:text-base',
+          'inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-bold transition-colors duration-300 3xl:px-5 3xl:py-2.5 4xl:px-6 4xl:py-3',
           isDark
             ? 'text-white/90 hover:bg-white/10 hover:text-white'
             : 'text-navy-700 hover:bg-navy-50 hover:text-navy-900',
@@ -136,8 +136,8 @@ export function LoginDropdown({ theme = 'dark' }: LoginDropdownProps) {
                     <Icon className="h-5 w-5 3xl:h-6 3xl:w-6 4xl:h-7 4xl:w-7" aria-hidden="true" />
                   </span>
                   <span className="flex flex-col">
-                    <span className="text-body-fluid font-semibold text-navy-900">{opt.label}</span>
-                    <span className="text-body-fluid text-navy-500">{opt.description}</span>
+                    <span className="text-[14.5px] font-semibold text-navy-900">{opt.label}</span>
+                    <span className="text-[13px] font-normal text-navy-500">{opt.description}</span>
                   </span>
                 </a>
               );

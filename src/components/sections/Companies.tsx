@@ -8,20 +8,19 @@ import { cn } from '@/lib/cn';
 import { EASE_PREMIUM, VIEWPORT_ONCE } from '@/lib/motion';
 import type { Company } from '@/types';
 
-/* ── Per-company color world — light gradients only, no dark surfaces ── */
+/* ── Per-company color world — light icon tints + one accent, no dark surfaces ── */
 interface BranchTheme {
-  orb: string;     // icon orb gradient
-  accent: string;  // index / link color
-  glow: string;    // soft halo behind the orb
-  node: string;    // spine node fill
+  accent: string; // icon, index, link, spine node
+  iconBg: string; // light tint behind the icon
+  glow: string;   // soft halo behind the orb (accent at low alpha)
 }
 
 const THEMES: BranchTheme[] = [
-  { orb: 'from-violet-400 to-violet-600',  accent: 'text-violet-600',  glow: 'bg-violet-200/60',  node: 'from-violet-400 to-violet-600' },
-  { orb: 'from-emerald-400 to-emerald-600', accent: 'text-emerald-600', glow: 'bg-emerald-200/60', node: 'from-emerald-400 to-emerald-600' },
-  { orb: 'from-sky-400 to-sky-600',         accent: 'text-sky-600',     glow: 'bg-sky-200/60',     node: 'from-sky-400 to-sky-600' },
-  { orb: 'from-amber-400 to-orange-500',    accent: 'text-amber-600',   glow: 'bg-amber-200/60',   node: 'from-amber-400 to-orange-500' },
-  { orb: 'from-rose-400 to-rose-600',       accent: 'text-rose-600',    glow: 'bg-rose-200/60',    node: 'from-rose-400 to-rose-600' },
+  { accent: '#8b3cf7', iconBg: '#faf5ff', glow: 'rgba(139,60,247,0.16)' }, // EG Digital — violet
+  { accent: '#c07a0a', iconBg: '#fffbeb', glow: 'rgba(192,122,10,0.16)' }, // EG Foundations — amber
+  { accent: '#1d6ef5', iconBg: '#eff6ff', glow: 'rgba(29,110,245,0.16)' }, // EG Imports — blue
+  { accent: '#ea6f13', iconBg: '#fff7ed', glow: 'rgba(234,111,19,0.16)' }, // EG Transport — orange
+  { accent: '#0d9a6a', iconBg: '#f0fdf8', glow: 'rgba(13,154,106,0.16)' }, // EG Travels — emerald
 ];
 
 /* ── One company = one branch growing off the shared root ───────────── */
@@ -53,7 +52,10 @@ function CompanyBranch({ company, index }: { company: Company; index: number }) 
               animate={{ scale: [1, 2.6], opacity: [0.45, 0] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: index * 0.35 }}
             />
-            <span className={cn('relative block h-3.5 w-3.5 rounded-full bg-gradient-to-br ring-4 ring-white', theme.node)} />
+            <span
+              style={{ backgroundColor: theme.accent }}
+              className="relative block h-3.5 w-3.5 rounded-full ring-4 ring-white"
+            />
           </span>
         </div>
       </div>
@@ -85,7 +87,11 @@ function CompanyBranch({ company, index }: { company: Company; index: number }) 
         >
           {/* Orb — soft halo + slow orbiting dashed ring + breathing float */}
           <motion.div style={{ y: orbY }} className="will-transform relative">
-            <div className={cn('pointer-events-none absolute -inset-5 rounded-full blur-2xl', theme.glow)} aria-hidden="true" />
+            <div
+              style={{ backgroundColor: theme.glow }}
+              className="pointer-events-none absolute -inset-5 rounded-full blur-2xl"
+              aria-hidden="true"
+            />
             <motion.span
               animate={{ rotate: 360 }}
               transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
@@ -93,10 +99,8 @@ function CompanyBranch({ company, index }: { company: Company; index: number }) 
               aria-hidden="true"
             />
             <span
-              className={cn(
-                'animate-float relative grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br text-white shadow-glass-lg sm:h-20 sm:w-20 3xl:h-24 3xl:w-24 4xl:h-28 4xl:w-28',
-                theme.orb,
-              )}
+              style={{ backgroundColor: theme.iconBg, color: theme.accent }}
+              className="animate-float relative grid h-16 w-16 place-items-center rounded-full shadow-glass-lg sm:h-20 sm:w-20 3xl:h-24 3xl:w-24 4xl:h-28 4xl:w-28"
             >
               <Icon className="h-7 w-7 sm:h-9 sm:w-9 3xl:h-11 3xl:w-11 4xl:h-12 4xl:w-12" aria-hidden="true" />
             </span>
@@ -128,7 +132,7 @@ function CompanyBranch({ company, index }: { company: Company; index: number }) 
               : 'md:order-2 md:items-start md:pl-[clamp(2.75rem,7vw,9rem)]',
           )}
         >
-          <span className={cn('text-eyebrow-fluid font-normal uppercase', theme.accent)}>
+          <span style={{ color: theme.accent }} className="text-eyebrow-fluid font-normal uppercase">
             Branch {company.index}
           </span>
           <h3 className="mt-3 text-[clamp(1.5rem,2.4vw,2rem)] font-normal capitalize leading-tight text-navy-900 text-balance">
@@ -139,10 +143,8 @@ function CompanyBranch({ company, index }: { company: Company; index: number }) 
           </p>
           <a
             href="#contact"
-            className={cn(
-              'group mt-5 inline-flex min-h-[44px] items-center gap-2 text-sm font-normal transition-colors duration-300 3xl:text-base',
-              theme.accent,
-            )}
+            style={{ color: theme.accent }}
+            className="group mt-5 inline-flex min-h-[44px] items-center gap-2 text-sm font-normal 3xl:text-base"
           >
             Partner with us
             <ArrowUpRight

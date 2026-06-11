@@ -59,7 +59,8 @@
       "Bash(sed -i 's/â”€/─/g' src/components/sections/BusinessUniverse.tsx)",
       "Read(//c/c/Users/rites/Downloads/web/src/components/sections/**)",
       "PowerShell($css = Get-Content \"dist\\\\assets\\\\index-MHhWjZks.css\" -Raw; $i = $css.IndexOf\\('.container-px'\\); $css.Substring\\($i, 700\\))",
-      "PowerShell(Test-Path *)"
+      "PowerShell(Test-Path *)",
+      "WebSearch"
     ]
   }
 }
