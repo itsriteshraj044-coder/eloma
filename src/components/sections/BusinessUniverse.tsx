@@ -184,16 +184,16 @@ function BentoCard({
               <Icon className="h-8 w-8 3xl:h-10 3xl:w-10" aria-hidden="true" />
             </motion.span>
           </span>
-          <span className={cn('text-eyebrow-fluid uppercase', theme.accent)}>
+          <span className={cn('text-eyebrow-fluid font-normal uppercase', theme.accent)}>
             {business.index}
           </span>
         </div>
 
         {/* Text */}
-        <h3 className="relative mt-5 text-[clamp(1.5rem,1.8vw,1.875rem)] font-normal capitalize leading-tight text-navy-900">
+        <h3 className="relative mt-5 text-[clamp(1.35rem,2vw,1.7rem)] font-normal capitalize leading-tight text-navy-900">
           {business.title}
         </h3>
-        <p className={cn('relative mt-1.5 text-sm font-semibold 3xl:text-base', theme.accent)}>
+        <p className={cn('relative mt-1.5 text-sm font-normal 3xl:text-base', theme.accent)}>
           {business.tagline}
         </p>
         <p className="relative mt-3 text-body-fluid text-navy-500">
@@ -206,7 +206,7 @@ function BentoCard({
             <span
               key={feature}
               className={cn(
-                'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-transform duration-300 ease-premium hover:scale-105 3xl:px-4 3xl:py-2 3xl:text-sm',
+                'flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-normal transition-transform duration-300 ease-premium hover:scale-105 3xl:px-4 3xl:py-2 3xl:text-sm',
                 theme.pill,
               )}
             >
@@ -220,7 +220,7 @@ function BentoCard({
         <div className="relative mt-auto pt-6">
           <span
             className={cn(
-              'will-transform inline-flex translate-y-2 items-center gap-1.5 text-sm font-semibold opacity-0 transition-[transform,opacity] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 3xl:text-base',
+              'will-transform inline-flex translate-y-2 items-center gap-1.5 text-sm font-normal opacity-0 transition-[transform,opacity] duration-300 ease-premium group-hover:translate-y-0 group-hover:opacity-100 3xl:text-base',
               theme.accent,
             )}
           >

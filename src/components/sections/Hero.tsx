@@ -113,14 +113,14 @@ export function Hero() {
     <section ref={sectionRef} id="top" aria-label="Hero" className="relative overflow-hidden">
       <motion.div
         style={{ opacity: heroOpacity }}
-        className="will-transform flex min-h-screen flex-col items-center justify-center gap-[clamp(0.75rem,2vw,1.5rem)] px-4 pb-[clamp(1.5rem,4vw,3rem)] pt-[clamp(3.5rem,8vw,6rem)]">
+        className="will-transform flex flex-col items-center justify-center gap-[clamp(0.75rem,2vw,1.5rem)] px-3 pb-3 pt-20 sm:min-h-screen sm:px-4 sm:pb-[clamp(1.5rem,4vw,3rem)] sm:pt-[clamp(3.5rem,8vw,6rem)]">
 
           {/* 1. Experience label */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="select-none text-[2.25rem] leading-[2.5rem] font-normal normal-case text-navy-900"
+            className="select-none text-[clamp(1.5rem,4.5vw,2.25rem)] leading-[1.15] font-normal normal-case text-navy-900"
             style={{ fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif' }}
           >
             Experience
@@ -137,7 +137,7 @@ export function Hero() {
           {/* 3. Group label */}
           <motion.p
             style={{ scale: canvasScale, opacity: canvasOpacity }}
-            className="will-transform select-none text-[2.5rem] leading-[1.5rem] font-normal normal-case text-navy-900"
+            className="will-transform select-none text-[clamp(1.625rem,5vw,2.5rem)] leading-[1.1] font-normal normal-case text-navy-900"
           >
             Group
           </motion.p>

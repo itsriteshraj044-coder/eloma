@@ -55,7 +55,7 @@ export function ConnectedGlobally() {
                 {CONNECTED.descriptor}
               </motion.span>
 
-              <motion.h2 variants={fadeUp} className="text-[2.5rem] leading-[1.5rem] font-normal capitalize text-navy-900 text-balance">
+              <motion.h2 variants={fadeUp} className="text-[clamp(1.75rem,5vw,2.5rem)] leading-[1.15] font-normal capitalize text-navy-900 text-balance">
                 <span className="text-emerald-500">Connected</span>{' '}
                 <span className="text-navy-900">Globally</span>
               </motion.h2>

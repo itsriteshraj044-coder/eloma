@@ -60,7 +60,7 @@ const BADGE_CSS = [
   'border-radius:9999px',
   'background:#3CB98C',
   'color:#ffffff',
-  'font-size:15px',
+  'font-size:clamp(11px, 0.85vw, 17px)',
   'font-weight:700',
   "font-family:Inter,system-ui,-apple-system,sans-serif",
   'letter-spacing:0.05em',

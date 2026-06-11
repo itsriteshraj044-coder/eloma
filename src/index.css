@@ -88,9 +88,22 @@
   /* Full-width container — fluid gutters, wide content with minimal bezel (CLAUDE.md) */
   .container-px {
     @apply mx-auto w-full;
-    max-width: min(calc(100vw - 140px), 110rem); /* 1760px base */
-    padding-left: clamp(1.5rem, 4vw, 4rem); /* 24px – 64px, never exceeds 80px */
-    padding-right: clamp(1.5rem, 4vw, 4rem);
+    max-width: 110rem; /* 1760px base */
+    /* Mobile: minimal bezel — 12px → 24px */
+    padding-left: clamp(0.75rem, 4vw, 1.5rem);
+    padding-right: clamp(0.75rem, 4vw, 1.5rem);
+  }
+  @media (min-width: 768px) {
+    .container-px {
+      padding-left: clamp(1.5rem, 4vw, 4rem); /* 24px – 64px, never exceeds 80px */
+      padding-right: clamp(1.5rem, 4vw, 4rem);
+    }
+  }
+  /* The 140px bezel rule only applies on desktop — below 1280px it strangles content */
+  @media (min-width: 1280px) {
+    .container-px {
+      max-width: min(calc(100vw - 140px), 110rem);
+    }
   }
   @media (min-width: 1920px) {
     .container-px {

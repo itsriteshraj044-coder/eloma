@@ -132,7 +132,7 @@ export function LoginDropdown({ theme = 'dark' }: LoginDropdownProps) {
                   onClick={() => close(false)}
                   className="group relative flex items-center gap-3 rounded-2xl px-3 py-3 transition-colors duration-200 hover:bg-emerald-50 focus-visible:bg-emerald-50"
                 >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-navy-800 text-emerald-400 transition-transform duration-300 group-hover:scale-105 3xl:h-12 3xl:w-12 3xl:rounded-2xl 4xl:h-14 4xl:w-14">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-navy-800 text-white transition-transform duration-300 group-hover:scale-105 3xl:h-12 3xl:w-12 3xl:rounded-2xl 4xl:h-14 4xl:w-14">
                     <Icon className="h-5 w-5 3xl:h-6 3xl:w-6 4xl:h-7 4xl:w-7" aria-hidden="true" />
                   </span>
                   <span className="flex flex-col">

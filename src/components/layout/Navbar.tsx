@@ -9,7 +9,7 @@ import { EASE_PREMIUM } from '@/lib/motion';
 import type { MegaMenu } from '@/types';
 
 /* ── Shared padding — nav bar + mega-menu panel stay in sync ─────────────── */
-const NAV_PX = 'px-4 sm:px-5 md:px-6 lg:px-8 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24';
+const NAV_PX = 'px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24';
 
 /* ── Scroll spy ─────────────────────────────────────────────────────────── */
 const SPY_IDS = NAV_ITEMS.map((l) => l.href.replace('#', ''));
@@ -83,7 +83,7 @@ function MegaMenuPanel({
                     <li key={link.label} className="border-b border-navy-100 last:border-0">
                       <a
                         href={link.href}
-                        className="block py-2.5 text-[15px] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
+                        className="block py-2.5 text-[0.9375rem] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
                       >
                         {link.label}
                       </a>
@@ -233,7 +233,7 @@ export function Navbar() {
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 lg:hidden"
+            className="grid h-11 w-11 place-items-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 lg:hidden"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -327,7 +327,7 @@ export function Navbar() {
                                         <a
                                           href={link.href}
                                           onClick={() => setMobileOpen(false)}
-                                          className="block rounded-lg px-3 py-2 text-[15px] leading-[1.5rem] text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                                          className="block rounded-lg px-3 py-2 text-[0.9375rem] leading-[1.5rem] text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                                         >
                                           {link.label}
                                         </a>
@@ -369,7 +369,7 @@ export function Navbar() {
                           onClick={() => setMobileOpen(false)}
                           className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-navy-50"
                         >
-                          <span className="grid h-8 w-8 place-items-center rounded-lg text-navy-700">
+                          <span className="grid h-8 w-8 place-items-center rounded-lg bg-navy-800 text-white">
                             <Icon className="h-4 w-4" aria-hidden="true" />
                           </span>
                           <div>
