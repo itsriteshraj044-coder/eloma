@@ -18,8 +18,8 @@ const MARKETS: { id: string; location: [number, number]; size: number; label: st
 ];
 
 /* ── Globe config ─────────────────────────────────────────────────────────
- *  dark: 0   → light globe (ocean is mint, land slightly darker)
- *  Glow, markers and arcs all in brand emerald (#3CB98C ≈ [.235,.725,.549])
+ *  dark: 0   → light globe (ocean is a cool blue-white, land slightly darker)
+ *  Glow and markers in brand navy (#08213C and tints)
  * ─────────────────────────────────────────────────────────────────────── */
 const INITIAL_PHI = 1.8; // starts near Asia-Pacific (Melbourne HQ in view)
 
@@ -32,9 +32,9 @@ const GLOBE_CONFIG: Omit<COBEOptions, 'width' | 'height'> = {
   mapSamples:       18000,
   mapBrightness:    8,
   mapBaseBrightness:0.04,
-  baseColor:   [0.82, 0.93, 0.89],   // soft mint ocean
-  markerColor: [0.10, 0.60, 0.42],   // deep emerald markers (contrast on light)
-  glowColor:   [0.30, 0.76, 0.56],   // emerald halo
+  baseColor:   [0.87, 0.91, 0.95],   // cool blue-white ocean (navy-50)
+  markerColor: [0.12, 0.26, 0.40],   // deep navy markers (contrast on light)
+  glowColor:   [0.62, 0.71, 0.81],   // soft navy halo (navy-200)
   markerElevation: 0.03,
   markers: MARKETS.map(({ id, location, size }) => ({ id, location, size })),
 };
@@ -52,27 +52,27 @@ const LABEL_CSS = [
   'z-index:10',
 ].join(';');
 
-// White text, #3CB98C background pill — the user's exact ask.
+// White text, navy background pill.
 const BADGE_CSS = [
   'display:inline-flex',
   'align-items:center',
   'padding:3px 8px',
   'border-radius:9999px',
-  'background:#3CB98C',
+  'background:#08213C',
   'color:#ffffff',
   'font-size:clamp(11px, 0.85vw, 17px)',
   'font-weight:700',
   "font-family:Inter,system-ui,-apple-system,sans-serif",
   'letter-spacing:0.05em',
   'line-height:1.4',
-  'box-shadow:0 2px 8px rgba(60,185,140,0.40),inset 0 1px 0 rgba(255,255,255,0.25)',
+  'box-shadow:0 2px 8px rgba(8,33,60,0.35),inset 0 1px 0 rgba(255,255,255,0.25)',
 ].join(';');
 
 /* ── Component ─────────────────────────────────────────────────────────── */
 
 /**
  * cobe v2 globe with:
- *  - Light color scheme (dark:0, mint ocean, emerald markers/glow)
+ *  - Light color scheme (dark:0, blue-white ocean, navy markers/glow)
  *  - Auto-rotation driven by a manual RAF loop (cobe v2 has no internal loop)
  *  - City-name badges (white text, green bg) that follow marker positions
  *    via cobe's own 1×1 anchor divs — direct DOM, zero React re-renders

@@ -47,7 +47,7 @@ export const BRAND = {
   name: 'Eloma Group',
   phonePrimary: '1800 054 555',
   phoneFooter: '1800 710 388',
-  email: 'contact@elomagroup.com.au',
+  email: 'connect@elomagroup.com.au',
   tagline:
     'Powering businesses across logistics, digital innovation, security, travel, and customer solutions — driven by purpose and sustainability.',
 } as const;

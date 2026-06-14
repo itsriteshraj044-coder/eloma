@@ -116,8 +116,6 @@ export function LoginDropdown({ theme = 'dark' }: LoginDropdownProps) {
             transition={{ duration: 0.22, ease: EASE_PREMIUM }}
             className="absolute right-0 top-[calc(100%+0.65rem)] z-50 w-72 origin-top-right overflow-hidden rounded-3xl border border-white/60 bg-white/80 p-2 shadow-glass-lg backdrop-blur-2xl 3xl:w-96 3xl:rounded-[2rem] 3xl:p-3 4xl:w-[28rem] 4xl:p-4"
           >
-            {/* glow accent */}
-            <div className="pointer-events-none absolute -top-12 right-0 h-24 w-24 rounded-full bg-emerald-300/40 blur-3xl" />
             {LOGIN_OPTIONS.map((opt, i) => {
               const Icon = opt.icon;
               return (

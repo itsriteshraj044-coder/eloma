@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
-import { LoginDropdown } from '@/components/layout/LoginDropdown';
-import { BRAND, NAV_ITEMS, LOGIN_OPTIONS } from '@/data/content';
+import { BRAND, NAV_ITEMS } from '@/data/content';
 import { cn } from '@/lib/cn';
 import { EASE_PREMIUM } from '@/lib/motion';
 import type { MegaMenu } from '@/types';
@@ -217,10 +216,9 @@ export function Navbar() {
 
           {/* ── Right actions ───────────────────────────────────────── */}
           <div className="hidden items-center gap-2 lg:flex">
-            <LoginDropdown theme="light" />
             <a
               href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400 px-4 py-2 text-[13px] font-bold text-navy-900 shadow-glow-emerald transition-all duration-300 ease-premium hover:bg-emerald-300 active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 rounded-full border border-navy-900 bg-navy-900 px-4 py-2 text-[13px] font-bold text-white transition-all duration-300 ease-premium hover:bg-navy-700 active:scale-[0.98]"
             >
               <Phone className="h-3.5 w-3.5" aria-hidden="true" />
               {BRAND.phonePrimary}
@@ -354,40 +352,11 @@ export function Navbar() {
 
               <div className="mx-3 h-px bg-navy-100" />
 
-              {/* Login options */}
-              <div className="p-2">
-                <p className="px-3 pb-1 pt-2 text-[10.5px] font-extrabold uppercase tracking-[1.5px] text-navy-400">
-                  Login
-                </p>
-                <ul className="flex flex-col">
-                  {LOGIN_OPTIONS.map((opt) => {
-                    const Icon = opt.icon;
-                    return (
-                      <li key={opt.label}>
-                        <a
-                          href={opt.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-navy-50"
-                        >
-                          <span className="grid h-8 w-8 place-items-center rounded-lg bg-navy-800 text-white">
-                            <Icon className="h-4 w-4" aria-hidden="true" />
-                          </span>
-                          <div>
-                            <p className="text-[14px] font-semibold text-navy-800">{opt.label}</p>
-                            <p className="text-[12px] font-normal normal-case tracking-normal text-navy-400">{opt.description}</p>
-                          </div>
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-
-              <div className="p-3 pt-0">
+              <div className="p-3">
                 <a
                   href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-[15px] font-bold text-navy-900 shadow-glow-emerald"
+                  className="flex items-center justify-center gap-2 rounded-full border border-navy-900 bg-navy-900 px-5 py-2.5 text-[15px] font-bold text-white transition-colors hover:bg-navy-700"
                 >
                   <Phone className="h-4 w-4" aria-hidden="true" />
                   {BRAND.phonePrimary}

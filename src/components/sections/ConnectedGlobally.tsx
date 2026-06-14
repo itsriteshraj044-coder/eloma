@@ -42,8 +42,6 @@ export function ConnectedGlobally() {
       {/* Ambient backdrop — faint grid fading out from centre + soft light washes */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-grid-faint bg-grid-32 [mask-image:radial-gradient(ellipse_75%_65%_at_60%_45%,black_25%,transparent_75%)]" />
-        <div className="absolute -top-28 right-[6%] h-72 w-72 rounded-full bg-emerald-100/60 blur-3xl" />
-        <div className="absolute -bottom-32 left-[4%] h-80 w-80 rounded-full bg-navy-50/90 blur-3xl" />
       </div>
 
       <Container className="relative">
@@ -106,7 +104,7 @@ export function ConnectedGlobally() {
                 {/* Soft halo behind the globe */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute left-1/2 top-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-200/35 blur-3xl"
+                  className="pointer-events-none absolute left-1/2 top-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-navy-100/50 blur-3xl"
                 />
 
                 <div className="relative">
@@ -122,7 +120,7 @@ export function ConnectedGlobally() {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
                 className="mt-5 flex justify-center"
               >
-                <span className="inline-flex items-center gap-2.5 rounded-full border border-emerald-200/80 bg-white/90 px-5 py-2.5 text-[12px] font-bold uppercase tracking-[1.5px] text-navy-800 shadow-glass 3xl:px-6 3xl:py-3 3xl:text-sm">
+                <span className="inline-flex items-center gap-2.5 rounded-full border border-emerald-200/80 bg-white/90 px-5 py-2.5 text-[12px] font-normal tracking-[1.5px] text-navy-800 shadow-glass 3xl:px-6 3xl:py-3 3xl:text-sm">
                   <span aria-hidden="true" className="relative flex h-2 w-2 shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 [animation-duration:2.4s]" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />

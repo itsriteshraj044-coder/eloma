@@ -60,7 +60,26 @@
       "Read(//c/c/Users/rites/Downloads/web/src/components/sections/**)",
       "PowerShell($css = Get-Content \"dist\\\\assets\\\\index-MHhWjZks.css\" -Raw; $i = $css.IndexOf\\('.container-px'\\); $css.Substring\\($i, 700\\))",
       "PowerShell(Test-Path *)",
-      "WebSearch"
+      "WebSearch",
+      "PowerShell(python \"C:\\\\Users\\\\rites\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"corporate conglomerate holding group business divisions premium professional\" --design-system -p \"Eloma Group\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=400&q=60\" -UseBasicParsing -TimeoutSec 20 -OutFile \"$env:TEMP\\\\eloma-imgs\\\\1b-callcentre.jpg\"; Write-Output \"done\")",
+      "PowerShell(Remove-Item *)",
+      "Skill(run)",
+      "PowerShell(Get-Command *)",
+      "PowerShell($paths = @\\(\"C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\", \"C:\\\\Program Files\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\", \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\"\\); foreach \\($p in $paths\\) { if \\(Test-Path $p\\) { Write-Output \"FOUND: $p\" } })",
+      "PowerShell(Get-Item *)",
+      "PowerShell(npm install *)",
+      "PowerShell(node scripts\\\\shot-schematic.mjs \"http://localhost:5174/\" \"#capabilities-schematic\" \"C:\\\\Users\\\\rites\\\\AppData\\\\Local\\\\Temp\\\\schematic2.png\")",
+      "PowerShell(node scripts\\\\probe-schematic.mjs)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 5174 -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1; if \\($conn\\) { Stop-Process -Id $conn.OwningProcess -Force -Confirm:$false; Write-Output \"dev server \\(PID $\\($conn.OwningProcess\\)\\) stopped\" } else { Write-Output \"no listener on 5174\" })",
+      "PowerShell(node scripts\\\\shot-schematic.mjs \"http://localhost:5174/\" \"#capabilities-blueprint\" \"C:\\\\Users\\\\rites\\\\AppData\\\\Local\\\\Temp\\\\blueprint.png\")",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 5174 -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1; if \\($conn\\) { Stop-Process -Id $conn.OwningProcess -Force -Confirm:$false; Write-Output \"stopped\" })",
+      "PowerShell(python \"C:\\\\Users\\\\rites\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"corporate conglomerate enterprise contact professional premium\" --design-system -p \"Eloma Group\")",
+      "PowerShell(python \"C:\\\\Users\\\\rites\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"form validation contact input error\" --domain ux -n 6)",
+      "WebFetch(domain:muz.li)",
+      "WebFetch(domain:www.digitalsilk.com)",
+      "PowerShell(npx tsc --noEmit; npx vite build --logLevel error)",
+      "PowerShell(Copy-Item *)"
     ]
   }
 }

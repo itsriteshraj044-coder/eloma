@@ -7,10 +7,12 @@ import { cn } from '@/lib/cn';
 import { EASE_PREMIUM, VIEWPORT_ONCE } from '@/lib/motion';
 
 /**
- * "Capabilities Blueprint" — now identical to the refined schematic design:
- * a denser wireframe globe, leader lines that draw in and light up emerald
- * when their callout is hovered, pulse dots riding every line, a
- * corner-ticked frame. Mono navy + emerald — no multi-colour accents.
+ * "Capabilities Schematic" — the refined edition of the blueprint concept.
+ * Same idea, executed to drawing-office standard: a denser wireframe globe,
+ * leader lines that draw in and light up emerald when their callout is
+ * hovered, pulse dots riding every line, a corner-ticked frame and an
+ * engineer's title stamp. Mono navy + emerald — no multi-colour accents.
+ * Content identical to the original section.
  */
 
 /**
@@ -24,32 +26,35 @@ import { EASE_PREMIUM, VIEWPORT_ONCE } from '@/lib/motion';
  *    594 → tucks 4 units under the card
  *  - both sides sit 18 units from the frame — perfectly symmetric
  */
-/**
- * Anchors sit exactly ON the globe outline (r=100 around 400,210), so the
- * circle stays a clean unbroken ring with four node beads on it. Leader
- * lines start just outside each bead so they never pierce its ring.
- */
 const CALLOUTS = [
-  { left: 14.25, top: 28.57, path: 'M 306 157 L 240 120 L 206 120' },
-  { left: 85.75, top: 28.57, path: 'M 494 157 L 560 120 L 594 120' },
-  { left: 14.25, top: 71.43, path: 'M 306 263 L 240 300 L 206 300' },
-  { left: 85.75, top: 71.43, path: 'M 494 263 L 560 300 L 594 300' },
+  { left: 14.25, top: 28.57, path: 'M 320 175 L 240 120 L 206 120' },
+  { left: 85.75, top: 28.57, path: 'M 480 175 L 560 120 L 594 120' },
+  { left: 14.25, top: 71.43, path: 'M 320 245 L 240 300 L 206 300' },
+  { left: 85.75, top: 71.43, path: 'M 480 245 L 560 300 L 594 300' },
 ];
 
 const ANCHORS = [
-  { x: 313, y: 161 },
-  { x: 487, y: 161 },
-  { x: 313, y: 259 },
-  { x: 487, y: 259 },
+  { x: 320, y: 175 },
+  { x: 480, y: 175 },
+  { x: 320, y: 245 },
+  { x: 480, y: 245 },
 ];
 
-export function CapabilitiesBlueprint() {
+/** Wireframe globe parts — denser than the original. */
+const GLOBE_ELLIPSES: { rx: number; ry: number }[] = [
+  { rx: 100, ry: 38 },
+  { rx: 100, ry: 72 },
+  { rx: 38, ry: 100 },
+  { rx: 72, ry: 100 },
+];
+
+export function CapabilitiesSchematic() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section
-      id="capabilities-blueprint"
-      aria-label="Global capabilities — blueprint"
+      id="capabilities-schematic"
+      aria-label="Global capabilities — refined schematic"
       className="section-py relative overflow-hidden bg-white"
     >
       {/* Blueprint grid backdrop, fading toward the edges */}
@@ -80,26 +85,32 @@ export function CapabilitiesBlueprint() {
             />
           ))}
 
-          {/* Signal ripple — a slow expanding ring breathing out of the globe */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[47.6%] -translate-x-1/2 -translate-y-1/2 motion-reduce:hidden"
-          >
-            <span className="absolute inset-0 animate-ping rounded-full border border-emerald-300/50 [animation-duration:3.6s]" />
-          </div>
-
           <svg aria-hidden="true" viewBox="0 0 800 420" className="absolute inset-0 h-full w-full">
-            {/* Globe outline — drawn in via dash-offset so the ring always
-                ends perfectly closed (pathLength leaves a seam notch) */}
+            {/* Wireframe globe — outline, meridians, parallels, equator */}
             <motion.circle
-              cx="400" cy="210" r="100" fill="none" stroke="#9fb6cf" strokeWidth="1.2"
-              strokeLinecap="round"
-              pathLength={100}
-              strokeDasharray={100}
-              initial={{ strokeDashoffset: 100 }}
-              whileInView={{ strokeDashoffset: 0 }}
-              viewport={VIEWPORT_ONCE}
-              transition={{ duration: 1.4, ease: 'easeInOut' }}
+              cx="400" cy="210" r="100" fill="none" stroke="#9fb6cf" strokeWidth="1.1"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={VIEWPORT_ONCE}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            />
+            {GLOBE_ELLIPSES.map((e, i) => (
+              <motion.ellipse
+                key={`${e.rx}-${e.ry}`}
+                cx="400" cy="210" rx={e.rx} ry={e.ry} fill="none" stroke="#9fb6cf" strokeWidth="0.7"
+                initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={VIEWPORT_ONCE}
+                transition={{ duration: 1.1, delay: 0.15 + i * 0.12, ease: 'easeInOut' }}
+              />
+            ))}
+            <motion.line
+              x1="300" y1="210" x2="500" y2="210" stroke="#9fb6cf" strokeWidth="0.7"
+              initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={VIEWPORT_ONCE}
+              transition={{ duration: 0.9, delay: 0.55, ease: 'easeInOut' }}
+            />
+            {/* Centre cross-hair */}
+            <motion.path
+              d="M 400 198 L 400 222 M 388 210 L 412 210"
+              stroke="#3CB98C" strokeWidth="0.9"
+              initial={{ opacity: 0 }} whileInView={{ opacity: 0.9 }} viewport={VIEWPORT_ONCE}
+              transition={{ duration: 0.5, delay: 0.7 }}
             />
 
             {/* Leader lines — light up when their callout is hovered */}
@@ -128,47 +139,27 @@ export function CapabilitiesBlueprint() {
               ))}
             </g>
 
-            {/* Anchor beads on the globe outline — grow gently when their
-                callout is hovered */}
+            {/* Anchor donuts on the globe */}
             {ANCHORS.map((a, i) => (
               <motion.circle
                 key={`${a.x}-${a.y}`}
-                cx={a.x} cy={a.y}
+                cx={a.x} cy={a.y} r="5"
                 fill="#ffffff"
                 stroke={hovered === i ? '#3CB98C' : '#6b8db3'}
                 strokeWidth="2.5"
-                initial={{ opacity: 0, r: 5 }}
-                whileInView={{ opacity: 1 }}
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
                 viewport={VIEWPORT_ONCE}
-                animate={{ r: hovered === i ? 7 : 5 }}
-                transition={{
-                  opacity: { duration: 0.4, delay: 0.7 + i * 0.15 },
-                  r: { duration: 0.25, ease: 'easeOut' },
-                }}
+                transition={{ duration: 0.4, delay: 0.7 + i * 0.15 }}
                 style={{ transition: 'stroke 0.3s' }}
               />
             ))}
           </svg>
 
-          {/* Hub — Eloma Group logo at the centre of the globe.
-              Outer div positions, middle div floats (CSS), inner img handles
-              the framer entrance — transforms never fight each other. */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[40%] -translate-x-1/2 -translate-y-1/2">
-            <div className="will-transform h-full w-full animate-float [animation-duration:8s] motion-reduce:animate-none">
-              <motion.img
-                src="/FinalElomaGroupiconwhite.jpg"
-                alt="Eloma Group logo"
-                width={200}
-                height={200}
-                loading="lazy"
-                decoding="async"
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={VIEWPORT_ONCE}
-                transition={{ duration: 0.7, delay: 0.5, ease: EASE_PREMIUM }}
-                className="h-full w-full rounded-full object-contain"
-              />
-            </div>
+          {/* Hub label */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 text-center">
+            <p className="text-[11px] font-bold uppercase tracking-[3px] text-navy-900">Eloma</p>
+            <p className="text-[9px] font-semibold uppercase tracking-[2px] text-emerald-600">Group</p>
           </div>
 
           {/* Annotated callouts */}

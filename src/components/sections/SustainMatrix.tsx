@@ -97,6 +97,7 @@ export function SustainMatrix() {
               <span className="text-emerald-500">and Responsible Business</span>
             </>
           }
+          titleClassName="normal-case font-normal tracking-normal"
           description={SUSTAINABILITY.body}
         />
 
