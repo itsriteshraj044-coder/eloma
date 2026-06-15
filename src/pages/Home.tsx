@@ -65,7 +65,8 @@ import { CapabilitiesBlueprint } from '@/components/sections/CapabilitiesBluepri
 // import { Contact } from '@/components/sections/Contact';
 // import { ContactDesk } from '@/components/sections/ContactDesk';
 // import { ContactGateway } from '@/components/sections/ContactGateway';
-import { ContactConcierge } from '@/components/sections/ContactConcierge';
+// import { ContactConcierge } from '@/components/sections/ContactConcierge';
+import { ContactSignal } from '@/components/sections/ContactSignal';
 // import { ContactChannels } from '@/components/sections/ContactChannels';
 // import { ContactSpotlight } from '@/components/sections/ContactSpotlight';
 // import { ContactCanvas } from '@/components/sections/ContactCanvas';
@@ -127,8 +128,9 @@ export default function Home() {
       {/* Contact redesign concepts — Round 1 (rejected): <ContactDesk /> */}
       {/* Round 2 — guided three-step inquiry (path selection + progressive disclosure) */}
       {/* <ContactGateway /> */}
-      {/* Round 3 — concierge: editorial rail (office selector + live clock) + floating-label form */}
-      <ContactConcierge />
+      {/* Round 3 (replaced) — concierge: editorial rail + multi-step form: <ContactConcierge /> */}
+      {/* Active contact design — centered editorial + underline form + office clocks */}
+      <ContactSignal />
       {/* Round 4 (rejected): <ContactChannels /> <ContactSpotlight /> <ContactCanvas /> */}
       {/* Round 5 (rejected): <ContactComposer /> */}
       {/* Round 6 (rejected): <ContactStudio /> */}

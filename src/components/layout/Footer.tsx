@@ -1,7 +1,27 @@
+import type { AnchorHTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 import { BRAND, FOOTER_COLUMNS, LEGAL, SOCIAL_LINKS } from '@/data/content';
+
+/* SPA <Link> for internal routes ("/partners"), plain <a> for hash anchors
+   ("#about") so the global Lenis smooth-scroll handler still owns them. */
+type SmartLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+function SmartLink({ href, children, ...rest }: SmartLinkProps) {
+  if (href.startsWith('/') && !href.startsWith('//')) {
+    return (
+      <Link to={href} {...rest}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+}
 
 export function Footer() {
   return (
@@ -60,12 +80,12 @@ export function Footer() {
                 <ul className="mt-5 flex flex-col gap-3">
                   {col.links.map((link) => (
                     <li key={link.label}>
-                      <a
+                      <SmartLink
                         href={link.href}
                         className="text-[13.5px] font-normal text-navy-500 transition-colors hover:text-navy-900"
                       >
                         {link.label}
-                      </a>
+                      </SmartLink>
                     </li>
                   ))}
                 </ul>

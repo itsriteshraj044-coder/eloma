@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import type { AnchorHTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
@@ -9,6 +11,26 @@ import type { MegaMenu } from '@/types';
 
 /* ── Shared padding — nav bar + mega-menu panel stay in sync ─────────────── */
 const NAV_PX = 'px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 3xl:px-20 4xl:px-24';
+
+/* ── Smart link — SPA <Link> for internal routes ("/about-us"), plain <a> for
+   in-page hash anchors ("#about") so the global Lenis smooth-scroll handler
+   still owns them. ─────────────────────────────────────────────────────── */
+type SmartLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+function SmartLink({ href, children, ...rest }: SmartLinkProps) {
+  const isRoute = href.startsWith('/') && !href.startsWith('//');
+  if (isRoute) {
+    return (
+      <Link to={href} {...rest}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+}
 
 /* ── Scroll spy ─────────────────────────────────────────────────────────── */
 const SPY_IDS = NAV_ITEMS.map((l) => l.href.replace('#', ''));
@@ -60,12 +82,12 @@ function MegaMenuPanel({
               {menu.description}
             </p>
 
-            <a
+            <SmartLink
               href={menu.cta.href}
               className="mt-5 inline-flex w-fit items-center rounded-full bg-navy-900 px-4 py-2 text-[13px] font-bold text-white transition-colors duration-200 hover:bg-navy-700"
             >
               {menu.cta.label}
-            </a>
+            </SmartLink>
           </div>
 
           {/* Right: link columns */}
@@ -80,12 +102,12 @@ function MegaMenuPanel({
                 <ul>
                   {group.links.map((link) => (
                     <li key={link.label} className="border-b border-navy-100 last:border-0">
-                      <a
+                      <SmartLink
                         href={link.href}
                         className="block py-2.5 text-[14.5px] font-medium text-navy-700 transition-colors duration-150 hover:text-emerald-600"
                       >
                         {link.label}
-                      </a>
+                      </SmartLink>
                     </li>
                   ))}
                 </ul>
@@ -164,9 +186,9 @@ export function Navbar() {
         )}>
 
           {/* Logo */}
-          <a href="#top" aria-label="Eloma Group — home" className="shrink-0">
+          <Link to="/" aria-label="Eloma Group — home" className="shrink-0">
             <Logo />
-          </a>
+          </Link>
 
           {/* ── Desktop nav links ───────────────────────────────────── */}
           <ul className="hidden items-center lg:flex">
@@ -181,7 +203,7 @@ export function Navbar() {
                   onMouseEnter={() => hasMenu ? openMenu(item.label) : setActiveMenu(null)}
                   onMouseLeave={hasMenu ? scheduleClose : undefined}
                 >
-                  <a
+                  <SmartLink
                     href={item.href}
                     aria-current={isActive ? 'true' : undefined}
                     aria-expanded={hasMenu ? menuOpen : undefined}
@@ -208,7 +230,7 @@ export function Navbar() {
                         transition={{ duration: 0.35, ease: EASE_PREMIUM }}
                       />
                     )}
-                  </a>
+                  </SmartLink>
                 </li>
               );
             })}
@@ -290,13 +312,13 @@ export function Navbar() {
                           />
                         </button>
                       ) : (
-                        <a
+                        <SmartLink
                           href={item.href}
                           onClick={() => setMobileOpen(false)}
                           className="block rounded-xl px-4 py-3 text-[16px] leading-[1.5rem] font-bold text-navy-700 transition-colors hover:bg-navy-50 hover:text-navy-900"
                         >
                           {item.label}
-                        </a>
+                        </SmartLink>
                       )}
 
                       <AnimatePresence>
@@ -322,25 +344,25 @@ export function Navbar() {
                                   <ul className="flex flex-col">
                                     {group.links.map((link) => (
                                       <li key={link.label}>
-                                        <a
+                                        <SmartLink
                                           href={link.href}
                                           onClick={() => setMobileOpen(false)}
                                           className="block rounded-lg px-3 py-2 text-[14px] leading-[1.5rem] font-medium text-navy-600 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                                         >
                                           {link.label}
-                                        </a>
+                                        </SmartLink>
                                       </li>
                                     ))}
                                   </ul>
                                 </div>
                               ))}
-                              <a
+                              <SmartLink
                                 href={item.megaMenu.cta.href}
                                 onClick={() => setMobileOpen(false)}
                                 className="mt-1.5 inline-flex items-center rounded-full bg-navy-900 px-4 py-1.5 text-[13px] font-bold text-white"
                               >
                                 {item.megaMenu.cta.label}
-                              </a>
+                              </SmartLink>
                             </div>
                           </motion.div>
                         )}

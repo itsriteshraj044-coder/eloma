@@ -38,7 +38,15 @@ export function useSmoothScroll() {
       const hash = anchor.getAttribute('href');
       if (!hash || hash === '#') return;
       const target = document.querySelector(hash);
-      if (!target) return;
+      if (!target) {
+        // The section lives on the homepage but we're on another route
+        // (e.g. /about-us). Hand off to the browser: load home at the anchor.
+        if (window.location.pathname !== '/') {
+          e.preventDefault();
+          window.location.href = `/${hash}`;
+        }
+        return;
+      }
       e.preventDefault();
       lenis.scrollTo(target as HTMLElement, { offset: NAV_OFFSET });
       history.replaceState(null, '', hash);

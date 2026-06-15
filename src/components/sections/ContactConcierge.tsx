@@ -457,7 +457,7 @@ export function ContactConcierge() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70 [animation-duration:2.4s]" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </span>
-                Avg. response within <span className="font-bold text-navy-800">1 business day</span>
+                Avg. response within <span className="font-bold text-navy-800">2 hours</span>
               </p>
             </motion.div>
           </motion.div>

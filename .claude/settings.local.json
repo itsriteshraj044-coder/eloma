@@ -79,7 +79,21 @@
       "WebFetch(domain:muz.li)",
       "WebFetch(domain:www.digitalsilk.com)",
       "PowerShell(npx tsc --noEmit; npx vite build --logLevel error)",
-      "PowerShell(Copy-Item *)"
+      "PowerShell(Copy-Item *)",
+      "PowerShell(node scripts/shot-about.mjs)",
+      "Bash(cp /tmp/nav-test.mjs \"C:/Users/rites/Downloads/web/scripts/nav-test.mjs\")",
+      "Bash(node scripts/nav-test.mjs)",
+      "PowerShell(node scripts/nav-test.mjs)",
+      "PowerShell($env:PORT='5173'; node scripts/shot-about.mjs)",
+      "PowerShell($env:PORT='5173'; node scripts/shot-crop.mjs)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Read(//c/Users/rites/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python scripts/search.py \"premium scroll animation reveal parallax pin\" --domain ux -n 6)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(node -e \"console.log\\('tailwind', require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")",
+      "Bash(mv -f dc_full.png directcouriers.png)",
+      "Bash(file *.svg *.png)",
+      "PowerShell(npx tsc --noEmit 2>&1 | Select-Object -First 40; \"exit: $LASTEXITCODE\")"
     ]
   }
 }

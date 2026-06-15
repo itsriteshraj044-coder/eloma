@@ -11,7 +11,9 @@ export default function App() {
   return (
     <>
       <SplashScreen />
-      <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+      {/* overflow-x-clip (not -hidden): prevents horizontal scroll WITHOUT turning
+          this wrapper into a scroll container — keeps position:sticky working. */}
+      <div className="relative flex min-h-screen flex-col overflow-x-clip">
         <Navbar />
         <AppRoutes />
         <Footer />

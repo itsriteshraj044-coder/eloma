@@ -115,6 +115,43 @@ export type InquiryType =
   | 'Careers'
   | 'Other';
 
+/** A content block within a blog article body. */
+export interface BlogSection {
+  /** Optional sub-heading for the block. */
+  heading?: string;
+  /** One or more body paragraphs. */
+  paragraphs: string[];
+  /** Optional pull-quote rendered after the paragraphs. */
+  quote?: string;
+}
+
+/** A single blog / insight article. */
+export interface BlogPost {
+  /** URL slug — `/blog/:slug`. */
+  slug: string;
+  title: string;
+  /** Short card / list summary. */
+  excerpt: string;
+  /** Topic category (e.g. "Strategy", "Sustainability"). */
+  category: string;
+  author: string;
+  authorRole: string;
+  /** Human-readable publish date. */
+  date: string;
+  /** Estimated reading time, e.g. "6 min read". */
+  readTime: string;
+  /** Cover image URL. */
+  image: string;
+  /** Whether to surface as the lead/featured story. */
+  featured?: boolean;
+  /** Opening standfirst paragraph for the article page. */
+  intro: string;
+  /** Article body, in order. */
+  sections: BlogSection[];
+  /** Optional closing key-takeaway bullets. */
+  takeaways?: string[];
+}
+
 /** Shape of the contact form state. */
 export interface ContactFormState {
   fullName: string;

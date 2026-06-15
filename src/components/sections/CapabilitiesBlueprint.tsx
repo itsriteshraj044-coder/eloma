@@ -65,7 +65,7 @@ export function CapabilitiesBlueprint() {
               <span className="text-emerald-500">Global</span> Capabilities
             </>
           }
-          titleClassName="!text-[2rem] !font-normal"
+          titleClassName="!text-[2rem] !font-normal !normal-case"
         />
 
         {/* ── Schematic (lg+) ── */}
@@ -156,7 +156,7 @@ export function CapabilitiesBlueprint() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[40%] -translate-x-1/2 -translate-y-1/2">
             <div className="will-transform h-full w-full animate-float [animation-duration:8s] motion-reduce:animate-none">
               <motion.img
-                src="/FinalElomaGroupiconwhite.jpg"
+                src="/Eloma Group Logo-02.png"
                 alt="Eloma Group logo"
                 width={200}
                 height={200}
@@ -166,7 +166,7 @@ export function CapabilitiesBlueprint() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={VIEWPORT_ONCE}
                 transition={{ duration: 0.7, delay: 0.5, ease: EASE_PREMIUM }}
-                className="h-full w-full rounded-full object-contain"
+                className="h-full w-full object-contain"
               />
             </div>
           </div>
