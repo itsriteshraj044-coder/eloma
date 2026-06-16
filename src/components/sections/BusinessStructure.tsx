@@ -43,10 +43,6 @@ export function BusinessStructure() {
       aria-label="Our businesses — group structure"
       className="section-py relative overflow-hidden bg-white"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-grid-faint bg-grid-32 opacity-25 [mask-image:radial-gradient(ellipse_75%_60%_at_50%_35%,black_25%,transparent_75%)]" />
-      </div>
-
       <Container className="relative">
         {/* Header */}
         <motion.div

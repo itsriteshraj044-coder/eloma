@@ -175,12 +175,6 @@ export function CompaniesCopy() {
       aria-label="Our companies — duplicate"
       className="section-py relative overflow-hidden bg-white"
     >
-      {/* Ambient — drifting faint grid only (kept neutral / white) */}
-      <div
-        className="bg-grid-drift pointer-events-none absolute inset-0 bg-grid-faint bg-grid-32 opacity-25"
-        aria-hidden="true"
-      />
-
       <Container className="relative">
         <SectionHeading
           eyebrow="Our Companies"

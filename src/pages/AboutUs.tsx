@@ -608,7 +608,7 @@ function BecomeElomian() {
       className="section-py relative overflow-hidden bg-white"
     >
       <Container className="relative">
-        <div className="grid items-center gap-x-12 gap-y-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-16 xl:gap-x-24">
+        <div className="grid items-center gap-x-12 gap-y-14 lg:grid-cols-[1.12fr_1fr] lg:gap-x-16 xl:gap-x-24">
           {/* ── Left: copy ── */}
           <motion.div
             variants={staggerParent(0.12)}
@@ -703,32 +703,38 @@ function BecomeElomian() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: 0.8, ease: EASE_PREMIUM }}
-            className="relative mx-auto w-full max-w-md lg:max-w-none"
+            className="relative mx-auto w-full max-w-lg lg:max-w-none"
           >
-            {/* soft emerald halo behind the model */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -inset-6 rounded-[36px] bg-[radial-gradient(circle_at_60%_35%,rgba(16,185,129,0.18),transparent_62%)] blur-2xl"
-            />
-
-            {/* 3D stage — model floats on white, no boxy frame */}
+            {/* 3D stage — model floats on a plain white background, no boxy
+                frame, no padding. z-20 puts the model on the OUTER/front layer
+                (above the floating stat cards). The canvas is transparent, so
+                the cards still show everywhere except directly behind the model. */}
             <motion.div
               ref={stageRef}
               style={{ y: modelY }}
-              className="will-transform relative aspect-[4/5] w-full sm:aspect-square lg:aspect-[4/5]"
+              className="will-transform relative z-20 aspect-[4/5] w-full sm:aspect-square lg:aspect-[4/5]"
             >
               {stageInView ? (
                 <Suspense fallback={<SplineFallback />}>
-                  <Spline scene={SPLINE_SCENE} className="!h-full !w-full" />
+                  {/* Scale the canvas + center it (object-contain style) so the
+                      FULL model — incl. the arms when they swing out during the
+                      idle animation — stays visible and never clips. */}
+                  <div className="absolute inset-0 origin-center scale-[0.72]">
+                    <Spline
+                      scene={SPLINE_SCENE}
+                      className="!h-full !w-full [&_canvas]:!object-contain"
+                    />
+                    {/* mask the "Built with Spline" badge — inside the scaled
+                        wrapper so it tracks the canvas' bottom-right corner */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute bottom-0 right-0 h-12 w-40 bg-white"
+                    />
+                  </div>
                 </Suspense>
               ) : (
                 <SplineFallback />
               )}
-              {/* mask the "Built with Spline" badge (bottom-right) */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-1 right-1 h-10 w-36 bg-white"
-              />
             </motion.div>
 
             {/* Floating stat cards — non-interactive so cursor reaches the model */}

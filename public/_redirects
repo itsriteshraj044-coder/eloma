@@ -1,0 +1,3 @@
+# Netlify SPA fallback — serve index.html for every path, status 200,
+# so React Router handles /about-us, /careers, /blog/:slug, etc.
+/*    /index.html   200

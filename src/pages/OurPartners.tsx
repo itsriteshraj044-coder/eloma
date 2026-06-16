@@ -1,6 +1,6 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useScroll } from 'framer-motion';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -81,7 +81,56 @@ const PARTNERS: Partner[] = [
     sector: 'Cloud & Infrastructure',
     logo: '/partners/aws.svg',
     logoClass: 'h-[clamp(2.5rem,4.2vw,3.75rem)]',
-    body: 'As the world’s most comprehensive and broadly adopted cloud platform, Amazon Web Services (AWS) powers businesses with secure, scalable infrastructure, advanced computing, storage, and intelligent data solutions. Our association with AWS reflects our commitment to building reliable, future-ready systems — enabling digital transformation, operational efficiency, and innovation at scale. Together, we deliver cloud-driven solutions that help businesses grow faster, operate smarter, and stay resilient across every industry we serve.',
+    body: 'As the world’s most comprehensive and broadly adopted cloud platform, Amazon Web Services (AWS) powers businesses with secure, scalable infrastructure, advanced computing, storage, and intelligent data solutions. Our association with AWS reflects our commitment to building reliable, future-ready systems that drive transformation and innovation at scale.',
+  },
+  {
+    name: 'Google Cloud',
+    sector: 'Cloud & Data Platform',
+    logo: '/partners/googlecloud.svg',
+    logoClass: 'h-[clamp(2.4rem,4vw,3.4rem)]',
+    body: 'Google Cloud delivers secure, intelligent infrastructure trusted by enterprises worldwide — spanning compute, data analytics, and industry-leading AI. Working alongside platforms like Google Cloud keeps our solutions fast, scalable, and ready for what comes next.',
+  },
+  {
+    name: 'Salesforce',
+    sector: 'CRM & Customer Platform',
+    logo: '/partners/salesforce.svg',
+    logoClass: 'h-[clamp(2.4rem,4vw,3.4rem)]',
+    body: 'Salesforce is the world’s leading customer relationship platform, helping organizations unify sales, service, and marketing around a single view of the customer. Our alignment with Salesforce reflects a commitment to building lasting, data-driven customer relationships.',
+  },
+  {
+    name: 'Shopify',
+    sector: 'Commerce & Retail',
+    logo: '/partners/shopify.svg',
+    logoClass: 'h-[clamp(2.4rem,4vw,3.4rem)]',
+    body: 'Shopify powers millions of businesses with a flexible commerce platform built for growth — from first sale to global scale. Collaborating with commerce leaders like Shopify strengthens our ability to deliver modern, conversion-ready retail experiences.',
+  },
+  {
+    name: 'Oracle',
+    sector: 'Enterprise Software & Database',
+    logo: '/partners/oracle.svg',
+    logoClass: 'h-[clamp(1.6rem,2.6vw,2.4rem)]',
+    body: 'Oracle is a global leader in enterprise software, databases, and cloud applications that run mission-critical operations for organizations of every size. Our association with Oracle underpins the reliability and performance our clients depend on.',
+  },
+  {
+    name: 'Zoho',
+    sector: 'Business Software Suite',
+    logo: '/partners/zoho.svg',
+    logoClass: 'h-[clamp(2.4rem,4vw,3.4rem)]',
+    body: 'Zoho offers a comprehensive suite of cloud business applications spanning sales, finance, operations, and collaboration. Partnering with Zoho lets us deliver integrated, cost-effective tools that help businesses operate smarter from a single ecosystem.',
+  },
+  {
+    name: 'Sage',
+    sector: 'Accounting & ERP',
+    logo: '/partners/sage.svg',
+    logoClass: 'h-[clamp(2.4rem,4vw,3.4rem)]',
+    body: 'Sage is a trusted name in accounting, finance, and ERP software, helping businesses manage cash flow, compliance, and growth with confidence. Our work alongside Sage reinforces our focus on accurate, accountable financial operations.',
+  },
+  {
+    name: 'Amazon',
+    sector: 'Global Commerce & Technology',
+    logo: '/partners/amazon.svg',
+    logoClass: 'h-[clamp(2rem,3.4vw,3rem)]',
+    body: 'Amazon is one of the world’s most influential companies, setting the global standard for commerce, logistics, and customer-centric innovation. Aligning with a brand like Amazon reflects our commitment to operational excellence, scale, and a relentless focus on the customer.',
   },
 ];
 
@@ -95,36 +144,6 @@ function ScrollProgress() {
       style={{ scaleX: scrollYProgress }}
       className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-emerald-400 to-emerald-500"
     />
-  );
-}
-
-/* ── A single logo plate — hairline framed, lifts gently on hover ────────── */
-
-function LogoPlate({
-  partner,
-  className,
-}: {
-  partner: Partner;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        'group/plate grid place-items-center rounded-2xl border border-navy-100 bg-white px-8 py-9 transition-all duration-500 ease-premium hover:border-emerald-200 hover:shadow-glass',
-        className,
-      )}
-    >
-      <img
-        src={partner.logo}
-        alt={`${partner.name} logo`}
-        loading="lazy"
-        decoding="async"
-        className={cn(
-          'w-auto max-w-full object-contain transition-transform duration-500 ease-premium group-hover/plate:scale-[1.04]',
-          partner.logoClass,
-        )}
-      />
-    </div>
   );
 }
 
@@ -321,71 +340,143 @@ function BuildingSuccess() {
   );
 }
 
-/* ── 4 · Our Trusted Partners — alternating logo / story rows ─────────────── */
+/* ── 4 · Our Trusted Partners — "Partner Gallery" ──────────────────────────
+   A premium spotlight grid. Logos show in their original brand colours. Each
+   card gets its OWN entrance + hover effect (cycled from the tables below) so
+   no two neighbours animate the same way. Hovering the gallery softly dims the
+   rest so the active partner takes the spotlight. Transform/opacity-driven. */
 
-function PartnerRow({ partner, index }: { partner: Partner; index: number }) {
-  const reduced = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-  // Subtle, GPU-only parallax drift on the logo plate as the row scrolls.
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [28, -28]);
-  const flip = index % 2 === 1;
+/* Per-card scroll-entrance variants — different direction/feel each. They keep
+   the `hidden`/`visible` keys so the gallery's stagger parent still orchestrates
+   the timing. */
+const ENTRANCES = [
+  { hidden: { opacity: 0, y: 32 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_PREMIUM } } },
+  { hidden: { opacity: 0, scale: 0.86 }, visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE_PREMIUM } } },
+  { hidden: { opacity: 0, x: -36 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE_PREMIUM } } },
+  { hidden: { opacity: 0, y: -30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_PREMIUM } } },
+  { hidden: { opacity: 0, x: 36 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE_PREMIUM } } },
+  { hidden: { opacity: 0, y: 26, rotate: -4 }, visible: { opacity: 1, y: 0, rotate: 0, transition: { duration: 0.65, ease: EASE_PREMIUM } } },
+];
+
+/* Hover effect — every card uses the same soft radial-glow accent with a
+   uniform translate-only lift, so all tiles stay aligned and equal height. */
+const HOVERS = [
+  { logo: 'group-hover/card:-translate-y-1.5 group-hover/card:scale-105', deco: 'glow' },
+] as const;
+
+function CardDeco({ kind }: { kind: string }) {
+  switch (kind) {
+    case 'underline':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-emerald-400 to-emerald-500 transition-transform duration-500 ease-premium group-hover/card:scale-x-100"
+        />
+      );
+    case 'topline':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[3px] origin-right scale-x-0 bg-gradient-to-r from-emerald-500 to-emerald-400 transition-transform duration-500 ease-premium group-hover/card:scale-x-100"
+        />
+      );
+    case 'corner':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-5 top-5 h-7 w-7 scale-75 rounded-tr-xl border-r-2 border-t-2 border-emerald-400 opacity-0 transition-[transform,opacity] duration-500 ease-premium group-hover/card:scale-100 group-hover/card:opacity-100"
+        />
+      );
+    case 'ring':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-[1.75rem] border-2 border-emerald-300 opacity-0 transition-opacity duration-500 ease-premium group-hover/card:opacity-100"
+        />
+      );
+    case 'glow':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-px rounded-[1.75rem] opacity-0 transition-opacity duration-500 ease-premium group-hover/card:opacity-100"
+          style={{ background: 'radial-gradient(120% 80% at 50% 0%, rgba(52,185,140,0.16), transparent 70%)' }}
+        />
+      );
+    case 'sheen':
+    case 'tilt-sheen':
+      return (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-y-10 left-0 w-1/2 -translate-x-[180%] -rotate-12 bg-gradient-to-r from-transparent via-emerald-300/25 to-transparent opacity-0 transition-[transform,opacity] duration-[900ms] ease-premium group-hover/card:translate-x-[260%] group-hover/card:opacity-100"
+        />
+      );
+    default:
+      return null;
+  }
+}
+
+function PartnerGalleryCard({ partner, index }: { partner: Partner; index: number }) {
+  const fx = HOVERS[index % HOVERS.length];
+  const entrance = ENTRANCES[index % ENTRANCES.length];
 
   return (
-    <div
-      ref={ref}
-      className="grid items-center gap-x-14 gap-y-8 border-b border-navy-100 py-[clamp(2.5rem,5vw,4.5rem)] last:border-0 lg:grid-cols-12"
+    <motion.article
+      variants={entrance}
+      tabIndex={0}
+      className={cn(
+        'group/card relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-navy-100 bg-white p-7 outline-none lg:p-8',
+        'will-transform transition-[opacity,transform,box-shadow,border-color] duration-500 ease-premium',
+        // Uniform lift (translate only) keeps every card aligned & equal height.
+        'hover:-translate-y-1.5 hover:border-emerald-200 hover:shadow-glass-lg',
+        'focus-visible:border-emerald-300 focus-visible:ring-2 focus-visible:ring-emerald-400',
+        // Spotlight focus: dim while the gallery is hovered, full when this one is active.
+        'group-hover/gallery:opacity-50 hover:!opacity-100 focus-within:!opacity-100',
+      )}
     >
-      {/* Logo plate */}
-      <motion.div
-        style={{ y }}
-        className={cn('lg:col-span-5', flip && 'lg:order-2 lg:col-start-8')}
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
-        >
-          <LogoPlate partner={partner} className="min-h-[clamp(8rem,16vw,12rem)]" />
-        </motion.div>
-      </motion.div>
+      <CardDeco kind={fx.deco} />
 
-      {/* Story */}
-      <motion.div
-        variants={staggerParent(0.1)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_ONCE}
-        className={cn('lg:col-span-7', flip ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-6')}
-      >
-        <motion.div variants={fadeUp} className="flex items-center gap-3">
-          <span className="text-[11px] font-bold uppercase tracking-[2px] text-navy-300 tabular-nums">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-          <span className="h-px w-8 bg-navy-200" aria-hidden="true" />
-          <span className="text-[11px] font-extrabold uppercase tracking-[1.5px] text-emerald-600">
-            {partner.sector}
-          </span>
-        </motion.div>
-        <motion.h3 variants={fadeUp} className={`mt-4 ${H3}`}>
-          {partner.name}
-        </motion.h3>
-        <motion.p
-          variants={fadeUp}
-          className="mt-4 max-w-xl text-[clamp(1rem,1.2vw,1.15rem)] leading-[1.9] text-navy-500 text-pretty"
-        >
-          {partner.body}
-        </motion.p>
-      </motion.div>
-    </div>
+      {/* Logo plate — logos render in their original brand colours */}
+      <div className="relative grid h-[clamp(6rem,11vw,8rem)] place-items-center rounded-2xl bg-navy-50/40 px-6">
+        <img
+          src={partner.logo}
+          alt={`${partner.name} logo`}
+          loading="lazy"
+          decoding="async"
+          className={cn(
+            'w-auto max-w-full object-contain transition-transform duration-500 ease-premium',
+            fx.logo,
+            partner.logoClass,
+          )}
+        />
+      </div>
+
+      {/* Meta row */}
+      <div className="relative mt-6 flex items-center gap-3">
+        <span className="text-[11px] font-bold uppercase tracking-[2px] text-navy-300 tabular-nums">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span className="h-px flex-1 bg-navy-100" aria-hidden="true" />
+        <span className="text-[11px] font-extrabold uppercase tracking-[1.5px] text-emerald-600">
+          {partner.sector}
+        </span>
+      </div>
+
+      <h3 className={cn('relative mt-3 flex items-center gap-2', H3)}>
+        {partner.name}
+        <ArrowUpRight
+          className="h-4 w-4 shrink-0 -translate-x-1 text-emerald-500 opacity-0 transition-[transform,opacity] duration-300 ease-premium group-hover/card:translate-x-0 group-hover/card:opacity-100"
+          aria-hidden="true"
+        />
+      </h3>
+
+      <p className="relative mt-3 text-[clamp(0.95rem,1.05vw,1.05rem)] leading-[1.8] text-navy-500 text-pretty">
+        {partner.body}
+      </p>
+    </motion.article>
   );
 }
 
-function TrustedPartners() {
+function TrustedPartnersGallery() {
   return (
     <section
       id="trusted-partners"
@@ -401,7 +492,7 @@ function TrustedPartners() {
           className="mb-[clamp(2rem,4vw,3.5rem)] max-w-3xl"
         >
           <motion.span variants={fadeUp} className="eyebrow">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <Sparkles className="h-3.5 w-3.5 text-emerald-400" aria-hidden="true" />
             Our trusted partners
           </motion.span>
           <motion.h2 variants={fadeUp} className={`mt-5 ${H2}`}>
@@ -409,11 +500,17 @@ function TrustedPartners() {
           </motion.h2>
         </motion.div>
 
-        <div className="flex flex-col">
+        <motion.div
+          variants={staggerParent(0.08)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+          className="group/gallery grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {PARTNERS.map((partner, i) => (
-            <PartnerRow key={partner.name} partner={partner} index={i} />
+            <PartnerGalleryCard key={partner.name} partner={partner} index={i} />
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );
@@ -520,7 +617,7 @@ export default function OurPartners() {
       <PageHero />
       <Intro />
       <BuildingSuccess />
-      <TrustedPartners />
+      <TrustedPartnersGallery />
       <GrowingTogether />
       <BecomePartner />
     </main>

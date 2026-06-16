@@ -142,10 +142,6 @@ export function SustainTransit() {
       aria-label="Why we exist — the group line"
       className="section-py relative overflow-hidden bg-white"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-grid-faint bg-grid-32 opacity-30 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)]" />
-      </div>
-
       <Container className="relative">
         {/* Header */}
         <motion.div

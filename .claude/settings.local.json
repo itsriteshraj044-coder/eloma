@@ -134,7 +134,31 @@
       "Bash(node \"C:/Users/rites/AppData/Local/Temp/shot-preview.mjs\" \"C:/Users/rites/AppData/Local/Temp/spreview.html\" \"C:/Users/rites/AppData/Local/Temp/cand1.png\")",
       "Bash(node scripts/shot-preview.mjs \"C:/Users/rites/AppData/Local/Temp/spreview.html\" \"C:/Users/rites/AppData/Local/Temp/cand1.png\")",
       "Bash(grep -oE \"prod\\\\.spline\\\\.design/[A-Za-z0-9_-]{8,}/scene\\\\.splinecode\")",
-      "Bash(node scripts/shot-batch.mjs \"C:/Users/rites/AppData/Local/Temp\")"
+      "Bash(node scripts/shot-batch.mjs \"C:/Users/rites/AppData/Local/Temp\")",
+      "WebFetch(domain:sawan-tes2.netlify.app)",
+      "PowerShell(node scripts/fetch-partners.mjs 2>&1 | Select-Object -First 120)",
+      "PowerShell(node scripts/fetch-partners.mjs 2>&1 | Select-Object -First 80)",
+      "PowerShell(node scripts/fetch-partners.mjs 2>&1 | Select-Object -First 150)",
+      "PowerShell(node scripts/dl-logos.mjs 2>&1; \"--- files ---\"; Get-ChildItem public/partners | Select-Object Name,Length)",
+      "PowerShell(node scripts/dl-logos2.mjs 2>&1)",
+      "PowerShell(node scripts/dl-logos3.mjs 2>&1)",
+      "PowerShell($p = Get-Content package.json | ConvertFrom-Json; \"dev script: \" + $p.scripts.dev)",
+      "PowerShell(node scripts/shot-careers.mjs 2>&1)",
+      "Bash(sed -i 's#scripts/careers.png#scripts/careers-m.png#' scripts/shot-careers-m.mjs)",
+      "Bash(node scripts/shot-careers-m.mjs)",
+      "PowerShell(Get-CimInstance *)",
+      "PowerShell(node scripts/shot-careers.mjs 1280 900 scripts/c1280.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1920 1080 scripts/c1920.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1024 1366 scripts/c1024.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1024 1366 scripts/c1024b.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1024 1366 scripts/c1024c.png 2>&1; node scripts/shot-careers.mjs 1440 1000 scripts/c1440c.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 390 1500 scripts/cm.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1440 1000 scripts/cf.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1024 1366 scripts/cf2.png 2>&1)",
+      "PowerShell(node scripts/shot-careers.mjs 1440 1000 scripts/w.png 2>&1)",
+      "PowerShell(node scripts/shot-burst.mjs 2>&1)",
+      "Bash(sed 's#burst-#mburst-#g')",
+      "Bash(node scripts/shot-burst-m.mjs)"
     ]
   }
 }

@@ -52,12 +52,6 @@ export function CapabilitiesBlueprint() {
       aria-label="Global capabilities — blueprint"
       className="section-py relative overflow-hidden bg-white"
     >
-      {/* Blueprint grid backdrop, fading toward the edges */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-grid-faint bg-grid-32 opacity-40 [mask-image:radial-gradient(ellipse_80%_70%_at_50%_45%,black_30%,transparent_80%)]"
-      />
-
       <Container className="relative">
         <SectionHeading
           title={

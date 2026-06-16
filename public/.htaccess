@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Eloma Group — Apache SPA fallback
+# Routes a single-page app (React Router / BrowserRouter). Any request that is
+# NOT an existing file or directory is rewritten to /index.html so deep links
+# like /about-us, /careers, /blog/:slug work on direct visit & refresh.
+# ─────────────────────────────────────────────────────────────────────────────
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Don't rewrite real files or directories (assets, images, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else → index.html (SPA handles the route client-side)
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+# Send a 200 (not 404) when the SPA shell is served for unknown paths
+<IfModule mod_headers.c>
+  <FilesMatch "index\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Long-cache fingerprinted assets (Vite emits hashed filenames in /assets)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(js|css|woff2?|ttf|otf|eot|png|jpe?g|gif|svg|webp|avif|mp4|webm|ico)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

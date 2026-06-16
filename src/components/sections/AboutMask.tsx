@@ -92,7 +92,7 @@ export function AboutMask() {
                 height={600}
                 loading="lazy"
                 decoding="async"
-                className="h-12 w-12 rounded-full object-cover ring-4 ring-emerald-50"
+                className="h-20 w-20 rounded-full object-cover ring-4 ring-emerald-50 sm:h-24 sm:w-24 3xl:h-28 3xl:w-28"
               />
               <span className="text-left">
                 <span className="block font-['Caveat',cursive] text-xl font-bold leading-none text-navy-900">
