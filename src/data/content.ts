@@ -79,7 +79,7 @@ export const NAV_ITEMS: NavItem[] = [
           links: [
             { label: 'About Us', href: '/about-us' },
             { label: 'Blog', href: '/blog' },
-            { label: 'Newsroom', href: '#' },
+            { label: 'Newsroom', href: '/newsroom' },
             { label: 'Partners', href: '/partners' },
           ],
         },
@@ -676,6 +676,253 @@ export const BLOG_POSTS: BlogPost[] = [
 ];
 
 /* ------------------------------------------------------------------ */
+/*  Newsroom — official announcements & press releases                 */
+/* ------------------------------------------------------------------ */
+export const NEWSROOM = {
+  eyebrow: 'Newsroom',
+  heading: 'News, Announcements & Press Releases',
+  subheading:
+    'The official source for Eloma Group news — corporate announcements, partnerships, milestones, product launches, and media resources from across our businesses.',
+  introHeading: 'What’s happening across the group',
+  introLead: 'One group, many stories — kept in one place.',
+  introBody:
+    'Welcome to the Eloma Group Newsroom. Here you’ll find our latest press releases, business milestones, partnership announcements, and media coverage from logistics, technology, travel, customer experience, and beyond.',
+  topicsHeading: 'Newsroom',
+} as const;
+
+/** Topic filter chips for the newsroom dashboard ("All" prepended in UI). */
+export const NEWSROOM_CATEGORIES = [
+  'Company News',
+  'Partnerships',
+  'Technology',
+  'Awards',
+  'Sustainability',
+] as const;
+
+export const NEWS_POSTS: BlogPost[] = [
+  {
+    slug: 'eloma-group-launches-agentic-ai-logistics-platform',
+    title:
+      'Eloma Group Launches Agentic AI Platform to Automate End-to-End Logistics Execution',
+    excerpt:
+      'The new platform embeds autonomous decision-making across freight, warehousing, and last-mile operations — moving the group’s logistics network from reactive scheduling to self-optimizing execution.',
+    category: 'Technology',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'June 11, 2026',
+    readTime: '4 min read',
+    image:
+      'https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=1600&q=80',
+    featured: true,
+    intro:
+      'Eloma Group today announced the launch of an agentic AI platform that automates planning and execution across its logistics businesses, marking the group’s largest technology rollout to date. The system moves routine logistics decisions — routing, capacity allocation, and exception handling — from manual coordination to autonomous, self-learning agents.',
+    sections: [
+      {
+        heading: 'From isolated tools to embedded intelligence',
+        paragraphs: [
+          'For years, AI in logistics lived in isolated use cases — a forecasting model here, a route optimizer there. Eloma Group’s new platform takes a different approach, embedding autonomous decision-making across the end-to-end value stream: integrated planning, transportation execution, warehouse processing, and customer communication.',
+          'The platform combines real-time transportation visibility, generative AI for exception handling, and self-learning route optimization that improves with every shipment. Routine coordination that once required human escalation is now resolved automatically, with people focusing on the decisions that genuinely need judgement.',
+        ],
+      },
+      {
+        heading: 'Margins, not just efficiency',
+        paragraphs: [
+          'The group frames the investment as a margin decision rather than a cost-saving experiment. Early deployments across freight and distribution have shortened decision cycles, reduced empty-mile waste, and improved on-time performance during periods of volatility.',
+        ],
+        quote:
+          'We’re moving from reacting to crises to building intelligent resilience. Automation is no longer a pilot — it’s how the network runs every day.',
+      },
+      {
+        heading: 'Rolling out across the group',
+        paragraphs: [
+          'The platform will roll out in phases across Eloma Group’s logistics and technology verticals through 2026, with shared infrastructure that lets each business move quickly in its own market while drawing on the strength of the wider group.',
+        ],
+      },
+    ],
+    takeaways: [
+      'Agentic AI now runs planning and execution end-to-end, not in isolated tools.',
+      'Self-learning route optimization improves with every shipment.',
+      'The group frames automation as a margin decision, not just efficiency.',
+      'Phased rollout across logistics and technology verticals through 2026.',
+    ],
+  },
+  {
+    slug: 'eloma-group-expands-distribution-network-southeast-asia',
+    title: 'Eloma Group Expands Distribution Network Across Southeast Asia',
+    excerpt:
+      'New regional hubs and warehousing capacity extend the group’s reach into high-growth corridors, shortening delivery windows for cross-border customers.',
+    category: 'Company News',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'May 28, 2026',
+    readTime: '3 min read',
+    image:
+      'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1600&q=80',
+    intro:
+      'Eloma Group has announced a significant expansion of its distribution footprint across Southeast Asia, adding regional hubs and warehousing capacity to serve some of the world’s fastest-growing trade corridors.',
+    sections: [
+      {
+        heading: 'Closer to the customer',
+        paragraphs: [
+          'The expansion places fulfilment capacity nearer to demand, shortening delivery windows and reducing dependence on long-haul transfers. New facilities are designed around efficient throughput, with computer-vision-assisted processing to move goods faster and reduce errors.',
+        ],
+      },
+      {
+        heading: 'Built on collaboration and sustainability',
+        paragraphs: [
+          'The new sites extend the group’s philosophy of resilient, technology-led logistics built on collaboration and sustainability. Facilities are designed to minimise environmental impact while scaling capacity, with energy efficiency and responsible operations treated as core design requirements rather than afterthoughts.',
+        ],
+      },
+    ],
+    takeaways: [
+      'New regional hubs place capacity closer to high-growth demand.',
+      'Shorter delivery windows for cross-border customers.',
+      'Facilities designed for efficient, sustainable throughput.',
+    ],
+  },
+  {
+    slug: 'eloma-group-strategic-partnership-green-freight',
+    title: 'Eloma Group Announces Strategic Partnership to Accelerate Green Freight',
+    excerpt:
+      'A new multi-year partnership pairs the group’s logistics network with low-emission transport capacity, advancing audit-ready emissions reporting across the supply chain.',
+    category: 'Partnerships',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'May 9, 2026',
+    readTime: '4 min read',
+    image:
+      'https://images.unsplash.com/photo-1473445730015-841f29a9490b?auto=format&fit=crop&w=1600&q=80',
+    intro:
+      'Eloma Group has entered a multi-year strategic partnership to expand low-emission freight capacity across its logistics network, a move that supports both customer sustainability goals and tightening regulatory reporting requirements.',
+    sections: [
+      {
+        heading: 'Why now',
+        paragraphs: [
+          'Sustainability is no longer optional in logistics. With organizations increasingly obligated to report emissions in a detailed, audit-ready manner, the ability to measure and reduce supply-chain impact has become a competitive requirement as much as an environmental one.',
+        ],
+      },
+      {
+        heading: 'What the partnership delivers',
+        paragraphs: [
+          'The partnership combines Eloma Group’s network orchestration with dedicated low-emission transport capacity and shared emissions data. Customers gain clearer visibility into the carbon footprint of their shipments, alongside practical options to reduce it.',
+        ],
+        quote:
+          'Green logistics scales on data. This partnership gives our customers both the capacity and the transparency to act.',
+      },
+    ],
+    takeaways: [
+      'Multi-year partnership expands low-emission freight capacity.',
+      'Supports audit-ready, detailed emissions reporting.',
+      'Customers gain visibility into — and options to reduce — shipment emissions.',
+    ],
+  },
+  {
+    slug: 'eloma-group-recognized-supply-chain-innovation-award',
+    title: 'Eloma Group Recognized with Supply Chain Innovation Award',
+    excerpt:
+      'The group’s technology-led approach to resilient logistics has been honoured among the year’s most significant advances in supply-chain operations.',
+    category: 'Awards',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'April 22, 2026',
+    readTime: '3 min read',
+    image:
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80',
+    intro:
+      'Eloma Group has been recognized with an industry innovation award for its technology-led approach to resilient logistics, honouring the group’s work in embedding automation and real-time visibility across its operations.',
+    sections: [
+      {
+        heading: 'Recognising intelligent resilience',
+        paragraphs: [
+          'The award highlights the group’s shift from reacting to disruption toward building intelligent resilience — using AI, automation, and real-time visibility to keep networks moving through volatility rather than simply absorbing its costs.',
+        ],
+      },
+      {
+        heading: 'A shared achievement',
+        paragraphs: [
+          'The group credited the recognition to teams across its logistics, technology, and customer-experience businesses, whose combined work turned isolated pilots into everyday operating capability.',
+        ],
+      },
+    ],
+    takeaways: [
+      'Honoured for technology-led, resilient logistics.',
+      'Recognises the shift from reactive to intelligent resilience.',
+      'Credited to teams across logistics, technology, and CX.',
+    ],
+  },
+  {
+    slug: 'eloma-group-opens-customer-experience-center',
+    title: 'Eloma Group Opens New Customer Experience Center to Scale 24/7 Support',
+    excerpt:
+      'A new center brings AI-assisted, human-led support to the group’s customers around the clock, blending automation for routine queries with people for the moments that matter.',
+    category: 'Company News',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'April 3, 2026',
+    readTime: '3 min read',
+    image:
+      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80',
+    intro:
+      'Eloma Group has opened a new customer experience center designed to deliver round-the-clock support across its businesses, combining agentic AI for routine communication with skilled teams for complex, high-stakes interactions.',
+    sections: [
+      {
+        heading: 'Automation where it helps, people where it counts',
+        paragraphs: [
+          'The center uses agentic AI to automate routine communication and improve response times, freeing specialists to focus on the conversations that genuinely require empathy and judgement. The result is faster resolution without losing the human relationship at the heart of good service.',
+        ],
+      },
+      {
+        heading: 'Built to scale',
+        paragraphs: [
+          'Designed for 24/7 coverage across time zones, the center supports the group’s growing customer base while maintaining consistent service standards. It is part of a broader investment in customer experience as a core competitive advantage rather than a cost line.',
+        ],
+      },
+    ],
+    takeaways: [
+      'New center delivers 24/7, AI-assisted, human-led support.',
+      'Automation handles routine queries; people handle the moments that matter.',
+      'Part of a broader investment in CX as a competitive advantage.',
+    ],
+  },
+  {
+    slug: 'eloma-group-publishes-first-sustainability-report',
+    title: 'Eloma Group Publishes Its First Group-Wide Sustainability Report',
+    excerpt:
+      'The inaugural report sets measurable targets across the group’s verticals and treats environmental performance as an operational KPI, not a marketing claim.',
+    category: 'Sustainability',
+    author: 'Eloma Group',
+    authorRole: 'Corporate Communications',
+    date: 'March 18, 2026',
+    readTime: '4 min read',
+    image:
+      'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=1600&q=80',
+    intro:
+      'Eloma Group has published its first group-wide sustainability report, setting out measurable targets across its businesses and committing to track environmental performance with the same rigour it applies to operational and financial metrics.',
+    sections: [
+      {
+        heading: 'From intent to accountability',
+        paragraphs: [
+          'The report moves sustainability from intent to accountability. Rather than a standalone marketing document, it embeds environmental targets into the design of logistics networks, the efficiency of facilities, the choice of partners, and the metrics leadership reviews.',
+        ],
+        quote:
+          'We treat environmental performance as an operational KPI — something we measure, report, and are held to, not something we claim.',
+      },
+      {
+        heading: 'A foundation for long-term growth',
+        paragraphs: [
+          'The group frames responsible growth not as a constraint but as the foundation that makes long-term growth possible — building businesses that will still have a licence to operate tomorrow. Future reports will track progress against the targets set in this inaugural edition.',
+        ],
+      },
+    ],
+    takeaways: [
+      'First group-wide report sets measurable, audit-ready targets.',
+      'Environmental performance treated as an operational KPI.',
+      'Responsible growth framed as the foundation for long-term growth.',
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /*  Footer                                                             */
 /* ------------------------------------------------------------------ */
 export const FOOTER_COLUMNS: FooterColumn[] = [
@@ -685,6 +932,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: 'Group Overview', href: '/about-us' },
       { label: 'Our Partners', href: '/partners' },
       { label: 'Blog', href: '/blog' },
+      { label: 'Newsroom', href: '/newsroom' },
       { label: 'Our Journey', href: '#about' },
       { label: 'Vision & Values', href: '#sustainability' },
     ],

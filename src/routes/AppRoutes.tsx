@@ -5,6 +5,8 @@ import Careers from '@/pages/Careers';
 import OurPartners from '@/pages/OurPartners';
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
+import Newsroom from '@/pages/Newsroom';
+import NewsroomArticle from '@/pages/NewsroomArticle';
 import LegalPage from '@/pages/LegalPage';
 
 /**
@@ -21,6 +23,8 @@ export function AppRoutes() {
       <Route path="/partners" element={<OurPartners />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/newsroom" element={<Newsroom />} />
+      <Route path="/newsroom/:slug" element={<NewsroomArticle />} />
       <Route path="/privacy-policy" element={<LegalPage doc="privacy-policy" />} />
       <Route path="/terms-of-use" element={<LegalPage doc="terms-of-use" />} />
       <Route path="/modern-slavery-statement" element={<LegalPage doc="modern-slavery-statement" />} />
