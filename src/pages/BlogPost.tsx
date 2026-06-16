@@ -70,6 +70,8 @@ export default function BlogPost() {
 
   if (!post) return <NotFound />;
 
+  const hasAside = !!post.takeaways && post.takeaways.length > 0;
+
   return (
     <main className="overflow-x-clip">
       <ScrollProgress />
@@ -89,7 +91,7 @@ export default function BlogPost() {
             variants={staggerParent(0.1)}
             initial="hidden"
             animate="visible"
-            className="mx-auto max-w-3xl"
+            className="max-w-5xl"
           >
             <motion.div variants={fadeUp}>
               <Link
@@ -143,15 +145,15 @@ export default function BlogPost() {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-[clamp(2rem,4vw,3rem)] max-w-5xl overflow-hidden rounded-[2rem] border border-navy-100 bg-navy-50 shadow-glass"
+            className="mt-[clamp(2rem,4vw,3rem)] overflow-hidden rounded-[clamp(1rem,2vw,2rem)] border border-navy-100 bg-navy-50 shadow-glass"
           >
             <img
               src={post.image}
               alt=""
               decoding="async"
-              width={1600}
-              height={900}
-              className="aspect-[16/9] w-full object-cover"
+              width={2400}
+              height={1000}
+              className="aspect-[16/10] w-full object-cover sm:aspect-[16/9] lg:aspect-[21/9] 2xl:aspect-[24/8]"
             />
           </motion.div>
         </Container>
@@ -160,98 +162,103 @@ export default function BlogPost() {
       {/* ── Body ──────────────────────────────────────────────────────── */}
       <article className="section-py bg-white">
         <Container>
-          <div className="mx-auto max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={VIEWPORT_ONCE}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(1.1rem,1.5vw,1.35rem)] font-light leading-[1.7] text-navy-700 text-pretty"
-            >
-              {post.intro}
-            </motion.p>
+          <div className="grid gap-x-[clamp(2rem,5vw,5rem)] gap-y-[clamp(2.5rem,5vw,4rem)] lg:grid-cols-12">
+            {/* Main column */}
+            <div className={hasAside ? 'lg:col-span-8' : 'lg:col-span-12'}>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={VIEWPORT_ONCE}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="max-w-[68ch] text-[clamp(1.1rem,1.5vw,1.4rem)] font-light leading-[1.7] text-navy-700 text-pretty"
+              >
+                {post.intro}
+              </motion.p>
 
-            <div className="mt-10 flex flex-col gap-10">
-              {post.sections.map((section, i) => (
-                <motion.section
-                  key={section.heading ?? i}
+              <div className="mt-10 flex flex-col gap-10">
+                {post.sections.map((section, i) => (
+                  <motion.section
+                    key={section.heading ?? i}
+                    variants={staggerParent(0.08)}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={VIEWPORT_ONCE}
+                  >
+                    {section.heading && (
+                      <motion.h2
+                        variants={fadeUp}
+                        className="mb-4 text-[clamp(1.3rem,2vw,1.75rem)] font-semibold leading-[1.25] text-navy-900 text-balance"
+                      >
+                        {section.heading}
+                      </motion.h2>
+                    )}
+                    {section.paragraphs.map((para, pi) => (
+                      <motion.p
+                        key={pi}
+                        variants={fadeUp}
+                        className="mb-5 max-w-[72ch] text-[clamp(1rem,1.2vw,1.18rem)] leading-[1.9] text-navy-600 text-pretty last:mb-0"
+                      >
+                        {para}
+                      </motion.p>
+                    ))}
+                    {section.quote && (
+                      <motion.blockquote
+                        variants={fadeUp}
+                        className="mt-7 max-w-[60ch] border-l-2 border-emerald-400 pl-6 text-[clamp(1.15rem,1.7vw,1.55rem)] font-light italic leading-[1.5] text-navy-800 text-balance"
+                      >
+                        “{section.quote}”
+                      </motion.blockquote>
+                    )}
+                  </motion.section>
+                ))}
+              </div>
+            </div>
+
+            {/* Sidebar — sticky key takeaways */}
+            {hasAside && (
+              <aside className="lg:col-span-4">
+                <motion.div
                   variants={staggerParent(0.08)}
                   initial="hidden"
                   whileInView="visible"
                   viewport={VIEWPORT_ONCE}
+                  className="rounded-[1.5rem] border border-navy-100 bg-navy-50/50 p-[clamp(1.5rem,2.5vw,2.25rem)] lg:sticky lg:top-28"
                 >
-                  {section.heading && (
-                    <motion.h2
-                      variants={fadeUp}
-                      className="mb-4 text-[clamp(1.3rem,2vw,1.7rem)] font-normal leading-[1.25] text-navy-900 text-balance"
-                    >
-                      {section.heading}
-                    </motion.h2>
-                  )}
-                  {section.paragraphs.map((para, pi) => (
-                    <motion.p
-                      key={pi}
-                      variants={fadeUp}
-                      className="mb-5 text-[clamp(1rem,1.2vw,1.15rem)] leading-[1.9] text-navy-600 text-pretty last:mb-0"
-                    >
-                      {para}
-                    </motion.p>
-                  ))}
-                  {section.quote && (
-                    <motion.blockquote
-                      variants={fadeUp}
-                      className="mt-7 border-l-2 border-emerald-400 pl-6 text-[clamp(1.15rem,1.7vw,1.5rem)] font-light italic leading-[1.5] text-navy-800 text-balance"
-                    >
-                      “{section.quote}”
-                    </motion.blockquote>
-                  )}
-                </motion.section>
-              ))}
-            </div>
-
-            {/* Takeaways */}
-            {post.takeaways && post.takeaways.length > 0 && (
-              <motion.aside
-                variants={staggerParent(0.08)}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="mt-12 rounded-[1.75rem] border border-navy-100 bg-navy-50/50 p-[clamp(1.5rem,3vw,2.5rem)]"
-              >
-                <motion.h2
-                  variants={fadeUp}
-                  className="text-[11px] font-extrabold uppercase tracking-[2px] text-emerald-700"
-                >
-                  Key takeaways
-                </motion.h2>
-                <ul className="mt-5 flex flex-col gap-3.5">
-                  {post.takeaways.map((t) => (
-                    <motion.li key={t} variants={fadeUp} className="flex items-start gap-3">
-                      <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
-                        <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                      </span>
-                      <span className="text-[clamp(0.95rem,1.1vw,1.08rem)] leading-[1.7] text-navy-700">
-                        {t}
-                      </span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.aside>
+                  <motion.h2
+                    variants={fadeUp}
+                    className="text-[11px] font-extrabold uppercase tracking-[2px] text-emerald-700"
+                  >
+                    Key takeaways
+                  </motion.h2>
+                  <ul className="mt-5 flex flex-col gap-3.5">
+                    {post.takeaways!.map((t) => (
+                      <motion.li key={t} variants={fadeUp} className="flex items-start gap-3">
+                        <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
+                          <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                        </span>
+                        <span className="text-[clamp(0.95rem,1.1vw,1.08rem)] leading-[1.7] text-navy-700">
+                          {t}
+                        </span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </aside>
             )}
+          </div>
 
-            {/* Foot CTA */}
-            <div className="mt-12 flex flex-col items-start justify-between gap-5 border-t border-navy-100 pt-8 sm:flex-row sm:items-center">
-              <Link
-                to="/blog"
-                className="group inline-flex items-center gap-1.5 text-[14px] font-semibold text-navy-700 transition-colors duration-300 hover:text-emerald-600"
-              >
-                <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                Back to all insights
-              </Link>
-              <Button href="/#contact" variant="primary" size="md" iconRight={<ArrowRight className="h-4 w-4" />}>
-                Talk to our team
-              </Button>
-            </div>
+          {/* Foot CTA — full width */}
+          <div className="mt-[clamp(2.5rem,5vw,4rem)] flex flex-col items-start justify-between gap-5 border-t border-navy-100 pt-8 sm:flex-row sm:items-center">
+            <Link
+              to="/blog"
+              className="group inline-flex items-center gap-1.5 text-[14px] font-semibold text-navy-700 transition-colors duration-300 hover:text-emerald-600"
+            >
+              <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
+              Back to all insights
+            </Link>
+            <Button href="/#contact" variant="primary" size="md" iconRight={<ArrowRight className="h-4 w-4" />}>
+              Talk to our team
+            </Button>
           </div>
         </Container>
       </article>

@@ -294,7 +294,7 @@ export function ContactSignal() {
 
   return (
     <section
-      id="contact-signal"
+      id="contact"
       aria-label="Contact — signal"
       className="section-py relative overflow-hidden bg-navy-50/40"
     >

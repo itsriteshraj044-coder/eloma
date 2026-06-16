@@ -1,18 +1,22 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { AnimatePresence, motion, useInView, useReducedMotion, useScroll } from 'framer-motion';
+import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   ArrowUpRight,
   Compass,
+  GraduationCap,
   Headset,
   HeartHandshake,
+  Lightbulb,
   Plane,
   ServerCog,
   ShieldCheck,
   Sparkles,
   Target,
+  TrendingUp,
   Truck,
+  Users,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -220,7 +224,7 @@ function Intro() {
               height={780}
               loading="lazy"
               decoding="async"
-              className="mt-6 h-auto w-full max-w-[clamp(220px,22vw,340px)] object-contain"
+              className="mt-6 h-auto w-full max-w-[clamp(220px,22vw,340px)] object-contain mx-auto lg:mx-0"
             />
           </motion.div>
 
@@ -551,53 +555,208 @@ function BeyondWork() {
 
 /* ── 6 · Become an Elomian (closing CTA) ─────────────────────────────────── */
 
-function BecomeElomian() {
+const ELOMIAN_PERKS: { icon: LucideIcon; label: string }[] = [
+  { icon: GraduationCap, label: 'Continuous learning' },
+  { icon: Users, label: 'Cross-vertical teams' },
+  { icon: Lightbulb, label: 'Ideas that matter' },
+  { icon: TrendingUp, label: 'Real growth' },
+];
+
+const drawUnderline = {
+  hidden: { scaleX: 0, opacity: 0 },
+  visible: { scaleX: 1, opacity: 1, transition: { duration: 0.85, ease: EASE_PREMIUM, delay: 0.25 } },
+};
+
+const perkItem = {
+  hidden: { opacity: 0, y: 14, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: EASE_PREMIUM } },
+};
+
+const ELOMIAN_STATS: { value: string; label: string }[] = [
+  { value: '5', label: 'Industries we hire across' },
+  { value: '6', label: 'Companies, one ecosystem' },
+];
+
+/* Interactive 3D model (cursor-reactive) — represents Eloma's innovation,
+   technology and forward momentum. Lazy-loaded + mounted only in view so the
+   ~1.3MB scene never blocks first paint. */
+const SPLINE_SCENE = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode';
+const Spline = lazy(() => import('@splinetool/react-spline'));
+
+function SplineFallback() {
   return (
-    <section aria-label="Careers at Eloma Group" className="section-py relative overflow-hidden bg-white">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-grid-faint bg-grid-32 opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]" />
-      </div>
+    <div className="absolute inset-0 grid place-items-center">
+      <span className="h-12 w-12 animate-spin rounded-full border-2 border-emerald-200 border-t-emerald-500" />
+    </div>
+  );
+}
+
+function BecomeElomian() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const modelY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [36, -36]);
+  const float = reduce ? undefined : { y: [0, -10, 0] };
+  const stageRef = useRef<HTMLDivElement>(null);
+  // Only mount the heavy 3D scene once it is near the viewport.
+  const stageInView = useInView(stageRef, { once: true, margin: '300px' });
+
+  return (
+    <section
+      ref={ref}
+      aria-label="Careers at Eloma Group"
+      className="section-py relative overflow-hidden bg-white"
+    >
       <Container className="relative">
-        <motion.div
-          variants={staggerParent(0.12)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <motion.span variants={fadeUp} className="eyebrow mx-auto">
-            <Sparkles className="h-3.5 w-3.5 text-emerald-400" aria-hidden="true" />
-            Careers
-          </motion.span>
-          <motion.h2
-            variants={fadeUp}
-            className="mt-6 text-[clamp(1.9rem,4.5vw,3rem)] font-light normal-case leading-[1.12] tracking-[-0.01em] text-navy-900 text-balance"
+        <div className="grid items-center gap-x-12 gap-y-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-16 xl:gap-x-24">
+          {/* ── Left: copy ── */}
+          <motion.div
+            variants={staggerParent(0.12)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_ONCE}
+            className="text-center lg:text-left"
           >
-            Become an <span className="font-normal text-emerald-500">Elomian</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="mx-auto mt-6 max-w-2xl text-body-fluid text-navy-500 text-pretty">
-            Build a meaningful career across diverse industries at Eloma Group. Work alongside passionate
-            professionals, collaborate across business verticals, and contribute to solutions that create real
-            impact.
-          </motion.p>
-          <motion.p variants={fadeUp} className="mx-auto mt-5 max-w-2xl text-body-fluid text-navy-500 text-pretty">
-            We foster a culture of continuous learning, innovation, and growth — where your ideas are valued,
-            your skills are developed, and your work drives progress across transportation, digital solutions,
-            security, and beyond.
-          </motion.p>
-          <motion.div variants={fadeUp} className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-            <Button href="/#careers" variant="primary" size="lg" iconRight={<ArrowRight className="h-4 w-4" />}>
-              See open roles
-            </Button>
-            <a
-              href="/#contact"
-              className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-navy-700 transition-colors duration-300 hover:text-emerald-600"
+            <motion.span variants={fadeUp} className="eyebrow mx-auto lg:mx-0">
+              <Sparkles className="h-3.5 w-3.5 text-emerald-400" aria-hidden="true" />
+              Careers
+            </motion.span>
+            <motion.h2
+              variants={fadeUp}
+              className="mt-6 text-[clamp(1.9rem,4.5vw,3rem)] font-light normal-case leading-[1.12] tracking-[-0.01em] text-navy-900 text-balance"
             >
-              Talk to our team
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+              Become an{' '}
+              <span className="relative inline-block font-normal text-emerald-500">
+                Elomian
+                <motion.span
+                  aria-hidden="true"
+                  variants={drawUnderline}
+                  className="absolute -bottom-1 left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-emerald-300 via-emerald-500 to-emerald-400"
+                />
+              </span>
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="mx-auto mt-6 max-w-2xl text-body-fluid text-navy-500 text-pretty lg:mx-0"
+            >
+              Build a meaningful career across diverse industries at Eloma Group. Work alongside passionate
+              professionals, collaborate across business verticals, and contribute to solutions that create real
+              impact.
+            </motion.p>
+            <motion.p
+              variants={fadeUp}
+              className="mx-auto mt-5 max-w-2xl text-body-fluid text-navy-500 text-pretty lg:mx-0"
+            >
+              We foster a culture of continuous learning, innovation, and growth — where your ideas are valued,
+              your skills are developed, and your work drives progress across transportation, digital solutions,
+              security, and beyond.
+            </motion.p>
+
+            {/* Perk pills — staggered reveal, hairline pills (no boxy cards) */}
+            <motion.ul
+              variants={staggerParent(0.07)}
+              className="mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:justify-start"
+            >
+              {ELOMIAN_PERKS.map(({ icon: Icon, label }) => (
+                <motion.li
+                  key={label}
+                  variants={perkItem}
+                  className="group inline-flex items-center gap-2 rounded-full border border-navy-100 bg-white/70 px-4 py-2 text-[13px] font-medium text-navy-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-50/60 hover:text-navy-900 hover:shadow-glass"
+                >
+                  <Icon
+                    className="h-4 w-4 text-emerald-500 transition-transform duration-300 group-hover:scale-110"
+                    aria-hidden="true"
+                  />
+                  {label}
+                </motion.li>
+              ))}
+            </motion.ul>
+
+            <motion.div
+              variants={fadeUp}
+              className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 lg:justify-start"
+            >
+              <Button
+                href="/#careers"
+                variant="primary"
+                size="lg"
+                className="overflow-hidden before:absolute before:inset-y-0 before:-left-1/4 before:w-1/4 before:-skew-x-12 before:bg-white/35 before:blur-md before:transition-transform before:duration-700 before:ease-premium before:content-[''] hover:before:translate-x-[500%]"
+                iconRight={
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-premium group-hover:translate-x-1" />
+                }
+              >
+                See open roles
+              </Button>
+              <a
+                href="/#contact"
+                className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-navy-700 transition-colors duration-300 hover:text-emerald-600"
+              >
+                Talk to our team
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </motion.div>
           </motion.div>
-        </motion.div>
+
+          {/* ── Right: interactive 3D model + floating stat cards ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEWPORT_ONCE}
+            transition={{ duration: 0.8, ease: EASE_PREMIUM }}
+            className="relative mx-auto w-full max-w-md lg:max-w-none"
+          >
+            {/* soft emerald halo behind the model */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-6 rounded-[36px] bg-[radial-gradient(circle_at_60%_35%,rgba(16,185,129,0.18),transparent_62%)] blur-2xl"
+            />
+
+            {/* 3D stage — model floats on white, no boxy frame */}
+            <motion.div
+              ref={stageRef}
+              style={{ y: modelY }}
+              className="will-transform relative aspect-[4/5] w-full sm:aspect-square lg:aspect-[4/5]"
+            >
+              {stageInView ? (
+                <Suspense fallback={<SplineFallback />}>
+                  <Spline scene={SPLINE_SCENE} className="!h-full !w-full" />
+                </Suspense>
+              ) : (
+                <SplineFallback />
+              )}
+              {/* mask the "Built with Spline" badge (bottom-right) */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-1 right-1 h-10 w-36 bg-white"
+              />
+            </motion.div>
+
+            {/* Floating stat cards — non-interactive so cursor reaches the model */}
+            <div aria-hidden="false" className="pointer-events-none">
+              <motion.div
+                animate={float}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                className="will-transform absolute -left-2 top-6 flex items-center gap-3 rounded-2xl border border-navy-100 bg-white/85 px-4 py-3 shadow-glass backdrop-blur-md sm:-left-4"
+              >
+                <span className="text-[28px] font-light leading-none text-emerald-500">{ELOMIAN_STATS[0].value}</span>
+                <span className="max-w-[7rem] text-left text-[11px] font-semibold uppercase leading-snug tracking-wide text-navy-500">
+                  {ELOMIAN_STATS[0].label}
+                </span>
+              </motion.div>
+
+              <motion.div
+                animate={float}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+                className="will-transform absolute -right-2 bottom-8 flex items-center gap-3 rounded-2xl border border-navy-100 bg-white/85 px-4 py-3 shadow-glass backdrop-blur-md sm:-right-4"
+              >
+                <span className="text-[28px] font-light leading-none text-emerald-500">{ELOMIAN_STATS[1].value}</span>
+                <span className="max-w-[7rem] text-left text-[11px] font-semibold uppercase leading-snug tracking-wide text-navy-500">
+                  {ELOMIAN_STATS[1].label}
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </Container>
     </section>
   );

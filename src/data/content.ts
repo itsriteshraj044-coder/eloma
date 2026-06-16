@@ -47,7 +47,7 @@ import type {
 export const BRAND = {
   name: 'Eloma Group',
   phonePrimary: '1800 054 555',
-  phoneFooter: '1800 710 388',
+  phoneFooter: '1800 054 555',
   email: 'connect@elomagroup.com.au',
   tagline:
     'Powering businesses across logistics, digital innovation, security, travel, and customer solutions — driven by purpose and sustainability.',
@@ -60,7 +60,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Our Businesses', href: '#businesses' },
   { label: 'Sustainability', href: '#sustainability' },
-  { label: 'Careers', href: '#careers' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Contact Us', href: '#contact' },
 ];
 
@@ -140,7 +140,7 @@ export const NAV_ITEMS: NavItem[] = [
       ],
     },
   },
-  { label: 'Careers', href: '#careers' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Contact Us', href: '#contact' },
 ];
 
@@ -713,7 +713,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: 'Resources',
     links: [
-      { label: 'Careers', href: '#careers' },
+      { label: 'Careers', href: '/careers' },
       { label: 'Contact', href: '#contact' },
       { label: 'Leadership', href: '#leadership' },
       { label: 'News & Press', href: '#' },
@@ -725,9 +725,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Become a Partner', href: '#contact' },
       { label: 'Contact Us', href: '#contact' },
-      { label: 'Customer Login', href: '#customer-login' },
       { label: 'FAQ', href: '#' },
-      { label: 'Vendor Login', href: '#vendor-login' },
     ],
   },
 ];
@@ -744,11 +742,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const LEGAL = {
   copyright: '© 2026 Eloma Group. All rights reserved. ABN: 69 683 543 713',
-  madeBy: 'Made by EG Digital',
+  madeBy: 'Developed by EG Digital',
   links: [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Use', href: '#' },
-    { label: 'Cookie Settings', href: '#' },
-    { label: 'Modern Slavery Statement', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Use', href: '/terms-of-use' },
+    { label: 'Modern Slavery Statement', href: '/modern-slavery-statement' },
   ] as NavLink[],
 } as const;

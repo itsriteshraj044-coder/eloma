@@ -43,9 +43,9 @@ export function Footer() {
               </a>
               <a
                 href={`mailto:${BRAND.email}`}
-                className="inline-flex items-center gap-2.5 text-navy-700 transition-colors hover:text-emerald-600 3xl:gap-3"
+                className="inline-flex items-start gap-2.5 break-all text-navy-700 transition-colors hover:text-emerald-600 3xl:gap-3"
               >
-                <Mail className="h-4 w-4 text-emerald-500 3xl:h-5 3xl:w-5 4xl:h-6 4xl:w-6" aria-hidden="true" />
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500 3xl:h-5 3xl:w-5 4xl:h-6 4xl:w-6" aria-hidden="true" />
                 {BRAND.email}
               </a>
             </div>
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-6 sm:grid-cols-3 sm:gap-8 md:grid-cols-4 xl:grid-cols-5 3xl:gap-10 4xl:gap-14 5xl:gap-16">
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 sm:gap-8 lg:grid-cols-5 3xl:gap-10 4xl:gap-14 5xl:gap-16">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.heading}>
                 <h3 className="text-[11px] font-extrabold uppercase tracking-[2px] text-navy-900">
@@ -95,17 +95,23 @@ export function Footer() {
         </div>
 
         {/* Bottom: legal */}
-        <div className="flex flex-col gap-4 border-t border-navy-100 py-6 text-[12px] font-normal text-navy-400 md:flex-row md:items-center md:justify-between 3xl:py-8 4xl:py-10">
-          <span>{LEGAL.copyright}</span>
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {LEGAL.links.map((link) => (
-              <li key={link.label}>
-                <a href={link.href} className="transition-colors hover:text-emerald-600">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div className="flex flex-col gap-4 border-t border-navy-100 py-6 text-[12px] font-normal text-navy-400 lg:flex-row lg:items-center lg:justify-between lg:gap-6 3xl:py-8 4xl:py-10">
+          <span className="order-2 lg:order-1">{LEGAL.copyright}</span>
+          <div className="order-1 flex flex-col gap-x-6 gap-y-2 sm:flex-row sm:flex-wrap sm:items-center lg:order-2 lg:justify-end">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              {LEGAL.links.map((link) => (
+                <li key={link.label}>
+                  <SmartLink href={link.href} className="transition-colors hover:text-emerald-600">
+                    {link.label}
+                  </SmartLink>
+                </li>
+              ))}
+            </ul>
+            <span className="text-navy-500">
+              {LEGAL.madeBy.replace(/EG Digital$/, '')}
+              <span className="font-semibold text-emerald-600">EG Digital</span>
+            </span>
+          </div>
         </div>
       </Container>
     </footer>

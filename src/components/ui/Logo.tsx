@@ -9,12 +9,12 @@ export function Logo({ className }: LogoProps) {
   return (
     <span className={cn('inline-flex items-center', className)}>
       <img
-        src="/Eloma Group Logo-01.png"
+        src="/Eloma Group Logo-02.png"
         alt="Eloma Group"
-        width={2000}
-        height={780}
+        width={1900}
+        height={1900}
         decoding="async"
-        className="h-9 w-auto object-contain sm:h-10 3xl:h-11 4xl:h-12"
+        className="h-12 w-auto object-contain sm:h-14 3xl:h-16 4xl:h-[68px]"
       />
     </span>
   );

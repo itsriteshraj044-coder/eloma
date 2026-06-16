@@ -54,6 +54,24 @@ export function useSmoothScroll() {
 
     document.addEventListener('click', onClick);
 
+    // Landed on a deep link like "/#contact" (e.g. Contact Us clicked from
+    // another route). The native jump misfires while the splash overlay is up
+    // and Lenis owns the scroll, so re-run it ourselves once the DOM is ready.
+    if (window.location.hash && window.location.hash !== '#') {
+      const hash = window.location.hash;
+      const t = setTimeout(() => {
+        const target = document.querySelector(hash);
+        if (target) lenis.scrollTo(target as HTMLElement, { offset: NAV_OFFSET, immediate: true });
+      }, 200);
+      // ensure the timer is cleared on unmount
+      return () => {
+        clearTimeout(t);
+        document.removeEventListener('click', onClick);
+        cancelAnimationFrame(rafId);
+        lenis.destroy();
+      };
+    }
+
     return () => {
       document.removeEventListener('click', onClick);
       cancelAnimationFrame(rafId);

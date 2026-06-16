@@ -77,11 +77,11 @@ const PARTNERS: Partner[] = [
     body: 'A trusted name in commercial transportation, Isuzu is recognized worldwide for reliability, durability, and performance. Through collaborations with industry leaders such as Isuzu, we strengthen our transportation capabilities and support efficient movement across supply chains.',
   },
   {
-    name: 'Direct Couriers',
-    sector: 'Courier & Distribution',
-    logo: '/partners/directcouriers.png',
-    logoClass: 'h-[clamp(3.25rem,6vw,5rem)]',
-    body: 'With a strong reputation for dependable courier and distribution services, Direct Couriers plays an important role in supporting efficient and customer-focused delivery operations. Our partnership enables greater connectivity, improved service capabilities, and enhanced reliability across business networks. Together, we are committed to delivering excellence, creating value, and supporting business growth through trusted logistics and distribution solutions.',
+    name: 'Amazon Web Services',
+    sector: 'Cloud & Infrastructure',
+    logo: '/partners/aws.svg',
+    logoClass: 'h-[clamp(2.5rem,4.2vw,3.75rem)]',
+    body: 'As the world’s most comprehensive and broadly adopted cloud platform, Amazon Web Services (AWS) powers businesses with secure, scalable infrastructure, advanced computing, storage, and intelligent data solutions. Our association with AWS reflects our commitment to building reliable, future-ready systems — enabling digital transformation, operational efficiency, and innovation at scale. Together, we deliver cloud-driven solutions that help businesses grow faster, operate smarter, and stay resilient across every industry we serve.',
   },
 ];
 
