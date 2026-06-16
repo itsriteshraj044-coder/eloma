@@ -712,25 +712,19 @@ function BecomeElomian() {
             <motion.div
               ref={stageRef}
               style={{ y: modelY }}
-              className="will-transform relative z-20 aspect-[4/5] w-full sm:aspect-square lg:aspect-[4/5]"
+              className="will-transform relative z-20 aspect-square w-full"
             >
               {stageInView ? (
                 <Suspense fallback={<SplineFallback />}>
-                  {/* Scale the canvas + center it (object-contain style) so the
-                      FULL model — incl. the arms when they swing out during the
-                      idle animation — stays visible and never clips. */}
-                  <div className="absolute inset-0 origin-center scale-[0.72]">
-                    <Spline
-                      scene={SPLINE_SCENE}
-                      className="!h-full !w-full [&_canvas]:!object-contain"
-                    />
-                    {/* mask the "Built with Spline" badge — inside the scaled
-                        wrapper so it tracks the canvas' bottom-right corner */}
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute bottom-0 right-0 h-12 w-40 bg-white"
-                    />
-                  </div>
+                  {/* Full-size canvas (no shrinking) — the frame's aspect ratio
+                      is matched to the model so it fits edge-to-edge without
+                      clipping the arms during the idle animation. */}
+                  <Spline scene={SPLINE_SCENE} className="!h-full !w-full" />
+                  {/* mask the "Built with Spline" badge (bottom-right) */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute bottom-0 right-0 h-12 w-40 bg-white"
+                  />
                 </Suspense>
               ) : (
                 <SplineFallback />
