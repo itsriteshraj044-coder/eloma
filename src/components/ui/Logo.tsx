@@ -7,14 +7,14 @@ interface LogoProps {
 
 export function Logo({ className }: LogoProps) {
   return (
-    <span className={cn('inline-flex items-center', className)}>
+    <span className={cn('inline-flex items-center py-1.5', className)}>
       <img
-        src="/Eloma Group Logo-02.png"
+        src="/Eloma Group Logo-03.png"
         alt="Eloma Group"
-        width={1900}
-        height={1900}
+        width={720}
+        height={720}
         decoding="async"
-        className="h-12 w-auto object-contain sm:h-14 3xl:h-16 4xl:h-[68px]"
+        className="h-9 w-auto object-contain sm:h-10 3xl:h-12 4xl:h-[52px]"
       />
     </span>
   );

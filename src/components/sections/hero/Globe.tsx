@@ -6,15 +6,16 @@ import { cn } from '@/lib/cn';
 /* ── Markets ────────────────────────────────────────────────────────────── */
 const HQ: [number, number] = [-37.8136, 144.9631]; // Melbourne
 
-const MARKETS: { id: string; location: [number, number]; size: number; label: string }[] = [
-  { id: 'melbourne', location: HQ,                        size: 0.12, label: 'Australia' },
-  { id: 'mumbai',    location: [19.076,   72.8777],       size: 0.07, label: 'India'     },
-  { id: 'newyork',   location: [40.7128, -74.006],        size: 0.08, label: 'USA'       },
-  { id: 'toronto',   location: [43.6532, -79.3832],       size: 0.06, label: 'Canada'    },
-  { id: 'shanghai',  location: [31.2304,  121.4737],      size: 0.07, label: 'China'     },
-  { id: 'london',    location: [51.5074,  -0.1278],       size: 0.07, label: 'UK'        },
-  { id: 'dubai',     location: [25.2048,  55.2708],       size: 0.06, label: 'UAE'       },
-  { id: 'singapore', location: [ 1.3521, 103.8198],       size: 0.06, label: 'Singapore' },
+// `labelOffset` (px) nudges a label's pill so nearby markers don't collide.
+const MARKETS: { id: string; location: [number, number]; size: number; label: string; labelOffset?: [number, number] }[] = [
+  { id: 'melbourne', location: HQ,                        size: 0.035, label: 'Australia' },
+  { id: 'mumbai',    location: [19.076,   72.8777],       size: 0.035, label: 'India'     },
+  { id: 'newyork',   location: [40.7128, -74.006],        size: 0.04, label: 'USA',     labelOffset: [34, 26] },
+  { id: 'toronto',   location: [43.6532, -79.3832],       size: 0.03, label: 'Canada',  labelOffset: [-34, -22] },
+  { id: 'shanghai',  location: [31.2304,  121.4737],      size: 0.035, label: 'China'     },
+  { id: 'london',    location: [51.5074,  -0.1278],       size: 0.035, label: 'UK'        },
+  { id: 'dubai',     location: [25.2048,  55.2708],       size: 0.03, label: 'UAE'       },
+  { id: 'singapore', location: [ 1.3521, 103.8198],       size: 0.03, label: 'Singapore' },
 ];
 
 /* ── Globe config ─────────────────────────────────────────────────────────
@@ -33,7 +34,7 @@ const GLOBE_CONFIG: Omit<COBEOptions, 'width' | 'height'> = {
   mapBrightness:    8,
   mapBaseBrightness:0.04,
   baseColor:   [0.87, 0.91, 0.95],   // cool blue-white ocean (navy-50)
-  markerColor: [0.12, 0.26, 0.40],   // deep navy markers (contrast on light)
+  markerColor: [0.90, 0.12, 0.12],   // red markers
   glowColor:   [0.62, 0.71, 0.81],   // soft navy halo (navy-200)
   markerElevation: 0.03,
   markers: MARKETS.map(({ id, location, size }) => ({ id, location, size })),
@@ -47,10 +48,13 @@ const LABEL_CSS = [
   'pointer-events:none',
   'opacity:0',
   'transition:opacity 0.35s ease',
-  'transform:translateX(-50%) translateY(-145%)',
   'white-space:nowrap',
   'z-index:10',
 ].join(';');
+
+// Base offset lifts the pill above its marker; per-marker labelOffset (px) is added.
+const labelTransform = (offset?: [number, number]) =>
+  `translateX(calc(-50% + ${offset?.[0] ?? 0}px)) translateY(calc(-145% + ${offset?.[1] ?? 0}px))`;
 
 // White text, navy background pill.
 const BADGE_CSS = [
@@ -112,6 +116,7 @@ export function Globe({ className }: { className?: string }) {
     MARKETS.forEach(m => {
       const el = document.createElement('div');
       el.style.cssText = LABEL_CSS;
+      el.style.transform = labelTransform(m.labelOffset);
       el.innerHTML = `<span style="${BADGE_CSS}">${m.label}</span>`;
       cobeWrapper.appendChild(el);
       labelEls.set(m.id, el);

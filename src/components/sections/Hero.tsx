@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 /** Draws a centered, video-filled, animated text mask onto a full-bleed canvas. */
-function useVideoTextCanvas(text: string, widthRatio: number, videoSrc: string) {
+export function useVideoTextCanvas(text: string, widthRatio: number, videoSrc: string) {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const fontSizeRef = useRef(0);
   const prevWRef    = useRef(0);
@@ -136,8 +136,8 @@ export function Hero() {
 
           {/* 3. Group label */}
           <motion.p
-            style={{ scale: canvasScale, opacity: canvasOpacity }}
-            className="will-transform select-none text-[clamp(1.375rem,3.9vw,2rem)] leading-[1.1] font-extralight normal-case text-navy-900"
+            style={{ scale: canvasScale, opacity: canvasOpacity, fontFamily: 'var(--font-sans), ui-sans-serif, system-ui, sans-serif' }}
+            className="will-transform select-none text-[clamp(1.25rem,3.5vw,1.75rem)] leading-[1.15] font-extralight normal-case text-navy-900"
           >
             Group
           </motion.p>

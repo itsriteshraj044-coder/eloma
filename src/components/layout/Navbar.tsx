@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import type { AnchorHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
-import { ChevronDown, Menu, Phone, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { Logo } from '@/components/ui/Logo';
-import { BRAND, NAV_ITEMS } from '@/data/content';
+import { NAV_ITEMS } from '@/data/content';
 import { cn } from '@/lib/cn';
 import { EASE_PREMIUM } from '@/lib/motion';
 import type { MegaMenu } from '@/types';
@@ -236,17 +236,6 @@ export function Navbar() {
             })}
           </ul>
 
-          {/* ── Right actions ───────────────────────────────────────── */}
-          <div className="hidden items-center gap-2 lg:flex">
-            <a
-              href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-navy-900 bg-navy-900 px-4 py-2 text-[13px] font-bold text-white transition-all duration-300 ease-premium hover:bg-navy-700 active:scale-[0.98]"
-            >
-              <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-              {BRAND.phonePrimary}
-            </a>
-          </div>
-
           {/* ── Mobile hamburger ────────────────────────────────────── */}
           <button
             type="button"
@@ -372,18 +361,6 @@ export function Navbar() {
                 })}
               </ul>
 
-              <div className="mx-3 h-px bg-navy-100" />
-
-              <div className="p-3">
-                <a
-                  href={`tel:${BRAND.phonePrimary.replace(/\s/g, '')}`}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full border border-navy-900 bg-navy-900 px-5 py-2.5 text-[15px] font-bold text-white transition-colors hover:bg-navy-700"
-                >
-                  <Phone className="h-4 w-4" aria-hidden="true" />
-                  {BRAND.phonePrimary}
-                </a>
-              </div>
             </motion.div>
           </motion.div>
         )}

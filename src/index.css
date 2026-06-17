@@ -226,3 +226,18 @@
     animation: fc-stroke-spin 10s linear infinite;
   }
 }
+
+/* Spline scene loading spinner (used by SplineScene fallback) */
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 9999px;
+  animation: loader-spin 0.8s linear infinite;
+}
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

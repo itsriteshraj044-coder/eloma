@@ -1,4 +1,5 @@
 import { Hero } from '@/components/sections/Hero';
+import { HeroSpline } from '@/components/sections/HeroSpline';
 import { ConnectedGlobally } from '@/components/sections/ConnectedGlobally';
 // import { BusinessUniverse } from '@/components/sections/BusinessUniverse';
 // import { BusinessIndex } from '@/components/sections/BusinessIndex';
@@ -79,6 +80,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      {/* Duplicate hero placed directly below the existing one */}
+      <HeroSpline />
       <ConnectedGlobally />
       {/* <BusinessUniverse /> */}
       {/* <BusinessIndex /> */}

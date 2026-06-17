@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 import { BRAND, FOOTER_COLUMNS, LEGAL, SOCIAL_LINKS } from '@/data/content';
@@ -34,13 +34,6 @@ export function Footer() {
             <p className="mt-6 text-[13.5px] font-normal leading-[1.75] text-navy-500">{BRAND.tagline}</p>
 
             <div className="mt-8 flex flex-col gap-3 text-[13.5px] font-normal 3xl:gap-4">
-              <a
-                href={`tel:${BRAND.phoneFooter.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 text-navy-700 transition-colors hover:text-emerald-600 3xl:gap-3"
-              >
-                <Phone className="h-4 w-4 text-emerald-500 3xl:h-5 3xl:w-5 4xl:h-6 4xl:w-6" aria-hidden="true" />
-                {BRAND.phoneFooter}
-              </a>
               <a
                 href={`mailto:${BRAND.email}`}
                 className="inline-flex items-start gap-2.5 break-all text-navy-700 transition-colors hover:text-emerald-600 3xl:gap-3"

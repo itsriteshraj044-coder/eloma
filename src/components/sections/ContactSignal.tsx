@@ -8,7 +8,6 @@ import {
   Clock,
   Loader2,
   Mail,
-  Phone,
   Search,
   Send,
 } from 'lucide-react';
@@ -337,16 +336,6 @@ export function ContactSignal() {
             transition={{ duration: 0.6, ease: EASE_PREMIUM }}
             className="mx-auto mt-10 flex max-w-4xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-1 sm:gap-y-2"
           >
-            <a
-              href={`tel:${primaryOffice.phone?.replace(/\s/g, '')}`}
-              className="group flex items-center justify-center gap-3 whitespace-nowrap px-4 py-3"
-            >
-              <Phone className="h-[18px] w-[18px] shrink-0 text-emerald-500" aria-hidden="true" />
-              <span className="text-base font-semibold text-navy-900 transition-colors duration-200 group-hover:text-emerald-700">
-                {primaryOffice.phone}
-              </span>
-            </a>
-            <span aria-hidden="true" className="hidden h-8 w-px bg-navy-200 sm:block" />
             <a
               href={`mailto:${primaryOffice.email}`}
               className="group flex items-center justify-center gap-3 whitespace-nowrap px-4 py-3"
