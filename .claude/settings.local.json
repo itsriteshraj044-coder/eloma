@@ -159,7 +159,8 @@
       "PowerShell(node scripts/shot-burst.mjs 2>&1)",
       "Bash(sed 's#burst-#mburst-#g')",
       "Bash(node scripts/shot-burst-m.mjs)",
-      "Bash(FF=C:/Users/rites/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe python -c ' *)"
+      "Bash(FF=C:/Users/rites/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe python -c ' *)",
+      "Bash(identify \"public/Eloma Group Logo-03.png\")"
     ]
   }
 }

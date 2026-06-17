@@ -147,10 +147,10 @@ export function CapabilitiesBlueprint() {
           {/* Hub — Eloma Group logo at the centre of the globe.
               Outer div positions, middle div floats (CSS), inner img handles
               the framer entrance — transforms never fight each other. */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[40%] -translate-x-1/2 -translate-y-1/2">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[26%] -translate-x-1/2 -translate-y-1/2">
             <div className="will-transform h-full w-full animate-float [animation-duration:8s] motion-reduce:animate-none">
               <motion.img
-                src="/Eloma Group Logo-02.png"
+                src="/Eloma Group Logo-03.png"
                 alt="Eloma Group logo"
                 width={200}
                 height={200}

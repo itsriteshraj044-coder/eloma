@@ -93,9 +93,6 @@ export function HeroSpline() {
 
           {/* faint contact shadow grounding the model */}
           <div className="pointer-events-none absolute bottom-[7%] left-1/2 h-[5%] w-[48%] -translate-x-1/2 rounded-[50%] bg-navy-900/10 blur-2xl" />
-
-          {/* very light ground line, pinned to the model's foot level */}
-          <div className="pointer-events-none absolute bottom-[5%] left-1/2 h-px w-[200vw] -translate-x-1/2 bg-navy-100/60" />
         </motion.div>
       </div>
     </section>
