@@ -163,7 +163,9 @@
       "Bash(identify \"public/Eloma Group Logo-03.png\")",
       "Read(//c/Program Files/**)",
       "Read(//c//**)",
-      "Bash(where ffmpeg.exe)"
+      "Bash(where ffmpeg.exe)",
+      "Bash(command -v magick)",
+      "Bash(command -v convert)"
     ]
   }
 }

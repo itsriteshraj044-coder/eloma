@@ -9,7 +9,7 @@ export function Logo({ className }: LogoProps) {
   return (
     <span className={cn('inline-flex items-center py-1.5', className)}>
       <img
-        src="/Eloma Group.png"
+        src="/Eloma Group Trademark Logo-03.png"
         alt="Eloma Group"
         width={1024}
         height={1024}
