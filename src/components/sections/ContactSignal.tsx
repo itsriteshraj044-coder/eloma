@@ -8,9 +8,12 @@ import {
   Clock,
   Loader2,
   Mail,
+  MapPin,
   Search,
   Send,
 } from 'lucide-react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { SplineScene } from '@/components/ui/splite';
 import { Container } from '@/components/ui/Container';
 import { BRAND, CONTACT, INQUIRY_TYPES, OFFICES } from '@/data/content';
 import { COUNTRIES, flagEmoji } from '@/data/countries';
@@ -209,20 +212,26 @@ function PhoneField({
   );
 }
 
-/** One office in the bottom strip — shows its city + a live local clock. */
-function OfficeTile({ office }: { office: Office }) {
+/** A floating office label over the 3D scene — city, HQ badge, live clock. */
+function OfficeChip({ office }: { office: Office }) {
   const time = useLocalTime(OFFICE_TZ[office.city]);
   return (
-    <div className="flex shrink-0 items-center gap-3 rounded-full border border-navy-100 bg-white/80 px-5 py-2.5 shadow-glass">
+    <div
+      className={cn(
+        'inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 shadow-glass backdrop-blur-md',
+        office.primary ? 'border-emerald-200 bg-white/85' : 'border-white/60 bg-white/70',
+      )}
+    >
+      <MapPin className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
       <span className="text-sm font-bold text-navy-900">{office.city.split(',')[0]}</span>
       {office.primary && (
-        <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-600">
+        <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-white">
           HQ
         </span>
       )}
       {time && (
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-navy-400">
-          <Clock className="h-3.5 w-3.5 text-emerald-500" aria-hidden="true" />
+        <span className="inline-flex items-center gap-1 text-xs font-semibold tabular-nums text-navy-500">
+          <Clock className="h-3 w-3 text-navy-300" aria-hidden="true" />
           {time}
         </span>
       )}
@@ -295,7 +304,7 @@ export function ContactSignal() {
     <section
       id="contact"
       aria-label="Contact — signal"
-      className="section-py relative overflow-hidden bg-navy-50/40"
+      className="section-py relative overflow-hidden bg-navy-50/40 pb-0"
     >
       {/* Faint backdrop grid, fading at the edges */}
       <div
@@ -327,43 +336,71 @@ export function ContactSignal() {
           </motion.p>
         </motion.div>
 
-        {/* ── Horizontal direct-line bar ── */}
-        {primaryOffice && (
+        {/* ── Split: animated visual + form (Framer-style two-column) ── */}
+        <div className="mx-auto mt-12 grid max-w-6xl items-stretch gap-5 lg:grid-cols-12">
+          {/* Left — Lottie visual + direct line */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VIEWPORT_ONCE}
-            transition={{ duration: 0.6, ease: EASE_PREMIUM }}
-            className="mx-auto mt-10 flex max-w-4xl flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-1 sm:gap-y-2"
+            transition={{ duration: 0.7, ease: EASE_PREMIUM }}
+            className="relative flex flex-col overflow-hidden rounded-[1.75rem] border border-navy-100 bg-gradient-to-br from-white via-navy-50/60 to-white p-6 shadow-glass sm:p-8 lg:col-span-5"
           >
-            <a
-              href={`mailto:${primaryOffice.email}`}
-              className="group flex items-center justify-center gap-3 whitespace-nowrap px-4 py-3"
-            >
-              <Mail className="h-[18px] w-[18px] shrink-0 text-emerald-500" aria-hidden="true" />
-              <span className="text-base font-semibold text-navy-900 transition-colors duration-200 group-hover:text-emerald-700">
-                {primaryOffice.email}
-              </span>
-            </a>
-            <span aria-hidden="true" className="hidden h-8 w-px bg-navy-200 sm:block" />
-            <span className="flex items-center justify-center gap-2.5 whitespace-nowrap px-4 py-3 text-sm font-medium text-navy-500">
-              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70 [animation-duration:2.4s]" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              </span>
-              Reply within <span className="font-bold text-navy-800">2 hours</span>
-            </span>
-          </motion.div>
-        )}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-navy-300/25 blur-3xl"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-20 -left-16 h-52 w-52 rounded-full bg-navy-200/40 blur-3xl"
+            />
 
-        {/* ── Wide single-screen form ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
-          className="mx-auto mt-12 max-w-3xl rounded-[1.75rem] border border-navy-100 bg-white/90 p-6 shadow-glass sm:p-9 3xl:p-10"
-        >
+            {/* Animation — fixed render box at high DPR (no CSS upscaling) so it
+                stays crystal-clear; contained so the whole frame is visible. */}
+            <div className="relative -mx-6 grid flex-1 place-items-center py-2 sm:-mx-8">
+              <DotLottieReact
+                src="https://lottie.host/c9a98ee8-6a3f-4f09-83e0-21e76cc7c342/4S8Teq4Xos.lottie"
+                loop
+                autoplay
+                className="aspect-[13/8] w-full"
+                renderConfig={{
+                  autoResize: true,
+                  devicePixelRatio: Math.max(typeof window !== 'undefined' ? window.devicePixelRatio : 2, 2),
+                }}
+                layout={{ fit: 'contain', align: [0.5, 0.5] }}
+              />
+            </div>
+
+            {/* Direct line */}
+            {primaryOffice && (
+              <div className="relative mt-6 border-t border-navy-100 pt-6">
+                <a href={`mailto:${primaryOffice.email}`} className="group flex items-center gap-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-emerald-50 text-emerald-600">
+                    <Mail className="h-[18px] w-[18px]" aria-hidden="true" />
+                  </span>
+                  <span className="text-base font-semibold text-navy-900 transition-colors duration-200 group-hover:text-emerald-700">
+                    {primaryOffice.email}
+                  </span>
+                </a>
+                <span className="mt-4 flex items-center gap-2.5 text-sm font-medium text-navy-500">
+                  <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70 [animation-duration:2.4s]" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  </span>
+                  Reply within <span className="font-bold text-navy-800">2 hours</span>
+                </span>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Right — single-screen form */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEWPORT_ONCE}
+            transition={{ duration: 0.7, ease: EASE_PREMIUM, delay: 0.05 }}
+            className="rounded-[1.75rem] border border-navy-100 bg-white/90 p-6 shadow-glass sm:p-9 lg:col-span-7 3xl:p-10"
+          >
           <AnimatePresence mode="wait">
             {status === 'sent' ? (
               <motion.div
@@ -579,27 +616,42 @@ export function ContactSignal() {
               </motion.form>
             )}
           </AnimatePresence>
-        </motion.div>
-
-        {/* ── Office strip with live local clocks ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.6, ease: EASE_PREMIUM, delay: 0.1 }}
-          className="mt-12"
-        >
-          <p className="text-center text-[11px] font-bold uppercase tracking-[0.18em] text-navy-400">
-            Our Offices
-          </p>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-            {OFFICES.map((office) => (
-              <OfficeTile key={office.city} office={office} />
-            ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
       </Container>
+
+      {/* ── Our Offices — full-width 3D scene; heading + cities sit above the earth ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={VIEWPORT_ONCE}
+        transition={{ duration: 0.8, ease: EASE_PREMIUM }}
+        className="relative mt-12 w-full sm:mt-16"
+      >
+        <div className="relative h-[clamp(460px,56vw,820px)] w-full">
+          {/* Interactive 3D earth */}
+          <SplineScene
+            scene="https://prod.spline.design/IUF9sLybH2X79si2/scene.splinecode"
+            className="absolute inset-0 h-full w-full"
+          />
+
+          {/* Heading + cities — linear, in the space above the earth */}
+          <div className="pointer-events-none absolute inset-x-0 top-7 z-10 flex flex-col items-center gap-4 px-4 sm:top-9">
+            <span className="eyebrow">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Our Offices
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
+              {OFFICES.map((office) => (
+                <div key={office.city} className="pointer-events-auto">
+                  <OfficeChip office={office} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

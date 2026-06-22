@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const SPLASH_VIDEO_URL = '/splash-clean.mp4';
+/** Transparent (alpha) WebM; MP4 is the fallback for browsers without VP9-alpha. */
+const SPLASH_VIDEO_WEBM = '/splash-eloma.webm';
+const SPLASH_VIDEO_MP4 = '/splash-eloma.mp4';
 /** Safety net: dismiss even if the video never fires `ended` (e.g. autoplay blocked). */
 const MAX_SPLASH_MS = 13000;
 
@@ -47,7 +49,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             style={{ willChange: 'transform, opacity' }}
           >
             <video
-              src={SPLASH_VIDEO_URL}
               autoPlay
               muted
               playsInline
@@ -56,7 +57,10 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               onEnded={dismiss}
               onError={dismiss}
               className="h-auto w-full object-contain"
-            />
+            >
+              <source src={SPLASH_VIDEO_WEBM} type="video/webm" />
+              <source src={SPLASH_VIDEO_MP4} type="video/mp4" />
+            </video>
           </motion.div>
         </motion.div>
       )}

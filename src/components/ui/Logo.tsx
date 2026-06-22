@@ -9,10 +9,10 @@ export function Logo({ className }: LogoProps) {
   return (
     <span className={cn('inline-flex items-center py-1.5', className)}>
       <img
-        src="/Eloma Group Logo-03.png"
+        src="/Eloma Group.png"
         alt="Eloma Group"
-        width={720}
-        height={720}
+        width={1024}
+        height={1024}
         decoding="async"
         className="h-9 w-auto object-contain sm:h-10 3xl:h-12 4xl:h-[52px]"
       />

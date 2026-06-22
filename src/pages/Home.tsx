@@ -1,5 +1,4 @@
 import { Hero } from '@/components/sections/Hero';
-import { HeroSpline } from '@/components/sections/HeroSpline';
 import { ConnectedGlobally } from '@/components/sections/ConnectedGlobally';
 // import { BusinessUniverse } from '@/components/sections/BusinessUniverse';
 // import { BusinessIndex } from '@/components/sections/BusinessIndex';
@@ -24,7 +23,8 @@ import { BusinessStructure } from '@/components/sections/BusinessStructure';
 // import { BusinessTombstones } from '@/components/sections/BusinessTombstones';
 // import { BusinessConsole } from '@/components/sections/BusinessConsole';
 // import { Companies } from '@/components/sections/Companies';
-import { CompaniesCopy } from '@/components/sections/CompaniesCopy';
+// import { CompaniesCopy } from '@/components/sections/CompaniesCopy';
+import { CompaniesProcess } from '@/components/sections/CompaniesProcess';
 // import { CompaniesGallery } from '@/components/sections/CompaniesGallery';
 // import { CompaniesPostcards } from '@/components/sections/CompaniesPostcards';
 // import { CompaniesPanorama } from '@/components/sections/CompaniesPanorama';
@@ -37,7 +37,8 @@ import { AboutMask } from '@/components/sections/AboutMask';
 // import { Sustainability } from '@/components/sections/Sustainability';
 // import { SustainAtmosphere } from '@/components/sections/SustainAtmosphere';
 // import { SustainMatrix } from '@/components/sections/SustainMatrix';
-import { SustainTransit } from '@/components/sections/SustainTransit';
+// import { SustainTransit } from '@/components/sections/SustainTransit';
+import { SustainBento } from '@/components/sections/SustainBento';
 // import { SustainGrowthline } from '@/components/sections/SustainGrowthline';
 // import { SustainStrata } from '@/components/sections/SustainStrata';
 // import { SustainLedger } from '@/components/sections/SustainLedger';
@@ -80,8 +81,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      {/* Duplicate hero placed directly below the existing one */}
-      <HeroSpline />
       <ConnectedGlobally />
       {/* <BusinessUniverse /> */}
       {/* <BusinessIndex /> */}
@@ -95,7 +94,9 @@ export default function Home() {
       {/* <BusinessPortfolio /> */}
       {/* <BusinessShowcase /> */}
       {/* <Companies /> */}
-      <CompaniesCopy />
+      {/* Our Companies — zig-zag process staircase (same content as CompaniesCopy) */}
+      <CompaniesProcess />
+      {/* <CompaniesCopy /> */}
       {/* <CompaniesGallery /> */}
       {/* <CompaniesPostcards /> */}
       {/* <CompaniesPanorama /> */}
@@ -107,8 +108,9 @@ export default function Home() {
       {/* <AboutCinema /> */}
       {/* <Sustainability /> */}
       {/* <SustainAtmosphere /> */}
-      {/* Why We Exist — BusinessTransit ("group line") design, pillar content */}
-      <SustainTransit />
+      {/* Why We Exist — bento-grid design (same pillar content) */}
+      <SustainBento />
+      {/* Previous "group line" design: <SustainTransit /> */}
       {/* <SustainMatrix /> */}
       {/* — Why We Exist redesign concepts (below the existing section, same content) — */}
       {/* Round 1 (rejected): <SustainGrowthline /> <SustainStrata /> <SustainLedger /> <SustainRings /> <SustainPanorama /> */}
