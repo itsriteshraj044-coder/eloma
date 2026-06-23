@@ -13,12 +13,6 @@ export const fadeUp: Variants = {
   },
 };
 
-/** Simple fade. */
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6, ease: EASE_PREMIUM } },
-};
-
 /** Scale-in for cards and media. */
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.94, y: 24 },

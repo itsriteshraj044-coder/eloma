@@ -99,6 +99,7 @@ export function Globe({ className }: { className?: string }) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let width = canvas.offsetWidth || 480;
     let raf   = 0;
+    let onScreen = true;
 
     const globe = createGlobe(canvas, {
       ...GLOBE_CONFIG,
@@ -158,9 +159,26 @@ export function Globe({ className }: { className?: string }) {
         label.style.opacity = vis ? '1' : '0';
       });
 
-      raf = requestAnimationFrame(frame);
+      if (onScreen) raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
+
+    // ── Pause the auto-rotate loop while the globe is scrolled off-screen ───────
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!onScreen) {
+            onScreen = true;
+            raf = requestAnimationFrame(frame);
+          }
+        } else if (onScreen) {
+          onScreen = false;
+          cancelAnimationFrame(raf);
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(canvas);
 
     // ── Resize ────────────────────────────────────────────────────────────────
     const observer = new ResizeObserver(() => {
@@ -177,6 +195,7 @@ export function Globe({ className }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       observer.disconnect();
       clearTimeout(fade);
       labelEls.forEach(el => el.remove());

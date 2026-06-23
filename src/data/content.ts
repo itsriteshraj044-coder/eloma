@@ -14,9 +14,6 @@ import {
   GitBranch,
   TreePine,
   Sunrise,
-  UserRound,
-  Store,
-  IdCard,
   Linkedin,
   Twitter,
   Instagram,
@@ -31,7 +28,6 @@ import type {
   Capability,
   Company,
   FooterColumn,
-  LoginOption,
   NavItem,
   NavLink,
   Office,
@@ -56,14 +52,6 @@ export const BRAND = {
 /* ------------------------------------------------------------------ */
 /*  Navigation                                                         */
 /* ------------------------------------------------------------------ */
-export const NAV_LINKS: NavLink[] = [
-  { label: 'About Us', href: '/about-us' },
-  { label: 'Our Businesses', href: '#businesses' },
-  { label: 'Sustainability', href: '#sustainability' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Contact Us', href: '#contact' },
-];
-
 /** Rich nav items with mega-menu dropdowns for About Us, Our Businesses, Sustainability. */
 export const NAV_ITEMS: NavItem[] = [
   {
@@ -144,41 +132,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Contact Us', href: '#contact' },
 ];
 
-export const LOGIN_OPTIONS: LoginOption[] = [
-  {
-    label: 'Customer Login',
-    href: '#customer-login',
-    description: 'Access your account & support portal',
-    icon: UserRound,
-  },
-  {
-    label: 'Vendor Login',
-    href: '#vendor-login',
-    description: 'Manage orders, invoices & supply',
-    icon: Store,
-  },
-  {
-    label: 'Employee Login',
-    href: '#employee-login',
-    description: 'Internal workspace & resources',
-    icon: IdCard,
-  },
-];
-
-/* ------------------------------------------------------------------ */
-/*  Hero                                                               */
-/* ------------------------------------------------------------------ */
-export const HERO = {
-  titleLines: ['The Living', 'Enterprise'],
-  description:
-    'Eloma Group unites travel, technology, customer experience and logistics — independent businesses growing from one shared root.',
-  primaryCta: 'Explore',
-  secondaryCta: 'Talk to us',
-  trustLabel: 'Trusted across 8 markets worldwide',
-  // Local asset served from /public.
-  videoSrc: '/hero.mp4',
-} as const;
-
 /* ------------------------------------------------------------------ */
 /*  Connected Globally — stats                                         */
 /* ------------------------------------------------------------------ */
@@ -194,16 +147,6 @@ export const STATS: Stat[] = [
   { value: 4, label: 'Industry verticals' },
   { value: 1, label: 'Shared vision' },
 ];
-
-/* ------------------------------------------------------------------ */
-/*  Experience Eloma                                                   */
-/* ------------------------------------------------------------------ */
-export const EXPERIENCE = {
-  title: 'Experience Eloma',
-  subtitle:
-    'A single root, branching into worlds — see how one vision powers an entire ecosystem.',
-  videoSrc: '/experience.mp4',
-} as const;
 
 /* ------------------------------------------------------------------ */
 /*  The Business Universe                                              */
@@ -384,15 +327,8 @@ export const PILLARS: Pillar[] = [
 ];
 
 /* ------------------------------------------------------------------ */
-/*  Global Presence                                                    */
+/*  Global Presence — countries                                        */
 /* ------------------------------------------------------------------ */
-export const GLOBAL_PRESENCE = {
-  heading: 'Global Presence',
-  subheading: 'A growing presence across key global regions',
-  body: 'We operate across multiple countries, connecting businesses and communities through trusted, scalable solutions.',
-  capabilitiesHeading: 'Global Capabilities',
-} as const;
-
 export const COUNTRIES = [
   'Australia',
   'India',
@@ -452,10 +388,13 @@ export const OFFICES: Office[] = [
     phone: BRAND.phonePrimary,
     email: BRAND.email,
   },
-  { city: 'Sydney' },
-  { city: 'Brisbane' },
-  { city: 'Adelaide' },
-  { city: 'Perth' },
+  { city: 'Sydney', address: '60 Martin Place, Levels 1, 2, & 3, Sydney 2000' },
+  { city: 'Brisbane', address: '71 Eagle Street, Brisbane QLD 4000' },
+  { city: 'Adelaide', address: '2-3 Greenhill Road, Wayville, Adelaide 5034' },
+  {
+    city: 'Perth',
+    address: '300 Murray Street, Level 2 East, The Wentworth Building, Perth 6000',
+  },
 ];
 
 export const INQUIRY_TYPES: InquiryType[] = [

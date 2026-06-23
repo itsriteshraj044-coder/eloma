@@ -150,7 +150,7 @@ export function CapabilitiesBlueprint() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square h-[26%] -translate-x-1/2 -translate-y-1/2">
             <div className="will-transform h-full w-full animate-float [animation-duration:8s] motion-reduce:animate-none">
               <motion.img
-                src="/Eloma Group.png"
+                src="/Eloma Group Trademark Logo-03.png"
                 alt="Eloma Group logo"
                 width={1024}
                 height={1024}

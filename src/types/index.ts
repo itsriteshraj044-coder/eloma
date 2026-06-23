@@ -28,14 +28,6 @@ export interface NavItem {
   megaMenu?: MegaMenu;
 }
 
-/** An item inside the Login dropdown menu. */
-export interface LoginOption {
-  label: string;
-  href: string;
-  description: string;
-  icon: LucideIcon;
-}
-
 /** A headline statistic (Connected Globally band). */
 export interface Stat {
   value: number;

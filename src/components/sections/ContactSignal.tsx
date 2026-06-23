@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
 import {
   Check,
   CheckCircle2,
@@ -212,28 +212,65 @@ function PhoneField({
   );
 }
 
-/** A floating office label over the 3D scene — city, HQ badge, live clock. */
+/** A floating office label over the 3D scene — city, HQ badge, live clock.
+ *  Hover or focus reveals a popup with the office's full address. */
 function OfficeChip({ office }: { office: Office }) {
   const time = useLocalTime(OFFICE_TZ[office.city]);
+  const city = office.city.split(',')[0];
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 shadow-glass backdrop-blur-md',
-        office.primary ? 'border-emerald-200 bg-white/85' : 'border-white/60 bg-white/70',
-      )}
-    >
-      <MapPin className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
-      <span className="text-sm font-bold text-navy-900">{office.city.split(',')[0]}</span>
-      {office.primary && (
-        <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-white">
-          HQ
-        </span>
-      )}
-      {time && (
-        <span className="inline-flex items-center gap-1 text-xs font-semibold tabular-nums text-navy-500">
-          <Clock className="h-3 w-3 text-navy-300" aria-hidden="true" />
-          {time}
-        </span>
+    <div className="group relative">
+      <div
+        tabIndex={0}
+        role="button"
+        aria-label={office.address ? `${city} office — ${office.address}` : `${city} office`}
+        className={cn(
+          'inline-flex cursor-default items-center gap-2 whitespace-nowrap rounded-full border px-3.5 py-2 shadow-glass outline-none backdrop-blur-md transition-transform duration-300 ease-premium hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-emerald-300',
+          office.primary ? 'border-emerald-200 bg-white/85' : 'border-white/60 bg-white/70',
+        )}
+      >
+        <MapPin className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
+        <span className="text-sm font-bold text-navy-900">{city}</span>
+        {office.primary && (
+          <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-white">
+            HQ
+          </span>
+        )}
+        {time && (
+          <span className="inline-flex items-center gap-1 text-xs font-semibold tabular-nums text-navy-500">
+            <Clock className="h-3 w-3 text-navy-300" aria-hidden="true" />
+            {time}
+          </span>
+        )}
+      </div>
+
+      {/* Full-address popup — reveals on hover / focus */}
+      {office.address && (
+        <div
+          role="tooltip"
+          className="pointer-events-none absolute left-1/2 top-full z-30 mt-2.5 w-[clamp(15rem,78vw,19rem)] origin-top -translate-x-1/2 translate-y-1 scale-95 opacity-0 transition-all duration-300 ease-premium group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100"
+        >
+          {/* Arrow */}
+          <span
+            aria-hidden="true"
+            className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 rounded-[2px] border-l border-t border-navy-100 bg-white"
+          />
+          <div className="relative rounded-2xl border border-navy-100 bg-white p-4 text-left shadow-glass">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden="true" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-900">
+                {city}
+              </span>
+              {office.primary && (
+                <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] text-white">
+                  HQ
+                </span>
+              )}
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-navy-600 text-pretty">
+              {office.address}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -255,6 +292,10 @@ export function ContactSignal() {
   const [botcheck, setBotcheck] = useState('');
 
   const formRef = useRef<HTMLFormElement>(null);
+  const officesRef = useRef<HTMLDivElement>(null);
+  // Mount the heavy 3D earth only as the offices section approaches — keeps its
+  // WebGL loop from running (and lagging scroll) the rest of the time.
+  const officesInView = useInView(officesRef, { margin: '300px' });
   const primaryOffice = OFFICES.find((o) => o.primary);
 
   const update =
@@ -337,14 +378,14 @@ export function ContactSignal() {
         </motion.div>
 
         {/* ── Split: animated visual + form (Framer-style two-column) ── */}
-        <div className="mx-auto mt-12 grid max-w-6xl items-stretch gap-5 lg:grid-cols-12">
+        <div className="mx-auto mt-10 grid max-w-6xl items-stretch gap-5 sm:mt-12 lg:grid-cols-12 lg:gap-6 3xl:max-w-[84rem] 3xl:gap-8">
           {/* Left — Lottie visual + direct line */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: 0.7, ease: EASE_PREMIUM }}
-            className="relative flex flex-col overflow-hidden rounded-[1.75rem] border border-navy-100 bg-gradient-to-br from-white via-navy-50/60 to-white p-6 shadow-glass sm:p-8 lg:col-span-5"
+            className="relative flex flex-col overflow-hidden rounded-[1.75rem] border border-navy-100 bg-gradient-to-br from-white via-navy-50/60 to-white p-6 shadow-glass sm:p-8 lg:col-span-6 3xl:p-10"
           >
             <span
               aria-hidden="true"
@@ -399,7 +440,7 @@ export function ContactSignal() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VIEWPORT_ONCE}
             transition={{ duration: 0.7, ease: EASE_PREMIUM, delay: 0.05 }}
-            className="rounded-[1.75rem] border border-navy-100 bg-white/90 p-6 shadow-glass sm:p-9 lg:col-span-7 3xl:p-10"
+            className="rounded-[1.75rem] border border-navy-100 bg-white/90 p-6 shadow-glass sm:p-9 lg:col-span-6 3xl:p-10"
           >
           <AnimatePresence mode="wait">
             {status === 'sent' ? (
@@ -623,6 +664,7 @@ export function ContactSignal() {
 
       {/* ── Our Offices — full-width 3D scene; heading + cities sit above the earth ── */}
       <motion.div
+        ref={officesRef}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={VIEWPORT_ONCE}
@@ -630,11 +672,15 @@ export function ContactSignal() {
         className="relative mt-12 w-full sm:mt-16"
       >
         <div className="relative h-[clamp(460px,56vw,820px)] w-full">
-          {/* Interactive 3D earth */}
-          <SplineScene
-            scene="https://prod.spline.design/IUF9sLybH2X79si2/scene.splinecode"
-            className="absolute inset-0 h-full w-full"
-          />
+          {/* Interactive 3D earth — renders on demand (not every frame) and only
+              mounts as the section nears the viewport, so it doesn't tax scroll
+              elsewhere on the page. */}
+          {officesInView && (
+            <SplineScene
+              scene="https://prod.spline.design/IUF9sLybH2X79si2/scene.splinecode"
+              className="absolute inset-0 h-full w-full"
+            />
+          )}
 
           {/* Heading + cities — linear, in the space above the earth */}
           <div className="pointer-events-none absolute inset-x-0 top-7 z-10 flex flex-col items-center gap-4 px-4 sm:top-9">

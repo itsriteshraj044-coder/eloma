@@ -165,7 +165,8 @@
       "Read(//c//**)",
       "Bash(where ffmpeg.exe)",
       "Bash(command -v magick)",
-      "Bash(command -v convert)"
+      "Bash(command -v convert)",
+      "WebFetch(domain:egdigital.com.au)"
     ]
   }
 }

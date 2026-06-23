@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 /** Transparent (alpha) WebM; MP4 is the fallback for browsers without VP9-alpha. */
 const SPLASH_VIDEO_WEBM = '/splash-eloma.webm';
 const SPLASH_VIDEO_MP4 = '/splash-eloma.mp4';
-/** Safety net: dismiss even if the video never fires `ended` (e.g. autoplay blocked). */
-const MAX_SPLASH_MS = 13000;
+/** Fixed splash duration — the screen stays for this long, then reveals the site. */
+const SPLASH_MS = 7000;
 
 interface SplashScreenProps {
   /** Fired the moment the splash starts dismissing — use it to reveal the site. */
@@ -23,9 +23,9 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     onComplete?.();
   }, [onComplete]);
 
-  // Fallback only — the video's `onEnded` is the primary trigger.
+  // Primary trigger — keep the splash up for a fixed 7s regardless of video length.
   useEffect(() => {
-    const t = setTimeout(dismiss, MAX_SPLASH_MS);
+    const t = setTimeout(dismiss, SPLASH_MS);
     return () => clearTimeout(t);
   }, [dismiss]);
 
@@ -54,7 +54,6 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
               playsInline
               preload="auto"
               aria-label="Eloma Group"
-              onEnded={dismiss}
               onError={dismiss}
               className="h-auto w-full object-contain"
             >
