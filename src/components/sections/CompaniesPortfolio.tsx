@@ -7,7 +7,8 @@ import {
 } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { COMPANIES } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+import { COMPANIES, COMPANIES_SECTION } from '@/data/content';
 import { cn } from '@/lib/cn';
 import { EASE_PREMIUM, VIEWPORT_ONCE } from '@/lib/motion';
 
@@ -98,18 +99,17 @@ export function CompaniesPortfolio() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-mesh-light" />
 
       <Container className="relative">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={VIEWPORT_ONCE}
-          transition={{ duration: 0.6, ease: EASE_PREMIUM }}
-          className="flex flex-col items-center gap-3 text-center"
-        >
-          <span className="eyebrow">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 3xl:h-2 3xl:w-2" />
-            Five companies, one standard
-          </span>
-        </motion.div>
+        <SectionHeading
+          eyebrow="Our Companies"
+          title={
+            <span>
+              One group, <span className="text-navy">Five companies,</span>{' '}
+              <span className="text-emerald-500">Our vision.</span>
+            </span>
+          }
+          titleClassName="font-normal normal-case !text-[clamp(1.75rem,5vw,2.5rem)]"
+          description={COMPANIES_SECTION.subheading}
+        />
 
         {reduce ? (
           <StaticGrid />
