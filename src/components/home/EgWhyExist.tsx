@@ -53,7 +53,7 @@ export function EgWhyExist() {
         .eg-wy-sub { font-family:'Inter',sans-serif; font-size:clamp(11px,0.9vw,13px); letter-spacing:3px; text-transform:uppercase; color:rgba(19,41,61,0.55); margin:12px 0 0; }
         .eg-wy-rule { display:block; width:clamp(150px,18vw,250px); height:2px; margin:clamp(14px,2vw,22px) auto 0; position:relative;
           background: linear-gradient(90deg, rgba(19,41,61,0) 0%, rgba(19,41,61,0.18) 28%, rgba(19,41,61,0.18) 72%, rgba(19,41,61,0) 100%); }
-        .eg-wy-rule::after { content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:52px; height:8px; border-radius:6px; background:${GREEN}; }
+        .eg-wy-rule::after { content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:52px; height:8px; border-radius:6px; background:#D4AF37; }
 
         .eg-wy-grid { display:grid; grid-template-columns: 1.4fr 0.85fr; gap: clamp(18px,2.2vw,30px); align-items:stretch; }
         .eg-wy-cards { display:grid; grid-template-columns: 1fr 1fr; gap: clamp(14px,1.8vw,24px); }
@@ -83,7 +83,7 @@ export function EgWhyExist() {
         /* accent tab that grows from the top edge */
         .egw-card::before {
           content:''; position:absolute; left:clamp(20px,2.2vw,30px); top:0; height:3px; width:26px; border-radius:0 0 4px 4px;
-          background: var(--accent, ${GREEN}); transition: width 0.5s cubic-bezier(0.16,1,0.3,1); pointer-events:none;
+          background: #D4AF37; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); pointer-events:none;
         }
         /* soft accent bloom from the top-right corner */
         .egw-card::after {

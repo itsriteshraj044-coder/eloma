@@ -54,7 +54,7 @@ export function EgAbout() {
         .eg-ab-copy { display:flex; flex-direction:column; gap: clamp(16px,2vw,24px); }
         .eg-ab-p { font-family:'Inter',sans-serif; font-size:clamp(14px,1.1vw,17px); line-height:1.85; color:${MUTED}; margin:0; }
         .eg-ab-p .dc {
-          float:left; font-family:'Poppins',sans-serif; font-weight:700; color:${GREEN};
+          float:left; font-family:'Poppins',sans-serif; font-weight:700; color:#6b7280;
           font-size: 2.9em; line-height:0.72; padding: 6px 10px 0 0;
         }
 
@@ -70,19 +70,20 @@ export function EgAbout() {
         }
         /* the trailing divider sits at the seam with Why-We-Exist, which supplies its own top spacing */
         .eg-diag.seam { margin-bottom: clamp(6px, 1.5vw, 18px); }
-        .eg-diag::before { /* soft mint band hugging the diagonal */
+        .eg-diag::before { /* soft golden band hugging the diagonal */
           content:''; position:absolute; left:-4%; right:-4%; top:50%;
           height: clamp(64px, 8vw, 120px); transform: translateY(-50%) rotate(var(--tilt));
           background: linear-gradient(180deg,
-            rgba(139,147,159,0) 0%, rgba(139,147,159,0.05) 32%,
-            rgba(139,147,159,0.17) 50%, rgba(139,147,159,0.05) 68%, rgba(139,147,159,0) 100%);
+            rgba(212,175,55,0) 0%, rgba(212,175,55,0.06) 32%,
+            rgba(212,175,55,0.2) 50%, rgba(212,175,55,0.06) 68%, rgba(212,175,55,0) 100%);
         }
-        .eg-diag::after { /* crisp grey edge line along the diagonal */
+        .eg-diag::after { /* crisp golden edge line along the diagonal, with glow */
           content:''; position:absolute; left:-4%; right:-4%; top:50%; height:1.6px;
           transform: translateY(-50%) rotate(var(--tilt));
           background: linear-gradient(90deg,
-            rgba(139,147,159,0) 0%, rgba(139,147,159,0.42) 18%,
-            rgba(139,147,159,0.72) 50%, rgba(139,147,159,0.42) 82%, rgba(139,147,159,0) 100%);
+            rgba(212,175,55,0) 0%, rgba(212,175,55,0.5) 18%,
+            rgba(212,175,55,0.9) 50%, rgba(212,175,55,0.5) 82%, rgba(212,175,55,0) 100%);
+          filter: drop-shadow(0 0 6px rgba(212,175,55,0.6)) drop-shadow(0 0 12px rgba(212,175,55,0.35));
         }
 
         /* ── founder block ── */
