@@ -2,6 +2,9 @@ import { Header }        from '../components/Header/Header'
 import { FlyFooter }     from '../components/FlyFooter'
 import { ConstructionNotice } from '../components/ConstructionNotice'
 import { EgHero }         from '../components/home/EgHero'
+import { EgHeroHierarchy } from '../components/home/EgHeroHierarchy'
+import { EgHierarchyBanner } from '../components/home/EgHierarchyBanner'
+import { EgHierarchyBanner2 } from '../components/home/EgHierarchyBanner2'
 import { EgConnected }    from '../components/home/EgConnected'
 import { EgBusinesses }   from '../components/home/EgBusinesses'
 import { EgCompanies }    from '../components/home/EgCompanies'
@@ -17,6 +20,9 @@ export function HomePage() {
       <Header />
       <main>
         <EgHero />
+        <EgHeroHierarchy />
+        <EgHierarchyBanner />
+        <EgHierarchyBanner2 />
         <EgConnected />
         <EgFoundation />
         <EgBusinesses />

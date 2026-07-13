@@ -55,9 +55,9 @@ export function EgConnected() {
       <style>{`
         .cg { position:relative; overflow:hidden; background:
           radial-gradient(42% 58% at 2% 16%, rgba(74,134,210,0.10) 0%, transparent 55%),
-          radial-gradient(46% 60% at 100% 84%, rgba(60,185,140,0.12) 0%, transparent 55%),
-          radial-gradient(60% 50% at 50% -6%, rgba(60,185,140,0.06), transparent 60%),
-          linear-gradient(180deg,#ffffff 0%, #f4faf7 100%);
+          radial-gradient(46% 60% at 100% 84%, rgba(212,175,55,0.14) 0%, transparent 55%),
+          radial-gradient(60% 50% at 50% -6%, rgba(212,175,55,0.07), transparent 60%),
+          linear-gradient(180deg,#ffffff 0%, #faf7ee 100%);
           padding:clamp(64px,9vw,140px) clamp(24px,5vw,80px); }
         .cg-in { max-width:1640px; margin:0 auto; }
         .cg-top { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
