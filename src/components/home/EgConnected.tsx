@@ -35,10 +35,10 @@ const MARKETS: Place[] = [
 const ARCS: Arc[] = MARKETS.slice(1).map((to): Arc => ({ from: HUB, to }))
 
 const STATS = [
-  { n: 5, title: 'Companies', sub: 'United under one group' },
-  { n: 8, title: 'Countries', sub: 'Active operations worldwide' },
-  { n: 4, title: 'Verticals', sub: 'Distinct industry sectors' },
-  { n: 1, title: 'Vision',    sub: 'Shared across every team' },
+  { n: 5, title: 'Companies', sub: 'UNITED UNDER ONE GROUP' },
+  { n: 8, title: 'Countries', sub: 'ACTIVE OPERATIONS WORLDWIDE' },
+  { n: 4, title: 'Verticals', sub: 'DISTINCT INDUSTRY SECTORS' },
+  { n: 1, title: 'Vision',    sub: 'SHARED ACROSS EVERY TEAM' },
 ]
 
 const rise = (reduce: boolean | null, d = 0) => ({

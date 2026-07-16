@@ -56,7 +56,7 @@ const COMPANIES: Company[] = [
     id: 'photo-1591768793355-74d04bb6608f', slot: 'll', to: '/companies/bivry' },
   { slug: 'travels', title: 'EG Travels',
     blurb: 'Corporate and leisure journeys designed around people.',
-    id: 'photo-1569154941061-e231b4725ef1', slot: 'lr', to: '/companies/eg-travels' },
+    id: 'photo-1506973035872-a4ec16b8e8d9', slot: 'lr', to: '/companies/eg-travels' },
 ]
 
 const img = (id: string, w: number) => {
@@ -290,7 +290,7 @@ export function EgCompanies() {
           white-space: nowrap; margin-top: clamp(44px, 5.2vh, 74px);
         }
 
-        /* crest = logo + milled ring + floor reflection */
+        /* crest = logo + milled ring */
         .eg-oc-crest { position: relative; display: inline-flex; align-items: center; justify-content: center; }
         .eg-oc-crest-ring {
           position: absolute; top: 50%; left: 50%; width: clamp(150px, 14.5vw, 226px); aspect-ratio: 1;
@@ -300,16 +300,6 @@ export function EgCompanies() {
             inset 0 1px 2px rgba(255,255,255,0.8),
             inset 0 -2px 4px rgba(${RING_RGB},0.28),
             0 6px 18px -6px rgba(${RING_RGB},0.45);
-        }
-        .eg-oc-reflect-wrap {
-          position: absolute; top: calc(100% - 12px); left: 50%; transform: translateX(-50%);
-          width: clamp(96px, 9vw, 148px); aspect-ratio: 1; pointer-events: none; opacity: 0.55;
-          -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 60%);
-          mask: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent 60%);
-        }
-        .eg-oc-reflect {
-          display: block; width: 100%; height: 100%; object-fit: contain;
-          transform: scaleY(-1); filter: blur(0.6px);
         }
         .eg-oc-logo {
           position: relative; z-index: 2; width: clamp(96px, 9vw, 148px); aspect-ratio: 1;
@@ -443,9 +433,8 @@ export function EgCompanies() {
             display: flex; justify-content: center;
             margin-bottom: clamp(6px, 2vw, 16px);
           }
-          /* stacked layout: brand back into flow, reflection hidden to avoid overlap */
+          /* stacked layout: brand back into flow */
           .eg-oc-brand { position: static; transform: none; margin-top: clamp(14px, 3vw, 20px); }
-          .eg-oc-reflect-wrap { display: none; }
           .eg-oc-cards {
             display: grid; width: 100%;
             grid-template-columns: repeat(2, 1fr);
@@ -540,20 +529,6 @@ export function EgCompanies() {
                     decoding="async"
                   />
                 </div>
-                <span className="eg-oc-reflect-wrap" aria-hidden>
-                  <img
-                    className="eg-oc-reflect"
-                    src={LOGO}
-                    alt=""
-                    width={148}
-                    height={148}
-                    decoding="async"
-                  />
-                </span>
-              </div>
-              <div className="eg-oc-brand">
-                <span className="eg-oc-brand-name">Eloma Group</span>
-                <span className="eg-oc-brand-tag">Future-Ready Solutions</span>
               </div>
             </motion.div>
           </div>

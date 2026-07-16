@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Universal Sans';
+  src: url('/fonts/UniversalSans-Display-450.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Universal Sans', system-ui, -apple-system, sans-serif;
 
   --color-eg-navy:    #13293D;
   --color-eg-green:   #3CB98C;
@@ -27,9 +35,17 @@ html {
 body {
   background-color: #ffffff;
   color: #13293D;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Universal Sans', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
+}
+
+/* Force Universal Sans everywhere, overriding per-page inline/class font-family
+   declarations (Inter, Poppins, Oswald, Dancing Script, etc.). */
+*,
+*::before,
+*::after {
+  font-family: 'Universal Sans', system-ui, -apple-system, sans-serif !important;
 }
 
 img {
