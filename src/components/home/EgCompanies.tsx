@@ -37,6 +37,7 @@ type Company = {
   title: string
   blurb: string
   id: string             // Unsplash photo id
+  src?: string           // local image override (skips Unsplash)
   slot: Slot             // position around the centre
   to: string
 }
@@ -44,16 +45,16 @@ type Company = {
 const COMPANIES: Company[] = [
   { slug: 'digital', title: 'EG Digital Australia',
     blurb: 'Modern digital experiences and IT infrastructure, engineered for growth.',
-    id: 'photo-1550751827-4bd374c3f58b', slot: 'top', to: '/companies/eg-digital' },
+    id: 'photo-1461749280684-dccba630e2f6', slot: 'top', to: '/companies/eg-digital' },
   { slug: 'foundations', title: 'Eloma Group',
     blurb: 'The parent group and shared-services backbone behind every business.',
-    id: 'photo-1486406146926-c627a92ad1ab', slot: 'ul', to: '/companies/eloma-group' },
+    id: 'photo-1497366216548-37526070297c', slot: 'ul', to: '/companies/eloma-group' },
   { slug: 'imports', title: 'EG Imports',
     blurb: 'Global sourcing and cross-border trade, delivered with precision.',
-    id: 'photo-1494412574643-ff11b0a5c1c3', slot: 'ur', to: '/companies/eg-imports' },
+    id: 'photo-1578575437130-527eed3abbec', slot: 'ur', to: '/companies/eg-imports' },
   { slug: 'transport', title: 'EG Transport - BIVRY',
     blurb: 'Freight and road logistics that arrive on time, every time.',
-    id: 'photo-1591768793355-74d04bb6608f', slot: 'll', to: '/companies/bivry' },
+    id: 'photo-1591768793355-74d04bb6608f', src: '/images/eg-transport.jpg', slot: 'll', to: '/companies/bivry' },
   { slug: 'travels', title: 'EG Travels',
     blurb: 'Corporate and leisure journeys designed around people.',
     id: 'photo-1506973035872-a4ec16b8e8d9', slot: 'lr', to: '/companies/eg-travels' },
@@ -110,7 +111,7 @@ function Card({
           <div className="eg-oc-thumb">
             <img
               className="eg-oc-img"
-              src={img(c.id, 900)}
+              src={c.src ?? img(c.id, 900)}
               alt={c.title}
               loading="lazy"
               decoding="async"
@@ -185,7 +186,7 @@ export function EgCompanies() {
         .eg-oc-wrap { position: relative; z-index: 1; max-width: 1560px; margin: 0 auto; }
 
         /* ── header ── */
-        .eg-oc-head { text-align: center; margin: 0 auto clamp(30px, 4vw, 60px); max-width: 40ch; }
+        .eg-oc-head { text-align: center; margin: 0 auto clamp(30px, 4vw, 60px); }
         .eg-oc-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
@@ -200,9 +201,9 @@ export function EgCompanies() {
         .eg-oc-title {
           font-family: 'Poppins', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(30px, 4.4vw, 64px); line-height: 0.98; letter-spacing: -0.035em;
-          color: ${NAVY}; margin: 0;
+          color: ${NAVY}; margin: 0; text-align: center;
         }
-        .eg-oc-title em { font-style: normal; font-weight: 800;
+        .eg-oc-title em { font-style: normal; font-weight: 800; white-space: nowrap;
           background: linear-gradient(120deg, ${GOLD_DEEP}, ${GOLD_MID} 30%, ${GOLD} 55%, ${GOLD_HI} 78%, ${GOLD_MID});
           -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
         }
@@ -467,7 +468,7 @@ export function EgCompanies() {
           transition={{ duration: 0.7, ease: EASE }}
         >
           <p className="eg-oc-eyebrow">Our Companies</p>
-          <h2 className="eg-oc-title">One group. <em>Many industries.</em></h2>
+          <h2 className="eg-oc-title">One group.<br /><em>Many industries.</em></h2>
           <p className="eg-oc-sub">
             Five specialist companies orbit a single mark - united by shared services,
             standards and the drive to build reliable solutions at scale.

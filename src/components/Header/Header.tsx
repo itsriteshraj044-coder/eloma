@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
 import { navItems } from '../../data/navItems'
 import { DropdownMenu } from './DropdownMenu'
@@ -7,6 +8,11 @@ import { openSection } from '../../utils/sectionLink'
 
 export function Header() {
   const scrollY = useScrollY()
+  const { pathname } = useLocation()
+
+  // The floating white fade overlay only belongs on the homepage hero video.
+  // Every other route keeps a solid white sticky header.
+  const isHome = pathname === '/'
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -15,8 +21,8 @@ export function Header() {
 
   const anyOpen = openDropdown !== null
 
-  // Transparent while the first hero section (100vh) is still in view
-  const overHero = scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
+  // Transparent while the first hero section (100vh) is still in view — homepage only
+  const overHero = isHome && scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
 
   // Transparent when #services section occupies the header zone
   const [overServices, setOverServices] = useState(false)
@@ -24,12 +30,8 @@ export function Header() {
   // Transparent when any of the other hero sections covers the header area
   const [overHeroSection, setOverHeroSection] = useState(false)
 
-  // Transparent (over a dark full-screen section) even on the light-hero homepage
-  const [overDark, setOverDark] = useState(false)
-
   useEffect(() => {
     const HERO_IDS = ['hero2-section', 'hero3-section', 'hero4-section']
-    const DARK_IDS = ['our-companies']   // full-screen dark sections that own the header
     const HEADER_H = 64
 
     const straddles = (id: string) => {
@@ -49,7 +51,6 @@ export function Header() {
 
       // other hero sections check - any section whose rect straddles the header
       setOverHeroSection(HERO_IDS.some(straddles))
-      setOverDark(DARK_IDS.some(straddles))
     }
 
     window.addEventListener('scroll', check, { passive: true })
@@ -60,13 +61,11 @@ export function Header() {
   // The homepage hero is a dark full-bleed video, so the header floats transparent
   // over it (white wordmark) - same as the inner hero sections and dark sections.
   const transparent =
-    (overHero || overServices || overHeroSection || overDark) && !anyOpen && !mobileOpen
-  const textColor = transparent ? '#ffffff' : '#08213C'
+    (overHero || overServices || overHeroSection) && !anyOpen && !mobileOpen
+  const textColor = '#08213C'
 
-  // Whenever the header floats transparent over a dark surface, use the white wordmark.
-  const logoSrc = transparent
-    ? '/images/eg-logo-white.png'
-    : '/images/Eloma Group Email Sign Logo -01.png'
+  // Always use the original full-colour Eloma Group wordmark.
+  const logoSrc = '/images/Eloma Group Email Sign Logo -01.png'
 
   const cancelClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
@@ -102,8 +101,8 @@ export function Header() {
           display: 'flex',
           alignItems: 'center',
           background: transparent
-            ? 'linear-gradient(to bottom, rgba(8,33,60,0.55) 0%, transparent 100%)'
-            : 'rgba(255,255,255,0.97)',
+            ? 'linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, transparent 100%)'
+            : '#ffffff',
           backdropFilter: transparent ? 'none' : 'blur(12px)',
           transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
         }}
@@ -127,7 +126,20 @@ export function Header() {
               className="eg-hd-logo"
               src={logoSrc}
               alt="Eloma Group"
-              style={{ height: '26px', width: 'auto' }}
+              decoding="async"
+              style={{
+                height: '34px',
+                width: 'auto',
+                display: 'block',
+                // render the fine wordmark strokes crisp on its own GPU layer; on the
+                // dark hero a soft white glow lifts the original colours so they read
+                // clearly without changing the logo's colour
+                transform: 'translateZ(0)',
+                filter: transparent
+                  ? 'drop-shadow(0 0 3px rgba(255,255,255,0.9)) drop-shadow(0 1px 8px rgba(255,255,255,0.6))'
+                  : 'none',
+                transition: 'filter 0.3s ease',
+              }}
             />
           </a>
 

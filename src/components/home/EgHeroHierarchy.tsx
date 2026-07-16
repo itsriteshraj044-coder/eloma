@@ -37,12 +37,11 @@ export function EgHeroHierarchy() {
           filter: contrast(1.07) saturate(1.1) brightness(1.03);
           image-rendering: -webkit-optimize-contrast;
         }
-        /* legibility scrim - darkest on the left where the copy sits */
+        /* subtle black scrim only on the left where the copy sits, so the
+           text stays legible while the rest of the video shows at full clarity */
         .eg-heroh-scrim {
           position: absolute; inset: 0; z-index: 1; pointer-events: none;
-          background:
-            linear-gradient(90deg, rgba(7,15,25,0.74) 0%, rgba(7,15,25,0.48) 36%, rgba(7,15,25,0.08) 66%, rgba(7,15,25,0.26) 100%),
-            linear-gradient(180deg, rgba(7,15,25,0.45) 0%, rgba(7,15,25,0) 26%, rgba(7,15,25,0) 58%, rgba(7,15,25,0.52) 100%);
+          background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.28) 28%, rgba(0,0,0,0) 55%);
         }
         .eg-heroh-inner {
           position: relative; z-index: 2;

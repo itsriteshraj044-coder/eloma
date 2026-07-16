@@ -359,7 +359,7 @@ export function FlyFooter() {
             borderTop: '1px solid rgba(255,255,255,0.07)',
           }}>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', margin: 0 }}>
-              © {new Date().getFullYear()} Eloma Group Pty Ltd. All rights reserved.
+              © {new Date().getFullYear()} Eloma Group Of Companies Pty Ltd. All rights reserved.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px,2vw,24px)', flexWrap: 'wrap' }}>
               {['Privacy Policy', 'Terms of Use'].map(link => (
