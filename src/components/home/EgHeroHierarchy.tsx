@@ -115,7 +115,7 @@ export function EgHeroHierarchy() {
       `}</style>
 
       {reduce ? (
-        <img className="eg-heroh-bg" src="/images/hero-poster.jpg" alt="" aria-hidden decoding="async" />
+        <img className="eg-heroh-bg" src="/images/hero-poster-eg.jpg" alt="" aria-hidden decoding="async" />
       ) : (
         <video
           className="eg-heroh-bg"
@@ -124,7 +124,7 @@ export function EgHeroHierarchy() {
           muted
           playsInline
           preload="auto"
-          poster="/images/hero-poster.jpg"
+          poster="/images/hero-poster-eg.jpg"
           disablePictureInPicture
           aria-hidden
         >
